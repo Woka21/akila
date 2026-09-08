@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKILA — Confidential by design. AI-ready by default.</title>
+<meta name="description" content="AKILA sanitizes sensitive data before it reaches AI tools, so your team keeps using AI without exposing confidential information.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">AKILA</a>
+    <nav class="nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="#enterprise">Enterprise</a>
+      <a href="#pilot">Pilot Program</a>
+    </nav>
+    <a href="#pilot" class="btn btn-small btn-primary">Join the pilot</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Pre-pilot · early access</p>
+      <h1 class="hero-headline">Your team is already using AI.<br>Make sure what they share isn't.</h1>
+      <p class="hero-sub">AKILA sits between your staff and the AI tools they already use — sanitizing sensitive data before it ever leaves your organization, then restoring it in the response. No workflow change. No retraining.</p>
+      <div class="hero-ctas">
+        <a href="#pilot" class="btn btn-primary">Join the pilot program</a>
+        <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THE PROBLEM ===================== -->
+  <section class="section section-light" id="problem">
+    <div class="section-inner narrow">
+      <h2>Policy alone has never worked</h2>
+      <p class="section-lead">Four organizations discovered this the hard way — after the fact, not before.</p>
+
+      <div class="incident-list">
+        <div class="incident">
+          <span class="incident-org">Samsung</span>
+          <p>Engineers pasted confidential source code into ChatGPT. The company banned consumer AI tools company-wide after the fact.</p>
+        </div>
+        <div class="incident">
+          <span class="incident-org">Mishcon de Reya</span>
+          <p>A prominent UK law firm found client matter details had been entered into ChatGPT by staff, despite an existing policy against it.</p>
+        </div>
+        <div class="incident">
+          <span class="incident-org">JPMorgan Chase</span>
+          <p>Restricted, then banned, consumer AI tools firm-wide after employees were found inputting sensitive financial data.</p>
+        </div>
+        <div class="incident">
+          <span class="incident-org">Amazon</span>
+          <p>Warned staff after ChatGPT's own output began reflecting internal, confidential Amazon documents.</p>
+        </div>
+      </div>
+
+      <p class="section-footnote">Every one of these organizations already had a policy. None had a technical way to enforce it.</p>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="section section-dark" id="how-it-works">
+    <div class="section-inner">
+      <h2 class="light-heading">The foundation of every AI conversation</h2>
+      <p class="section-lead light-lead">Three steps, running automatically, every time.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-badge">1</div>
+          <h3>Sanitize</h3>
+          <p>Sensitive details — names, case numbers, financial figures, medical information — are identified and replaced with non-reversible placeholders before anything is transmitted.</p>
+        </div>
+        <div class="step">
+          <div class="step-badge">2</div>
+          <h3>Process</h3>
+          <p>The AI provider receives only the placeholders. It never sees a real name, a real figure, or a real identifier — there is nothing sensitive to leak, retain, or train on.</p>
+        </div>
+        <div class="step">
+          <div class="step-badge">3</div>
+          <h3>Restore</h3>
+          <p>When the response returns, AKILA restores the original values for display — your team sees a complete, normal answer, exactly as if nothing had changed.</p>
+        </div>
+      </div>
+
+      <!-- Live-demo-style illustrative mockup -->
+      <div class="demo-panel">
+        <div class="demo-panel-header">
+          <span class="demo-dot"></span>
+          <span class="demo-label">Illustrative example — not a live connection</span>
+        </div>
+        <div class="demo-chat">
+          <div class="demo-bubble demo-bubble-user">
+            <span class="demo-typing" id="demo-typing"></span>
+          </div>
+          <div class="demo-wire-label">
+            <span>What actually reaches the AI provider:</span>
+          </div>
+          <div class="demo-wire" id="demo-wire"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ENTERPRISE VALUE ===================== -->
+  <section class="section section-light" id="enterprise">
+    <div class="section-inner narrow">
+      <h2>A control every team can sign off on</h2>
+      <p class="section-lead">Not just a compliance checkbox — a working answer for the people who'll actually be asked about it.</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>Without a technical safeguard</th><th>With AKILA</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>No visibility into what's shared with AI tools</td><td>Every interaction sanitized automatically, with an audit trail</td></tr>
+          <tr><td>Policy relies on staff remembering, under deadline pressure</td><td>Protection is automatic — nothing to remember, nothing to forget</td></tr>
+          <tr><td>One mistake can create irreversible exposure</td><td>Sensitive data never reaches the AI provider in identifiable form</td></tr>
+          <tr><td>Compliance argument is "we told people not to"</td><td>Compliance argument is a demonstrable technical control</td></tr>
+          <tr><td>Banning AI pushes usage to personal, unmonitored devices</td><td>Sanctioned AI use stays protected, on any device on the network</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== WHO IT'S FOR ===================== -->
+  <section class="section section-light" id="who">
+    <div class="section-inner narrow">
+      <h2>Built for any organization handling confidential information</h2>
+      <div class="sector-grid">
+        <div class="sector-card"><h4>Professional services</h4><p>Client-identifiable work, case strategy, matter details.</p></div>
+        <div class="sector-card"><h4>Healthcare</h4><p>Patient information and clinical records.</p></div>
+        <div class="sector-card"><h4>Financial services</h4><p>Account, transaction, and customer data.</p></div>
+        <div class="sector-card"><h4>HR &amp; People teams</h4><p>Employee records and internal personnel data.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PILOT CTA ===================== -->
+  <section class="section section-dark" id="pilot">
+    <div class="section-inner narrow center">
+      <h2 class="light-heading">A straightforward next step</h2>
+      <p class="section-lead light-lead">AKILA is entering a Founding Pilot Partner program — a small number of organizations shaping how this gets built, before it's a finished, take-it-or-leave-it product.</p>
+      <p class="pilot-honest">This is early-stage, active software. We'll tell you plainly what's verified and what isn't — that's the point of a pilot.</p>
+      <a href="mailto:hello@akila.example" class="btn btn-primary btn-large">Start a scoping conversation</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-logo">AKILA</span>
+    <span class="footer-tagline">Confidential by design. AI-ready by default.</span>
+    <span class="footer-copy">© 2026 AKILA. Pre-pilot software — see documentation for current verified status.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
