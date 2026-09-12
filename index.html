@@ -15,9 +15,9 @@
     <nav class="nav-links">
       <a href="#how-it-works">How it works</a>
       <a href="#enterprise">Enterprise</a>
-      <a href="#pilot">Pilot Program</a>
+      <a href="#download">Download</a>
     </nav>
-    <a href="#pilot" class="btn btn-small btn-primary">Join the pilot</a>
+    <a href="#download" class="btn btn-small btn-primary">Download AKILA</a>
   </div>
 </header>
 
@@ -32,7 +32,7 @@
       <h1 class="hero-headline">Your team is already using AI.<br>Make sure what they share isn't.</h1>
       <p class="hero-sub">AKILA sits between your staff and the AI tools they already use — sanitizing sensitive data before it ever leaves your organization, then restoring it in the response. No workflow change. No retraining.</p>
       <div class="hero-ctas">
-        <a href="#pilot" class="btn btn-primary">Join the pilot program</a>
+        <a href="#download" class="btn btn-primary">Download AKILA</a>
         <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
       </div>
     </div>
@@ -144,13 +144,45 @@
     </div>
   </section>
 
-  <!-- ===================== PILOT CTA ===================== -->
-  <section class="section section-dark" id="pilot">
+  <!-- ===================== DOWNLOAD & INSTALL ===================== -->
+  <section class="section section-dark" id="download">
     <div class="section-inner narrow center">
-      <h2 class="light-heading">A straightforward next step</h2>
-      <p class="section-lead light-lead">AKILA is entering a Founding Pilot Partner program — a small number of organizations shaping how this gets built, before it's a finished, take-it-or-leave-it product.</p>
-      <p class="pilot-honest">This is early-stage, active software. We'll tell you plainly what's verified and what isn't — that's the point of a pilot.</p>
-      <a href="mailto:hello@akila.example" class="btn btn-primary btn-large">Start a scoping conversation</a>
+      <p class="hero-eyebrow">Pilot build · v1.0.0</p>
+      <h2 class="light-heading">Get AKILA running in about ten minutes</h2>
+      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Download the pilot pack, start the local server, load the extension. Everything runs on your own machine — nothing is sent anywhere.</p>
+
+      <div style="margin:2.4rem 0 1rem;">
+        <a href="https://github.com/Woka21/akila/releases/download/v1.0.0/AKILA-PilotPack-v1.0.0.zip" class="btn btn-primary btn-large">Download AKILA-PilotPack-v1.0.0.zip</a>
+      </div>
+      <p class="pilot-honest" style="margin-left:auto;margin-right:auto;max-width:52ch;">
+        SHA-256 <code style="word-break:break-all;">78c01c9e8d926965ad42b992b5ffa131ee8dde4bd61a0921eaa2b592a7741462</code>
+        · <a href="https://github.com/Woka21/akila/releases/download/v1.0.0/AKILA-PilotPack-v1.0.0.zip.sha256" style="text-decoration:underline;">checksum file</a>
+      </p>
+
+      <div class="steps" style="max-width:860px;margin-left:auto;margin-right:auto;text-align:left;">
+        <div class="step">
+          <div class="step-badge">1</div>
+          <h3>Unzip &amp; start the server</h3>
+          <p>Unzip the pack anywhere. Double-click <strong style="color:#fff;">AKILA-Server.command</strong> (macOS), <strong style="color:#fff;">server-start.bat</strong> (Windows) or run <strong style="color:#fff;">./server-start.sh</strong> (Linux). First run installs dependencies + the ~600 MB language model — that's the five-minute part. Success looks like: <em>Running on http://127.0.0.1:5001</em>.</p>
+        </div>
+        <div class="step">
+          <div class="step-badge">2</div>
+          <h3>Load the extension</h3>
+          <p>Open <strong style="color:#fff;">chrome://extensions</strong> in Chrome, toggle <strong style="color:#fff;">Developer mode</strong> on, click <strong style="color:#fff;">Load unpacked</strong>, and choose the <strong style="color:#fff;">extension</strong> folder inside the pack.</p>
+        </div>
+        <div class="step">
+          <div class="step-badge">3</div>
+          <h3>Send a protected message</h3>
+          <p>On ChatGPT or Claude, type a sentence with a client name and phone number. It arrives tokenized; your real data comes back in the reply. Keep the server window open while working.</p>
+        </div>
+      </div>
+
+      <p>
+        <a href="https://github.com/Woka21/akila/blob/main/docs/END_USER_SETUP.md" class="btn btn-ghost">Full setup guide</a>
+        <a href="https://github.com/Woka21/akila/blob/main/docs/END_USER_SETUP.md#troubleshooting" class="btn btn-ghost" style="margin-left:0.5rem;">Troubleshooting</a>
+      </p>
+
+      <p class="pilot-honest" style="margin-top:2.6rem;">This is early-stage, active software. We'll tell you plainly what's verified and what isn't — that's the point of a pilot. A small number of organizations are also shaping the product directly: <a href="mailto:hello@akila.example" style="text-decoration:underline;">start a scoping conversation</a>.</p>
     </div>
   </section>
 
