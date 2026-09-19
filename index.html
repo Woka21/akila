@@ -16,6 +16,9 @@
       <a href="#how-it-works">How it works</a>
       <a href="#enterprise">Enterprise</a>
       <a href="#download">Download</a>
+      <a href="#extension">Extension</a>
+      <a href="#guide">Setup Guide</a>
+      <a href="#testing">Testing</a>
     </nav>
     <a href="#download" class="btn btn-small btn-primary">Download AKILA</a>
   </div>
@@ -144,12 +147,44 @@
     </div>
   </section>
 
-  <!-- ===================== DOWNLOAD & INSTALL ===================== -->
+  <!-- ===================== DESKTOP AGENT ===================== -->
+  <section class="section section-dark" id="desktop">
+    <div class="section-inner narrow center">
+      <p class="hero-eyebrow">Desktop Agent · v1.0.0</p>
+      <h2 class="light-heading">One installer. Zero configuration. Automatic protection.</h2>
+      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">The AKILA Desktop Agent bundles the local sanitization server, manages the browser extension, and auto-starts on boot. Everything runs on your own machine.</p>
+
+      <div class="platform-downloads">
+        <div class="platform-option">
+          <span class="platform-icon">🍎</span>
+          <strong>macOS</strong>
+          <span class="platform-note">Apple Silicon &amp; Intel (Universal binary)</span>
+          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary">Download (.dmg, ~12MB)</a>
+        </div>
+        <div class="platform-option">
+          <span class="platform-icon">🪟</span>
+          <strong>Windows</strong>
+          <span class="platform-note">64-bit (MSI installer)</span>
+          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary">Download (.msi, ~10MB)</a>
+        </div>
+        <div class="platform-option">
+          <span class="platform-icon">🐧</span>
+          <strong>Linux</strong>
+          <span class="platform-note">AppImage — no installation needed</span>
+          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Linux.AppImage" class="btn btn-primary">Download (.AppImage, ~14MB)</a>
+        </div>
+      </div>
+
+      <p class="pilot-honest" style="margin-top:1.5rem;">The desktop agent includes the server (compiled), the extension installer, and a tray icon for status. After installing, the app starts the server automatically and opens the extension setup guide.</p>
+    </div>
+  </section>
+
+  <!-- ===================== DOWNLOAD & INSTALL ===================== */ -->
   <section class="section section-dark" id="download">
     <div class="section-inner narrow center">
       <p class="hero-eyebrow">Pilot build · v1.0.0</p>
-      <h2 class="light-heading">Get AKILA running in about ten minutes</h2>
-      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Download the pilot pack, start the local server, load the extension. Everything runs on your own machine — nothing is sent anywhere.</p>
+      <h2 class="light-heading">Or: Download the complete pilot pack</h2>
+      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Everything you need in one ZIP — server, extension, and setup scripts. Runs locally on any platform.</p>
 
       <div style="margin:2.4rem 0 1rem;">
         <a href="https://github.com/Woka21/akila/releases/download/v1.0.0/AKILA-PilotPack-v1.0.0.zip" class="btn btn-primary btn-large">Download AKILA-PilotPack-v1.0.0.zip</a>
@@ -186,12 +221,163 @@
     </div>
   </section>
 
+  <!-- ===================== EXTENSION SETUP ===================== */ -->
+  <section class="section section-light" id="extension">
+    <div class="section-inner narrow">
+      <h2>Chrome Extension Setup</h2>
+      <p class="section-lead">The AKILA Privilege Guard extension intercepts outbound messages on supported AI platforms and tokenizes PII before it's sent. Follow these steps to install it.</p>
+
+      <div class="extension-install-guide">
+        <div class="guide-step">
+          <div class="step-badge">1</div>
+          <div class="guide-step-content">
+            <h3>Download the Extension</h3>
+            <p>Download the extension package. <strong>Version 1.0.0</strong> with pinned extension ID <code>kcnldfeclciolmbjfiomdfialhbccmhe</code>. The ID is cryptographically pinned via the signing key, ensuring consistent behavior across installations.</p>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-primary" style="margin-top:0.75rem;">Download Extension (.zip)</a>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">2</div>
+          <div class="guide-step-content">
+            <h3>Extract the Extension</h3>
+            <p>Unzip the downloaded file to a location you can easily find, like your Downloads folder. You should see files like <code>manifest.json</code>, <code>background.js</code>, and <code>content-script.js</code>.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">3</div>
+          <div class="guide-step-content">
+            <h3>Open Chrome Extensions</h3>
+            <p>Navigate to <code>chrome://extensions/</code> in your Chrome browser. This page allows you to manage all installed extensions.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">4</div>
+          <div class="guide-step-content">
+            <h3>Enable Developer Mode</h3>
+            <p>Toggle <strong>Developer mode</strong> ON in the top-right corner of the Chrome Extensions page. This enables the "Load unpacked" button.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">5</div>
+          <div class="guide-step-content">
+            <h3>Load Unpacked Extension</h3>
+            <p>Click <strong>Load unpacked</strong>, then navigate to and select the folder where you extracted the extension files in Step 2. Click <strong>Select Folder</strong>.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-badge">6</div>
+          <div class="guide-step-content">
+            <h3>Verify Installation</h3>
+            <p>You should see "AKILA Privilege Guard" listed on the extensions page. The extension icon will appear in your browser toolbar. Visit <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> and type a test message — you should see <code>[AKILA]</code> in the DevTools Console (Cmd+Opt+I).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pilot-honest" style="margin-top:2rem;">
+        <p><strong>Supported sites:</strong> ChatGPT, Claude, Google Gemini, GitHub Copilot, Perplexity AI, and any site with a text input (via universal sieve mode).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SETUP GUIDE ===================== */ -->
+  <section class="section section-dark" id="guide">
+    <div class="section-inner narrow center">
+      <p class="hero-eyebrow">Quick setup</p>
+      <h2 class="light-heading">Get AKILA running in about ten minutes</h2>
+      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Three approaches — pick the one that fits your workflow.</p>
+
+      <div class="steps" style="max-width:900px;margin-left:auto;margin-right:auto;text-align:left;">
+        <div class="step">
+          <div class="step-badge">A</div>
+          <h3>Desktop Agent (Recommended)</h3>
+          <p>Download the platform-specific installer above (macOS/Windows/Linux), install the app, and let it auto-start the server. Then click "Install Extension" in the app UI to open the extension setup page.</p>
+        </div>
+        <div class="step">
+          <div class="step-badge">B</div>
+          <h3>Pilot Pack (Offline)</h3>
+          <p>Download the AKILA-PilotPack ZIP, extract it, and run the platform-specific server script. Then load the extension from the <code>extension/</code> folder inside the pack via <code>chrome://extensions</code>.</p>
+        </div>
+        <div class="step">
+          <div class="step-badge">C</div>
+          <h3>Development Mode</h3>
+          <p>If you're developing, clone the repo, install Python dependencies in <code>resources/server/venv</code>, and run <code>python3 presidio_server.py</code>. Load the extension from <code>src-tauri/resources/extension/</code> in unpacked mode.</p>
+        </div>
+      </div>
+
+      <p style="margin-top:2rem;">
+        <a href="https://github.com/Woka21/akila/blob/main/docs/END_USER_SETUP.md" class="btn btn-ghost">Full setup guide (docs)</a>
+        <a href="https://github.com/Woka21/akila/blob/main/docs/TESTING_GUIDE.md" class="btn btn-ghost" style="margin-left:0.5rem;">Testing guide (docs)</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== TESTING ===================== */ -->
+  <section class="section section-light" id="testing">
+    <div class="section-inner narrow">
+      <h2>Testing &amp; Verification</h2>
+      <p class="section-lead">A comprehensive testing guide is available in the repository. Here's what it covers:</p>
+
+      <div class="testing-grid">
+        <div class="test-category">
+          <h3>Server Verification</h3>
+          <ul>
+            <li>Health check endpoint (<code>/health</code>)</li>
+            <li>PII redaction endpoint (<code>/analyze</code>)</li>
+            <li>Token restoration on response</li>
+          </ul>
+        </div>
+        <div class="test-category">
+          <h3>Platform Coverage</h3>
+          <ul>
+            <li>ChatGPT (network interception)</li>
+            <li>Claude (network interception)</li>
+            <li>Gemini (network interception)</li>
+            <li>Copilot (network interception)</li>
+            <li>Perplexity (universal sieve DOM)</li>
+          </ul>
+        </div>
+        <div class="test-category">
+          <h3>Safety Checks</h3>
+          <ul>
+            <li>Fail-closed when server is down</li>
+            <li>Token persistence across reloads</li>
+            <li>Edge cases (empty, short, special chars)</li>
+          </ul>
+        </div>
+        <div class="test-category">
+          <h3>Traffic Inspection</h3>
+          <ul>
+            <li>Chrome DevTools Network tab verification</li>
+            <li>Server log analysis</li>
+            <li>Payload inspection for token presence</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pilot-honest" style="margin-top:1.5rem;">
+        <p><strong>Read the full testing guide:</strong> <a href="https://github.com/Woka21/akila/blob/main/docs/TESTING_GUIDE.md" style="text-decoration:underline;">docs/TESTING_GUIDE.md on GitHub</a></p>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
   <div class="footer-inner">
     <span class="footer-logo">AKILA</span>
     <span class="footer-tagline">Confidential by design. AI-ready by default.</span>
+    <div class="footer-links">
+      <a href="https://github.com/Woka21/akila">GitHub</a>
+      <a href="https://github.com/Woka21/akila/releases">Releases</a>
+      <a href="https://github.com/Woka21/akila/blob/main/docs/">Documentation</a>
+      <a href="https://github.com/Woka21/akila/security">Security Policy</a>
+      <a href="https://github.com/Woka21/akila/blob/main/LICENSE">License</a>
+    </div>
     <span class="footer-copy">© 2026 AKILA. Pre-pilot software — see documentation for current verified status.</span>
   </div>
 </footer>

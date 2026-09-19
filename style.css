@@ -324,12 +324,114 @@ a { color: inherit; text-decoration: none; }
 .sector-card h4 { color: var(--navy); margin-bottom: 0.4rem; }
 .sector-card p { font-size: 0.9rem; color: #555; margin: 0; }
 
+/* ---------- Desktop Agent Platform Downloads ---------- */
+.platform-downloads {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+  margin: 2.5rem auto 0;
+}
+.platform-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+}
+.platform-option .platform-icon {
+  font-size: 1.75rem;
+  margin-right: 12px;
+}
+.platform-option strong {
+  color: var(--white);
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+}
+.platform-note {
+  color: var(--iceblue);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.platform-option .btn {
+  flex-shrink: 0;
+}
+
+/* ---------- Extension Install Guide ---------- */
+.extension-install-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  margin: 2rem auto 0;
+}
+.guide-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.guide-step .step-badge {
+  flex-shrink: 0;
+}
+.guide-step-content h3 {
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+.guide-step-content p {
+  color: #555;
+  font-size: 0.95rem;
+}
+.guide-step-content code {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  color: var(--navy);
+}
+.guide-step-content a.btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+/* ---------- Testing Grid ---------- */
+.testing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  margin: 2rem auto 0;
+}
+.test-category h3 {
+  color: var(--navy);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.test-category ul {
+  color: #555;
+  font-size: 0.9rem;
+}
+.test-category li {
+  margin-bottom: 4px;
+}
+
 /* ---------- Pilot ---------- */
 .pilot-honest {
   font-size: 0.95rem;
   color: var(--mint);
   font-style: italic;
   margin-bottom: 2rem;
+}
+
+/* ---------- Footer Links ---------- */
+.footer-links {
+  display: flex;
+  gap: 20px;
+  margin: 8px 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* ---------- Footer ---------- */
@@ -369,6 +471,11 @@ a { color: inherit; text-decoration: none; }
   .incident-list, .steps, .sector-grid { flex-direction: column; }
   .incident, .step, .sector-card { flex-basis: auto; min-width: 0; margin-left: 0; margin-right: 0; }
   .incident-list, .sector-grid { margin-left: 0; margin-right: 0; }
+  .platform-downloads { gap: 12px; }
+  .platform-option { flex-direction: column; text-align: center; }
+  .testing-grid { grid-template-columns: 1fr; }
+  .guide-step { flex-direction: column; }
+  .footer-links { gap: 12px; }
   .nav-links { display: none; }
   .hero { padding: 4rem 1.2rem 5rem; }
   .compare-table { font-size: 0.85rem; }
