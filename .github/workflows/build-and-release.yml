@@ -1,0 +1,160 @@
+name: Build & Release
+
+on:
+  push:
+    tags: ["v*"]
+  release:
+    types: [created]
+
+env:
+  CARGO_TERM_COLOR: auto
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-macos:
+    name: Build macOS
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ["x86_64-apple-darwin"]
+
+      - name: Install Tauri dependencies
+        run: |
+          brew install create-dmg
+          npm install -g @tauri-apps/cli
+
+      - name: Build application
+        uses: tauri-apps/tauri-bundle@v1
+        with:
+          project-path: src-tauri/akila-desktop-agent
+          cli-args: "npx tauri build"
+
+      - name: Sign and Notarize DMG
+        if: env.APPLE_CERT_ID != ""
+        env:
+          CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          # Import certificate
+          echo "$CERTIFICATE" | base64 --decode | openssl smime -inform PEM -out cert.p12 -outform DER -nocdes
+          security create-keychain -p "$CERTIFICATE_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$CERTIFICATE_PASSWORD" build.keychain
+          security import cert.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$CERTIFICATE_PASSWORD" build.keychain
+          
+          # Find the DMG
+          DMG_PATH=$(find src-tauri/akila-desktop-agent/src-tauri/target/release/bundle -name '*.dmg' | head -1)
+          
+          # Notarize
+          xcrun notarytool submit "$DMG_PATH" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_ID_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+          
+          # Staple
+          xcrun stapler staple "$DMG_PATH"
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: akila-macos
+          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.dmg
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build application
+        uses: tauri-apps/tauri-bundle@v1
+        with:
+          project-path: src-tauri/akila-desktop-agent
+          cli-args: "npx tauri build"
+
+      - name: Upload MSI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: akila-windows
+          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libssl-dev pkg-config libwebkit2gtk-4.1-dev
+
+      - name: Build application
+        uses: tauri-apps/tauri-bundle@v1
+        with:
+          project-path: src-tauri/akila-desktop-agent
+          cli-args: "npx tauri build"
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: akila-linux
+          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.AppImage
+
+  release:
+    name: Create Release
+    needs: [build-macos, build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: AKILA v${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            dist/AKILA-Desktop-Agent-macOS.dmg
+            dist/AKILA-Desktop-Agent-Windows.msi
+            dist/AKILA-Desktop-Agent-Linux.AppImage
+            dist/akila-extension.zip

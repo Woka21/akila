@@ -159,19 +159,37 @@
           <span class="platform-icon">🍎</span>
           <strong>macOS</strong>
           <span class="platform-note">Apple Silicon &amp; Intel (Universal binary)</span>
-          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary">Download (.dmg, ~500MB — includes NLP model)</a>
+          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary">Download (.dmg, ~500MB)</a>
         </div>
         <div class="platform-option">
           <span class="platform-icon">🪟</span>
           <strong>Windows</strong>
           <span class="platform-note">64-bit (MSI installer)</span>
-          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary">Download (.msi, ~10MB)</a>
+          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary">Download (.msi, ~500MB)</a>
         </div>
         <div class="platform-option">
           <span class="platform-icon">🐧</span>
           <strong>Linux</strong>
           <span class="platform-note">AppImage — no installation needed</span>
-          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Linux.AppImage" class="btn btn-primary">Download (.AppImage, ~14MB)</a>
+          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Linux.AppImage" class="btn btn-primary">Download (.AppImage, ~500MB)</a>
+        </div>
+      </div>
+
+      <div class="install-notes">
+        <div class="install-note macos">
+          <strong>macOS:</strong> If you see "AKILA Desktop Agent can't be opened because it is from an unidentified developer,"
+          right-click the .dmg file and choose <em>Open</em>, then click <em>Open</em> in the dialog.
+          This only happens once for unsigned apps. For a permanent solution, use a machine with an
+          Apple Developer ID to build the app, or contact us for an enterprise-signed build.
+        </div>
+        <div class="install-note windows">
+          <strong>Windows:</strong> If Windows Defender shows a "Windows protected your PC" warning,
+          click <em>More info</em> → <em>Run anyway</em>. The app is code-signed but may trigger
+          SmartScreen for new releases.
+        </div>
+        <div class="install-note linux">
+          <strong>Linux:</strong> Make the file executable: <code>chmod +x AKILA-Desktop-Agent-Linux.AppImage</code>,
+          then double-click to run. No root/sudo required.
         </div>
       </div>
 
