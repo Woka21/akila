@@ -177,19 +177,23 @@
 
       <div class="install-notes">
         <div class="install-note macos">
-          <strong>macOS:</strong> If you see "AKILA Desktop Agent can't be opened because it is from an unidentified developer,"
-          right-click the .dmg file and choose <em>Open</em>, then click <em>Open</em> in the dialog.
-          This only happens once for unsigned apps. For a permanent solution, use a machine with an
-          Apple Developer ID to build the app, or contact us for an enterprise-signed build.
+          <strong>macOS:</strong> The app is ad-hoc signed and will trigger a Gatekeeper warning.
+          To open it:
+          <ol style="margin:0.5rem 0 0 1.2rem;padding:0;">
+            <li>Download &amp; open the DMG, drag <strong>AKILA Desktop Agent.app</strong> to your Applications folder.</li>
+            <li>In Finder, <strong>right-click (Ctrl-click)</strong> the app → choose <em>Open</em>.</li>
+            <li>Click <em>Open</em> in the dialog. This only needs to be done once.</li>
+          </ol>
+          <em style="display:block;margin-top:0.5rem;">Or bypass via Terminal:</em>
+          <code style="display:block;margin-top:0.3rem;">xattr -d com.apple.quarantine /Applications/AKILA\ Desktop\ Agent.app</code>
         </div>
         <div class="install-note windows">
-          <strong>Windows:</strong> If Windows Defender shows a "Windows protected your PC" warning,
-          click <em>More info</em> → <em>Run anyway</em>. The app is code-signed but may trigger
-          SmartScreen for new releases.
+          <strong>Windows:</strong> Click <em>More info</em> → <em>Run anyway</em> in the SmartScreen dialog.
+          The app is signed with a code-signing certificate; SmartScreen may warn for new releases.
         </div>
         <div class="install-note linux">
-          <strong>Linux:</strong> Make the file executable: <code>chmod +x AKILA-Desktop-Agent-Linux.AppImage</code>,
-          then double-click to run. No root/sudo required.
+          <strong>Linux:</strong> Make the file executable:
+          <code>chmod +x AKILA-Desktop-Agent-Linux.AppImage</code>, then double-click to run. No root/sudo required.
         </div>
       </div>
 
