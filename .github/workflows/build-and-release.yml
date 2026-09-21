@@ -242,6 +242,15 @@ jobs:
           path: dist
           merge-multiple: true
 
+      - name: List downloaded artifacts
+        run: find dist -type f \( -name "*.dmg" -o -name "*.zip" -o -name "*.msi" -o -name "*.AppImage" -o -name "*.sha256" \) 2>/dev/null || true
+
+      - name: Create extension zip
+        working-directory: src-tauri/akila-desktop-agent/src-tauri/resources/extension
+        run: |
+          zip -r akila-extension.zip .
+          cp akila-extension.zip ../../../../../dist/
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -249,12 +258,8 @@ jobs:
           name: AKILA v${{ github.ref_name }}
           generate_release_notes: true
           files: |
-            dist/**/AKILA-Desktop-Agent-macOS.dmg
-            dist/**/AKILA-Desktop-Agent-macOS.zip
-            dist/**/AKILA-Desktop-Agent-macOS.zip.sha256
-            dist/**/AKILA-Desktop-Agent-Windows.msi
-            dist/**/AKILA-Desktop-Agent-Windows.zip
-            dist/**/AKILA-Desktop-Agent-Windows.zip.sha256
-            dist/**/AKILA-Desktop-Agent-Linux.AppImage
-            dist/**/AKILA-Desktop-Agent-Linux.AppImage.sha256
-            dist/**/akila-extension.zip
+            dist/**/*.dmg
+            dist/**/*.zip
+            dist/**/*.msi
+            dist/**/*.AppImage
+            dist/**/*.sha256
