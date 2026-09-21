@@ -190,6 +190,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libssl-dev pkg-config libwebkit2gtk-4.0-dev libappindicator3-dev || \
           sudo apt-get install -y libgtk-3-dev libssl-dev pkg-config libwebkit2gtk-4.1-dev libayatana-appindicator3-dev
+          # Install linuxdeploy and appimage-tools for AppImage bundling
+          sudo apt-get install -y libfuse2 wget
+          wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/latest/download/linuxdeploy-x86_64.AppImage" -O /usr/local/bin/linuxdeploy
+          chmod +x /usr/local/bin/linuxdeploy
+          wget -q "https://github.com/AppImage/AppImageKit/releases/latest/download/appimagetool-x86_64.AppImage" -O /usr/local/bin/appimagetool
+          chmod +x /usr/local/bin/appimagetool
 
       - name: Install npm dependencies
         run: npm install
@@ -209,12 +215,13 @@ jobs:
       - name: Create Linux checksum
         working-directory: src-tauri/akila-desktop-agent
         run: |
-          cd src-tauri/target/release/bundle
-          appimage=$(find . -maxdepth 2 -name '*.AppImage' | head -1)
-          if [ -n "$appimage" ]; then
-            dir_name=$(dirname "$appimage")
-            cd "$dir_name"
-            shasum -a 256 "$(basename "$appimage")" > "$(basename "$appimage")".sha256
+          bundle_dir="src-tauri/target/release/bundle"
+          if [ -d "$bundle_dir" ]; then
+            appimage=$(find "$bundle_dir" -maxdepth 2 -name '*.AppImage' 2>/dev/null | head -1)
+            if [ -n "$appimage" ]; then
+              cd "$(dirname "$appimage")"
+              sha256sum "$(basename "$appimage")" | awk '{print $1}' > "$(basename "$appimage")".sha256
+            fi
           fi
 
       - name: Upload Linux artifacts
