@@ -1,0 +1,15 @@
+# Tauri
+src-tauri/target/
+src-tauri/akila-desktop-agent/src-tauri/target/
+
+# Node
+node_modules/
+src-tauri/akila-desktop-agent/node_modules/
+
+# Dist
+dist-desktop/
+src-tauri/dist-desktop/
+
+# OS
+.DS_Store
+Thumbs.db
