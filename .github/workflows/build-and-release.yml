@@ -31,7 +31,7 @@ jobs:
         with:
           targets: x86_64-apple-darwin
 
-      - name: Install Tauri dependencies
+      - name: Install Tauri & bundling dependencies
         run: |
           brew install create-dmg
           npm install -g @tauri-apps/cli
@@ -40,7 +40,7 @@ jobs:
         run: npm install
         working-directory: src-tauri/akila-desktop-agent
 
-      - name: Setup Python & install server dependencies (macOS)
+      - name: Setup Python & install server dependencies
         working-directory: src-tauri/akila-desktop-agent
         run: |
           python3 -m venv src-tauri/resources/server/venv
@@ -110,18 +110,26 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install WiX Toolset (for MSI bundling)
+        shell: powershell
+        run: |
+          choco install wixtoolset -y
+          echo "C:\Program Files (x86)\WiX Toolset v4.0\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Install npm dependencies
         run: npm install
         working-directory: src-tauri/akila-desktop-agent
 
       - name: Setup Python & install server dependencies (Windows)
         working-directory: src-tauri/akila-desktop-agent
+        shell: bash
         run: |
           python -m venv src-tauri/resources/server/venv
           src-tauri/resources/server/venv/Scripts/pip install --upgrade pip
           src-tauri/resources/server/venv/Scripts/pip install -r src-tauri/resources/server/requirements.txt
 
       - name: Build application
+        shell: bash
         run: npx tauri build
         working-directory: src-tauri/akila-desktop-agent
 
