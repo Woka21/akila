@@ -103,9 +103,10 @@ jobs:
         with:
           name: akila-macos
           path: |
-            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/*.dmg
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.dmg
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/AKILA-Desktop-Agent-macOS.zip
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/AKILA-Desktop-Agent-macOS.zip.sha256
+          if-no-files-found: ignore
 
   build-windows:
     name: Build Windows
@@ -173,8 +174,8 @@ jobs:
           path: |
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi.sha256
-            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.zip
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.zip.sha256
+          if-no-files-found: ignore
 
   build-linux:
     name: Build Linux
@@ -239,6 +240,7 @@ jobs:
           path: |
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.AppImage
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.AppImage.sha256
+          if-no-files-found: ignore
 
   release:
     name: Create Release
