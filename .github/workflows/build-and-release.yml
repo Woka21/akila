@@ -103,7 +103,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: akila-macos
-          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macOS/**/AKILA-Desktop-Agent-macOS.*
+          path: |
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/AKILA-Desktop-Agent-macOS.dmg
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/**/AKILA-Desktop-Agent-macOS.zip
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/**/AKILA-Desktop-Agent-macOS.zip.sha256
           if-no-files-found: error
 
   build-windows:
