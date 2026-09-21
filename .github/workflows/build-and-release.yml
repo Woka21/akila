@@ -120,7 +120,7 @@ jobs:
             base_name=$(basename "$msi_file" .msi)
             cd "$dir_name"
             7z a "${base_name}.zip" "$(basename "$msi_file")"
-            shasum -a 256 "${base_name}.zip" > "${base_name}.zip.sha256"
+            sha256sum "${base_name}.zip" | awk '{print $1}' > "${base_name}.zip.sha256"
           fi
 
       - name: Upload Windows artifacts
@@ -149,7 +149,8 @@ jobs:
       - name: Install Linux dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libssl-dev pkg-config libwebkit2gtk-4.0-dev
+          sudo apt-get install -y libgtk-3-dev libssl-dev pkg-config libwebkit2gtk-4.0-dev || \
+          sudo apt-get install -y libgtk-3-dev libssl-dev pkg-config libwebkit2gtk-4.1-dev
 
       - name: Install npm dependencies
         run: npm install
