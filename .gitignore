@@ -1,15 +1,24 @@
 # Tauri
-src-tauri/target/
+**/target/
 src-tauri/akila-desktop-agent/src-tauri/target/
 
 # Node
 node_modules/
 src-tauri/akila-desktop-agent/node_modules/
 
-# Dist
-dist-desktop/
+# Dist (build artifacts)
 src-tauri/dist-desktop/
+src-tauri/akila-desktop-agent/dist/
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Compiled Python
+__pycache__/
+*.pyc
+*.pyz
+*.pyo
+
+# Backup files
+*.bak
