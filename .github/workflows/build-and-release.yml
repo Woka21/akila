@@ -41,7 +41,7 @@ jobs:
           project-path: src-tauri/akila-desktop-agent
           cli-args: "npx tauri build"
 
-      - name: Sign and Notarize DMG
+      - name: Notarize DMG (if credentials available)
         if: env.APPLE_CERT_ID != ""
         env:
           CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
@@ -50,7 +50,6 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
-          # Import certificate
           echo "$CERTIFICATE" | base64 --decode | openssl smime -inform PEM -out cert.p12 -outform DER -nocdes
           security create-keychain -p "$CERTIFICATE_PASSWORD" build.keychain
           security default-keychain -s build.keychain
@@ -58,24 +57,33 @@ jobs:
           security import cert.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -s -k "$CERTIFICATE_PASSWORD" build.keychain
           
-          # Find the DMG
           DMG_PATH=$(find src-tauri/akila-desktop-agent/src-tauri/target/release/bundle -name '*.dmg' | head -1)
           
-          # Notarize
           xcrun notarytool submit "$DMG_PATH" \
             --apple-id "$APPLE_ID" \
             --password "$APPLE_ID_PASSWORD" \
             --team-id "$APPLE_TEAM_ID" \
             --wait
           
-          # Staple
           xcrun stapler staple "$DMG_PATH"
 
-      - name: Upload DMG artifact
+      - name: Create macOS zip + checksum
+        run: |
+          cd src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos
+          APP_DIR=$(find . -maxdepth 1 -name '*.app' -type d | head -1)
+          if [ -n "$APP_DIR" ]; then
+            zip -rq "AKILA-Desktop-Agent-macOS.zip" "$APP_DIR"
+            shasum -a 256 "AKILA-Desktop-Agent-macOS.zip" > "AKILA-Desktop-Agent-macOS.zip.sha256"
+          fi
+
+      - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
           name: akila-macos
-          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.dmg
+          path: |
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.dmg
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/AKILA-Desktop-Agent-macOS.zip
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos/AKILA-Desktop-Agent-macOS.zip.sha256
 
   build-windows:
     name: Build Windows
@@ -97,11 +105,26 @@ jobs:
           project-path: src-tauri/akila-desktop-agent
           cli-args: "npx tauri build"
 
-      - name: Upload MSI artifact
+      - name: Create Windows zip + checksum
+        run: |
+          cd src-tauri/akila-desktop-agent/src-tauri/target/release/bundle
+          msi_file=$(find . -maxdepth 2 -name '*.msi' | head -1)
+          if [ -n "$msi_file" ]; then
+            dir_name=$(dirname "$msi_file")
+            base_name=$(basename "$msi_file" .msi)
+            cd "$dir_name"
+            7z a "${base_name}.zip" "$(basename "$msi_file")"
+            shasum -a 256 "${base_name}.zip" > "${base_name}.zip.sha256"
+          fi
+
+      - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4
         with:
           name: akila-windows
-          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi
+          path: |
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/AKILA-Desktop-Agent-Windows.zip
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/AKILA-Desktop-Agent-Windows.zip.sha256
 
   build-linux:
     name: Build Linux
@@ -128,11 +151,23 @@ jobs:
           project-path: src-tauri/akila-desktop-agent
           cli-args: "npx tauri build"
 
-      - name: Upload AppImage artifact
+      - name: Create Linux AppImage checksum
+        run: |
+          cd src-tauri/akila-desktop-agent/src-tauri/target/release/bundle
+          appimage=$(find . -maxdepth 2 -name '*.AppImage' | head -1)
+          if [ -n "$appimage" ]; then
+            dir_name=$(dirname "$appimage")
+            cd "$dir_name"
+            shasum -a 256 "$(basename "$appimage")" > "$(basename "$appimage").sha256"
+          fi
+
+      - name: Upload Linux artifacts
         uses: actions/upload-artifact@v4
         with:
           name: akila-linux
-          path: src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.AppImage
+          path: |
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.AppImage
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.AppImage.sha256
 
   release:
     name: Create Release
@@ -155,6 +190,11 @@ jobs:
           generate_release_notes: true
           files: |
             dist/AKILA-Desktop-Agent-macOS.dmg
+            dist/AKILA-Desktop-Agent-macOS.zip
+            dist/AKILA-Desktop-Agent-macOS.zip.sha256
             dist/AKILA-Desktop-Agent-Windows.msi
+            dist/AKILA-Desktop-Agent-Windows.zip
+            dist/AKILA-Desktop-Agent-Windows.zip.sha256
             dist/AKILA-Desktop-Agent-Linux.AppImage
+            dist/AKILA-Desktop-Agent-Linux.AppImage.sha256
             dist/akila-extension.zip

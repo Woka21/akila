@@ -175,12 +175,25 @@
         </div>
       </div>
 
+      <div class="installer-alternative">
+        <p style="margin:0.5rem 0 0.3rem;font-size:0.85rem;color:#888;">
+          <strong>Don't want to deal with Gatekeeper warnings?</strong> Use the one-line installer:
+        </p>
+        <code style="display:block;margin:0.5rem 0;background:rgba(255,255,255,0.05);padding:0.6rem 1rem;border-radius:4px;font-size:0.9rem;word-break:break-all;">
+          curl -fsSL https://Woka21.github.io/akila/install.sh | bash
+        </code>
+        <p style="margin:0.3rem 0 0;font-size:0.8rem;color:#666;">
+          The installer downloads, verifies (SHA-256), installs to ~/Applications, and removes quarantine flags automatically.
+          <a href="install.sh" style="color:#4a9eff;text-decoration:underline;">View script</a>
+        </p>
+      </div>
+
       <div class="install-notes">
         <div class="install-note macos">
-          <strong>macOS:</strong> The app is ad-hoc signed and will trigger a Gatekeeper warning.
-          To open it:
+          <strong>macOS:</strong> The app is ad-hoc signed and will trigger a Gatekeeper warning on first launch.
           <ol style="margin:0.5rem 0 0 1.2rem;padding:0;">
-            <li>Download &amp; open the DMG, drag <strong>AKILA Desktop Agent.app</strong> to your Applications folder.</li>
+            <li><strong>Easiest:</strong> Use the one-line installer: <code>curl -fsSL https://Woka21.github.io/akila/install.sh | bash</code> — it auto-removes quarantine flags.</li>
+            <li><strong>Manual:</strong> Download &amp; open the DMG, drag <strong>AKILA Desktop Agent.app</strong> to your Applications folder.</li>
             <li>In Finder, <strong>right-click (Ctrl-click)</strong> the app → choose <em>Open</em>.</li>
             <li>Click <em>Open</em> in the dialog. This only needs to be done once.</li>
           </ol>
