@@ -31,6 +31,11 @@ jobs:
         with:
           targets: x86_64-apple-darwin
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install Tauri & bundling dependencies
         run: |
           brew install create-dmg
@@ -110,6 +115,11 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install WiX Toolset (for MSI bundling)
         shell: powershell
         run: |
@@ -125,8 +135,8 @@ jobs:
         shell: bash
         run: |
           python -m venv src-tauri/resources/server/venv
-          src-tauri/resources/server/venv/Scripts/pip install --upgrade pip
-          src-tauri/resources/server/venv/Scripts/pip install -r src-tauri/resources/server/requirements.txt
+          src-tauri/resources/server/venv/Scripts/python.exe -m pip install --upgrade pip
+          src-tauri/resources/server/venv/Scripts/python.exe -m pip install -r src-tauri/resources/server/requirements.txt
 
       - name: Build application
         shell: bash
@@ -169,6 +179,11 @@ jobs:
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install Linux dependencies
         run: |
