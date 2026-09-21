@@ -85,14 +85,14 @@ jobs:
       - name: Create macOS zip + checksum
         working-directory: src-tauri/akila-desktop-agent
         run: |
-          cd src-tauri/target/release/bundle/macos
-          APP_DIR=$(find . -maxdepth 1 -name '*.app' -type D | head -1)
-          # Rename DMG to match install.sh expectations
-          for f in *.dmg; do
-            if [ -f "$f" ]; then
-              mv "$f" "AKILA-Desktop-Agent-macOS.dmg"
-            fi
+          # Rename DMG to match install.sh expectations (DMG is in bundle/dmg/)
+          bundle_dir="src-tauri/target/release/bundle"
+          for dmg in $(find "$bundle_dir" -name "*.dmg" 2>/dev/null); do
+            mv "$dmg" "$(dirname "$dmg")/AKILA-Desktop-Agent-macOS.dmg"
           done
+          # Create zip and checksum from the .app in bundle/macos/
+          cd "${bundle_dir}/macos"
+          APP_DIR=$(find . -maxdepth 1 -name '*.app' -type D | head -1)
           if [ -n "$APP_DIR" ]; then
             zip -rq AKILA-Desktop-Agent-macOS.zip "$APP_DIR"
             shasum -a 256 AKILA-Desktop-Agent-macOS.zip > AKILA-Desktop-Agent-macOS.zip.sha256
