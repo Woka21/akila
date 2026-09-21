@@ -41,6 +41,7 @@ jobs:
         working-directory: src-tauri/akila-desktop-agent
 
       - name: Setup Python & install server dependencies (macOS)
+        working-directory: src-tauri/akila-desktop-agent
         run: |
           python3 -m venv src-tauri/resources/server/venv
           src-tauri/resources/server/venv/bin/pip install --upgrade pip
@@ -113,6 +114,7 @@ jobs:
         working-directory: src-tauri/akila-desktop-agent
 
       - name: Setup Python & install server dependencies (Windows)
+        working-directory: src-tauri/akila-desktop-agent
         run: |
           python -m venv src-tauri/resources/server/venv
           src-tauri/resources/server/venv/Scripts/pip install --upgrade pip
@@ -169,6 +171,7 @@ jobs:
         working-directory: src-tauri/akila-desktop-agent
 
       - name: Setup Python & install server dependencies (Linux)
+        working-directory: src-tauri/akila-desktop-agent
         run: |
           python3 -m venv src-tauri/resources/server/venv
           src-tauri/resources/server/venv/bin/pip install --upgrade pip
