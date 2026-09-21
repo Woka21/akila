@@ -30,6 +30,8 @@
     "active": true,
     "targets": ["app"],
     "icon": [
+      "icons/icon.ico",
+      "icons/icon.png",
       "resources/icons/AKILA.icns"
     ],
     "resources": [
