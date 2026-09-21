@@ -249,12 +249,12 @@ jobs:
           name: AKILA v${{ github.ref_name }}
           generate_release_notes: true
           files: |
-            dist/AKILA-Desktop-Agent-macOS.dmg
-            dist/AKILA-Desktop-Agent-macOS.zip
-            dist/AKILA-Desktop-Agent-macOS.zip.sha256
-            dist/AKILA-Desktop-Agent-Windows.msi
-            dist/AKILA-Desktop-Agent-Windows.zip
-            dist/AKILA-Desktop-Agent-Windows.zip.sha256
-            dist/AKILA-Desktop-Agent-Linux.AppImage
-            dist/AKILA-Desktop-Agent-Linux.AppImage.sha256
-            dist/akila-extension.zip
+            dist/**/AKILA-Desktop-Agent-macOS.dmg
+            dist/**/AKILA-Desktop-Agent-macOS.zip
+            dist/**/AKILA-Desktop-Agent-macOS.zip.sha256
+            dist/**/AKILA-Desktop-Agent-Windows.msi
+            dist/**/AKILA-Desktop-Agent-Windows.zip
+            dist/**/AKILA-Desktop-Agent-Windows.zip.sha256
+            dist/**/AKILA-Desktop-Agent-Linux.AppImage
+            dist/**/AKILA-Desktop-Agent-Linux.AppImage.sha256
+            dist/**/akila-extension.zip
