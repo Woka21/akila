@@ -87,9 +87,10 @@ jobs:
         run: |
           # Rename DMG to match install.sh expectations (DMG is in bundle/dmg/)
           bundle_dir="src-tauri/target/release/bundle"
-          for dmg in $(find "$bundle_dir" -name "*.dmg" 2>/dev/null); do
-            mv "$dmg" "$(dirname "$dmg")/AKILA-Desktop-Agent-macOS.dmg"
-          done
+          while IFS= read -r -d '' dmg; do
+            dmg_dir=$(dirname "$dmg")
+            mv "$dmg" "${dmg_dir}/AKILA-Desktop-Agent-macOS.dmg"
+          done < <(find "$bundle_dir" -name "*.dmg" -print0 2>/dev/null)
           # Create zip and checksum from the .app in bundle/macos/
           cd "${bundle_dir}/macos"
           APP_DIR=$(find . -maxdepth 1 -name '*.app' -type D | head -1)
