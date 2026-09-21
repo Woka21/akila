@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AKILA Desktop Agent</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AKILA Desktop Agent</h1>
+      <div class="status" id="status">Starting...</div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Flask Server</h2>
+        <div id="server-status">Checking...</div>
+        <button id="restart-server">Restart Server</button>
+      </section>
+
+      <section class="card">
+        <h2>Browser Extension</h2>
+        <div id="extension-status">Not installed</div>
+        <button id="install-extension">Install Extension</button>
+      </section>
+
+      <section class="card">
+        <h2>MITM Proxy</h2>
+        <div id="proxy-status">Stopped</div>
+        <button id="install-ca">Install CA Certificate</button>
+        <button id="configure-proxy">Configure Browser Proxy</button>
+      </section>
+
+      <section class="card">
+        <h2>Startup</h2>
+        <div id="autostart-status">Checking...</div>
+        <button id="toggle-autostart">Enable Start on Boot</button>
+      </section>
+
+      <section class="card">
+        <h2>Health Check</h2>
+        <button id="health-check">Check Health</button>
+        <pre id="health-output"></pre>
+      </section>
+    </main>
+
+    <footer>
+      <p>AKILA Desktop Agent v1.0.0</p>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

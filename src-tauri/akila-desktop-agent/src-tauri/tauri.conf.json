@@ -1,0 +1,55 @@
+{
+  "$schema": "https://tauri.app/tauri.conf.json",
+  "build": {
+    "beforeBuildCommand": "npm run build:ui",
+    "beforeDevCommand": "npm run dev:ui",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "productName": "AKILA Desktop Agent",
+  "version": "1.0.0",
+  "identifier": "org.akila.desktopagent",
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "AKILA Desktop Agent",
+        "url": "index.html",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app"],
+    "icon": [
+      "resources/icons/AKILA.icns"
+    ],
+    "resources": [
+      "resources/server/server.pyz",
+      "resources/server/venv/**/*",
+      "resources/server/requirements.txt",
+      "resources/extension/**/*",
+      "resources/icons/*",
+      "resources/README.md"
+    ],
+    "macOS": {
+      "entitlements": null,
+      "signingIdentity": "-"
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "linux": {}
+  },
+  "plugins": {}
+}
