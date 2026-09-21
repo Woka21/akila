@@ -78,8 +78,9 @@ jobs:
           xcrun stapler staple "$DMG_PATH"
 
       - name: Create macOS zip + checksum
+        working-directory: src-tauri/akila-desktop-agent
         run: |
-          cd src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/macos
+          cd src-tauri/target/release/bundle/macos
           APP_DIR=$(find . -maxdepth 1 -name '*.app' -type D | head -1)
           if [ -n "$APP_DIR" ]; then
             zip -rq AKILA-Desktop-Agent-macOS.zip "$APP_DIR"
@@ -126,8 +127,9 @@ jobs:
 
       - name: Create Windows zip + checksum
         shell: bash
+        working-directory: src-tauri/akila-desktop-agent
         run: |
-          cd src-tauri/akila-desktop-agent/src-tauri/target/release/bundle
+          cd src-tauri/target/release/bundle
           msi_file=$(find . -maxdepth 2 -name '*.msi' | head -1)
           if [ -n "$msi_file" ]; then
             dir_name=$(dirname "$msi_file")
@@ -182,8 +184,9 @@ jobs:
         working-directory: src-tauri/akila-desktop-agent
 
       - name: Create Linux checksum
+        working-directory: src-tauri/akila-desktop-agent
         run: |
-          cd src-tauri/akila-desktop-agent/src-tauri/target/release/bundle
+          cd src-tauri/target/release/bundle
           appimage=$(find . -maxdepth 2 -name '*.AppImage' | head -1)
           if [ -n "$appimage" ]; then
             dir_name=$(dirname "$appimage")
