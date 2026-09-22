@@ -23,6 +23,7 @@
         <a href="#customers">Customers</a>
         <a href="#security">Security</a>
         <a href="#download">Download</a>
+        <a href="#extension">Setup</a>
         <a href="#waitlist" class="nav-cta">Request demo</a>
       </nav>
     </div>
@@ -34,9 +35,9 @@
     <section class="hero">
       <div class="hero-video-wrapper">
         <video class="hero-video-bg" autoplay muted loop playsinline>
-          <source src="hero-video.mp4" type="video/mp4">
+          <source src="https://cdn.coverr.co/videos/coverr-walking-to-the-mountain-top-8360/1080p.mp4" type="video/mp4">
         </video>
-        <div class="hero-svg-fallback" style="background-image: url('hero-bg.svg');"></div>
+        <img src="images/hero-img.jpg" alt="Professional workspace with laptop" class="hero-img-fallback">
       </div>
       <div class="hero-overlay"></div>
       <div class="hero-inner">
@@ -55,7 +56,7 @@
       <div class="section-inner">
         <div class="product-layout">
           <div class="product-visual">
-            <img src="images/desktop-mockup.svg" alt="AKILA Desktop Agent interface" class="product-img">
+            <img src="images/desk-img.jpg" alt="Professional office workspace" class="product-img">
           </div>
           <div class="product-content">
             <p class="section-eyebrow">How it works</p>
@@ -192,7 +193,7 @@
         </div>
 
         <div class="customer-visual">
-          <img src="images/team-illustration.svg" alt="AKILA across your organization" class="customer-img">
+          <img src="images/team-collab.jpg" alt="Open-plan office workspace" class="customer-img">
         </div>
       </div>
     </section>
@@ -237,7 +238,51 @@
             </div>
           </div>
           <div class="download-visual">
-            <img src="pipeline.svg" alt="AKILA data sanitization pipeline" class="download-img">
+            <img src="images/person-img.jpg" alt="Professional workspace with desk and monitor" class="download-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EXTENSION FILES ===================== -->
+    <section class="section section-dark" id="extension">
+      <div class="section-inner narrow">
+        <div class="extension-header">
+          <p class="hero-eyebrow-dark">Extension setup</p>
+          <h2 class="light-heading">Where your files live and how to access them</h2>
+          <p class="section-lead light-lead">After installation, AKILA places its files in standard locations on your machine. Here's what gets installed and where to find it.</p>
+        </div>
+
+        <div class="extension-grid">
+          <div class="extension-card">
+            <div class="extension-icon-wrapper">
+              <img src="icons/desktop.svg" alt="" class="extension-icon">
+            </div>
+            <h3>Browser extension</h3>
+            <p class="extension-desc"><strong>Location:</strong> <code>~/Library/Application Support/Akila/extension/</code> <span class="platform-note">(macOS)</span></p>
+            <p class="extension-desc"><strong>Windows:</strong> <code>%LOCALAPPDATA%\Akila\extension\</code></p>
+            <p class="extension-desc"><strong>Linux:</strong> <code>~/.local/share/Akila/extension/</code></p>
+            <p class="extension-action">After installation, open <code>chrome://extensions</code>, enable <em>Developer mode</em>, and click <strong>Load unpacked</strong>. Select the extension folder above.</p>
+          </div>
+          <div class="extension-card">
+            <div class="extension-icon-wrapper">
+              <img src="icons/audit.svg" alt="" class="extension-icon">
+            </div>
+            <h3>Local server</h3>
+            <p class="extension-desc"><strong>Location:</strong> Runs automatically on <code>http://localhost:8080</code></p>
+            <p class="extension-desc"><strong>Status:</strong> Check <code>curl http://localhost:8080/health</code> for an <code>OK</code> response.</p>
+            <p class="extension-desc"><strong>Logs:</strong> <code>~/Library/Application Support/Akila/logs/</code> <span class="platform-note">(macOS)</span></p>
+            <p class="extension-action">The server starts automatically at login. No manual launch required.</p>
+          </div>
+          <div class="extension-card">
+            <div class="extension-icon-wrapper">
+              <img src="icons/shield-check.svg" alt="" class="extension-icon">
+            </div>
+            <h3>Configuration</h3>
+            <p class="extension-desc"><strong>Config file:</strong> <code>~/Library/Application Support/Akila/config.yaml</code></p>
+            <p class="extension-desc"><strong>Recognition rules:</strong> <code>~/Library/Application Support/Akila/rules/</code></p>
+            <p class="extension-desc"><strong>Audit log:</strong> <code>~/Library/Application Support/Akila/audit.log</code></p>
+            <p class="extension-action">Edit <code>config.yaml</code> to adjust port, add custom PII patterns, or configure API providers.</p>
           </div>
         </div>
       </div>
@@ -270,7 +315,7 @@
             </div>
           </div>
           <div class="security-visual">
-            <img src="images/desktop-mockup.svg" alt="AKILA Desktop Agent interface" class="security-img">
+            <img src="pipeline.svg" alt="AKILA data sanitization pipeline" class="security-img">
           </div>
         </div>
       </div>
@@ -325,7 +370,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- ===================== ONBOARDING CHECKLIST ===================== -->
     <section class="section section-dark" id="onboarding">

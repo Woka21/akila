@@ -4,12 +4,14 @@
    ============================================================ */
 
 (function () {
-  // ---- Hero video fallback to SVG ----
+  // ---- Hero video fallback ----
+  // If the video fails to load (e.g. CDN unavailable), fall back to the still image.
+  // The hero-bg.svg provides an additional CSS-level background fallback.
   const video = document.querySelector('.hero-video-bg');
-  const svgFallback = document.querySelector('.hero-svg-fallback');
-  if (video && svgFallback) {
+  const imgFallback = document.querySelector('.hero-img-fallback');
+  if (video && imgFallback) {
     video.addEventListener('error', () => {
-      svgFallback.classList.add('show');
+      imgFallback.style.display = 'block';
     });
   }
 
