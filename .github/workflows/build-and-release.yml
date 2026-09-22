@@ -93,7 +93,7 @@ jobs:
           done < <(find "$bundle_dir" -name "*.dmg" -print0 2>/dev/null)
           # Create zip and checksum from the .app in bundle/macos/
           cd "${bundle_dir}/macos"
-          APP_DIR=$(find . -maxdepth 1 -name '*.app' -type D | head -1)
+          APP_DIR=$(find . -maxdepth 1 -name '*.app' -type d | head -1)
           if [ -n "$APP_DIR" ]; then
             zip -rq AKILA-Desktop-Agent-macOS.zip "$APP_DIR"
             shasum -a 256 AKILA-Desktop-Agent-macOS.zip > AKILA-Desktop-Agent-macOS.zip.sha256
