@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="screenGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E2761"/>
+      <stop offset="50%" stop-color="#151D40"/>
+      <stop offset="100%" stop-color="#0f0e0d"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="40" y="40" width="320" height="200" rx="16" fill="#F7F8FA" stroke="#E4E7EE"/>
+  <rect x="50" y="50" width="300" height="26" rx="4" fill="#E4E7EE"/>
+  <rect x="50" y="84" width="200" height="12" rx="2" fill="#CADCFC" opacity="0.5"/>
+  <rect x="50" y="104" width="280" height="8" rx="2" fill="#CADCFC" opacity="0.3"/>
+  <rect x="50" y="120" width="180" height="8" rx="2" fill="#CADCFC" opacity="0.3"/>
+  <rect x="50" y="140" width="260" height="8" rx="2" fill="#CADCFC" opacity="0.2"/>
+  <rect x="50" y="156" width="220" height="12" rx="2" fill="#02C39A" opacity="0.4"/>
+  <rect x="50" y="176" width="280" height="60" rx="8" fill="url(#screenGrad)"/>
+  <circle cx="170" cy="200" r="12" fill="#02C39A"/>
+  <path d="M162 195 L168 201 L178 191" stroke="#0f0e0d" stroke-width="2" stroke-linecap="round"/>
+
+  <rect x="440" y="40" width="320" height="200" rx="16" fill="#121216" stroke="#2A2A3A"/>
+  <rect x="450" y="50" width="300" height="26" rx="4" fill="rgba(255,255,255,0.08)"/>
+  <text x="590" y="70" text-anchor="middle" fill="#02C39A" font-family="monospace" font-size="11" font-weight="600">AKILA PROTECT</text>
+  <rect x="450" y="84" width="160" height="12" rx="2" fill="rgba(202,220,252,0.2)"/>
+  <rect x="450" y="104" width="120" height="12" rx="2" fill="rgba(202,220,252,0.1)"/>
+  <rect x="450" y="120" width="280" height="8" rx="2" fill="rgba(202,220,252,0.1)"/>
+  <rect x="450" y="140" width="240" height="8" rx="2" fill="rgba(202,220,252,0.08)"/>
+  <rect x="450" y="156" width="200" height="12" rx="2" fill="#02C39A" opacity="0.3"/>
+  <rect x="450" y="176" width="280" height="60" rx="8" fill="rgba(2,195,154,0.08)"/>
+  <circle cx="570" cy="200" r="12" fill="#02C39A"/>
+  <path d="M570 192 L576 200 L586 188" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+
+  <rect x="200" y="280" width="400" height="130" rx="14" fill="url(#screenGrad)" stroke="#02C39A" stroke-width="1"/>
+  <rect x="210" y="290" width="380" height="30" rx="4" fill="rgba(255,255,255,0.05)"/>
+  <text x="220" y="310" fill="#FFFFFF" font-family="monospace" font-size="12">
+    &lt;span class="token"&gt;&lt;/span&gt;
+  </text>
+  <text x="220" y="340" fill="#02C39A" font-family="monospace" font-size="12">
+    Sanitizing: client name, case number, financial figure...
+  </text>
+  <rect x="210" y="355" width="360" height="8" rx="2" fill="rgba(202,220,252,0.1)"/>
+
+  <circle cx="120" cy="420" r="60" fill="#02C39A" opacity="0.05"/>
+  <circle cx="680" cy="450" r="80" fill="#02C39A" opacity="0.03"/>
+</svg>

@@ -4,6 +4,15 @@
    ============================================================ */
 
 (function () {
+  // ---- Hero video fallback to SVG ----
+  const video = document.querySelector('.hero-video-bg');
+  const svgFallback = document.querySelector('.hero-svg-fallback');
+  if (video && svgFallback) {
+    video.addEventListener('error', () => {
+      svgFallback.classList.add('show');
+    });
+  }
+
   // ---- Waitlist form submission ----
   const form = document.getElementById('waitlist-form');
   if (form) {

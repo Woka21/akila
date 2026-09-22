@@ -1,72 +1,85 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="none">
   <defs>
     <linearGradient id="heroGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1E2761"/>
-      <stop offset="100%" stop-color="#151D40"/>
+      <stop offset="0%" stop-color="#0f0e0d"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
     </linearGradient>
-    <filter id="softGlow">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
+    <filter id="particleGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="dataGlow">
-      <feGaussianBlur stdDeviation="2"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0.007 0 0 0 0 0.764 0 0 0 0 0.313 0 0 0 1 0"/>
-    </filter>
   </defs>
 
   <rect width="1200" height="700" fill="url(#heroGrad)"/>
 
-  <g fill="none" stroke="#2A3573" stroke-width="1.5">
-    <path d="M120 580 C240 420, 320 500, 440 470 C560 440, 640 540, 760 510 C880 480, 960 580, 1080 550"/>
-    <path d="M120 600 C240 440, 320 520, 440 490 C560 460, 640 560, 760 530 C880 500, 960 600, 1080 570"/>
+  <!-- Network grid background -->
+  <g stroke="#1a365d" stroke-width="0.5" opacity="0.3">
+    <line x1="100" y1="0" x2="100" y2="700"/>
+    <line x1="200" y1="0" x2="200" y2="700"/>
+    <line x1="300" y1="0" x2="300" y2="700"/>
+    <line x1="400" y1="0" x2="400" y2="700"/>
+    <line x1="500" y1="0" x2="500" y2="700"/>
+    <line x1="600" y1="0" x2="600" y2="700"/>
+    <line x1="700" y1="0" x2="700" y2="700"/>
+    <line x1="800" y1="0" x2="800" y2="700"/>
+    <line x1="900" y1="0" x2="900" y2="700"/>
+    <line x1="1000" y1="0" x2="1000" y2="700"/>
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/>
   </g>
 
-  <g stroke="#02C39A" stroke-width="2" stroke-linecap="round">
-    <path d="M100 520 L160 440" opacity="0.5"/>
-    <path d="M180 470 L240 410" opacity="0.6"/>
-    <path d="M260 450 L320 390" opacity="0.4"/>
-    <path d="M340 420 L400 360" opacity="0.5"/>
-    <path d="M420 370 L480 310" opacity="0.6"/>
-    <path d="M500 330 L560 270" opacity="0.4"/>
-    <path d="M580 290 L640 230" opacity="0.5"/>
-    <path d="M660 240 L720 180" opacity="0.6"/>
-    <path d="M740 200 L800 140" opacity="0.4"/>
-    <path d="M820 160 L880 100" opacity="0.5"/>
+  <!-- Data flow nodes and connections -->
+  <g stroke="#2a3573" stroke-width="1.5" fill="none">
+    <!-- Left side (user) -->
+    <path d="M120 580 C220 540, 260 540, 360 500"/>
+    <path d="M120 540 C220 500, 260 500, 360 460"/>
+    <path d="M120 500 C220 460, 260 460, 360 420"/>
+
+    <!-- Center (AKILA processing) -->
+    <rect x="420" y="380" width="120" height="80" rx="12" fill="rgba(2,195,154,0.08)" stroke="#02c39a" stroke-width="2"/>
+    <text x="480" y="430" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="14" font-weight="600">AKILA</text>
+
+    <!-- Right side (AI provider) -->
+    <path d="M540 420 C640 460, 680 460, 780 500"/>
+    <path d="M540 380 C640 420, 680 420, 780 460"/>
+    <path d="M540 460 C640 500, 680 500, 780 540"/>
   </g>
 
-  <g fill="#02C39A">
-    <circle cx="100" cy="520" r="3" opacity="0.6"/>
-    <circle cx="220" cy="450" r="3" opacity="0.6"/>
-    <circle cx="380" cy="400" r="3" opacity="0.6"/>
-    <circle cx="540" cy="310" r="3" opacity="0.6"/>
-    <circle cx="700" cy="230" r="2.5" opacity="0.6"/>
-    <circle cx="860" cy="130" r="2.5" opacity="0.6"/>
+  <!-- Data particles flowing -->
+  <g fill="#02c39a">
+    <circle cx="100" cy="560" r="3" opacity="0.6">
+      <animate attributeName="cx" values="100;780" dur="6s" repeatCount="indefinite" begin="0s"/>
+      <animate attributeName="cy" values="560;500" dur="6s" repeatCount="indefinite" begin="0s"/>
+    </circle>
+    <circle cx="120" cy="520" r="3" opacity="0.4">
+      <animate attributeName="cx" values="120;780" dur="7s" repeatCount="indefinite" begin="1s"/>
+      <animate attributeName="cy" values="520;460" dur="7s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+    <circle cx="140" cy="480" r="3" opacity="0.5">
+      <animate attributeName="cx" values="140;780" dur="5s" repeatCount="indefinite" begin="2s"/>
+      <animate attributeName="cy" values="480;500" dur="5s" repeatCount="indefinite" begin="2s"/>
+    </circle>
   </g>
 
-  <g stroke="#CADCFC" stroke-width="1" opacity="0.3">
-    <line x1="120" y1="540" x2="1100" y2="540"/>
-    <line x1="120" y1="560" x2="1100" y2="560"/>
+  <!-- Restored data particles (return flow) -->
+  <g fill="#cadcfc">
+    <circle cx="760" cy="420" r="3" opacity="0.5">
+      <animate attributeName="cx" values="780;100" dur="6s" repeatCount="indefinite" begin="3.5s"/>
+      <animate attributeName="cy" values="420;560" dur="6s" repeatCount="indefinite" begin="3.5s"/>
+    </circle>
+    <circle cx="740" cy="380" r="3" opacity="0.3">
+      <animate attributeName="cx" values="760;120" dur="7s" repeatCount="indefinite" begin="4.5s"/>
+      <animate attributeName="cy" values="380;520" dur="7s" repeatCount="indefinite" begin="4.5s"/>
+    </circle>
   </g>
 
-  <g fill="none">
-    <rect x="880" y="380" width="260" height="140" rx="8" fill="rgba(2,195,154,0.06)" stroke="#02C39A" stroke-width="1"/>
-    <text x="1010" y="435" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="11" font-weight="600">AKILA</text>
-    <text x="1010" y="460" text-anchor="middle" fill="#CADCFC" font-family="sans-serif" font-size="12">Data Sanitization</text>
-    <text x="1010" y="485" text-anchor="middle" fill="#CADCFC" font-family="sans-serif" font-size="11">Active Protection</text>
-  </g>
-
-  <g fill="none" stroke="#2A3573" stroke-width="1" opacity="0.2">
-    <path d="M200 180 L400 120"/>
-    <path d="M280 200 L480 160"/>
-    <path d="M360 220 L560 180"/>
-  </g>
-
-  <g fill="#CADCFC" opacity="0.15">
-    <rect x="180" y="170" width="4" height="4" rx="1" transform="rotate(-15 182 172)"/>
-    <rect x="260" y="190" width="4" height="4" rx="1" transform="rotate(-10 262 192)"/>
-    <rect x="340" y="210" width="4" height="4" rx="1" transform="rotate(-5 342 212)"/>
-  </g>
+  <!-- Ground line -->
+  <line x1="0" y1="600" x2="1200" y2="600" stroke="#2a3573" stroke-width="1" opacity="0.2"/>
 </svg>
