@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AKILA Privilege Guard — PII Protection for AI Services</title>
+  <meta name="description" content="AKILA Privilege Guard tokenizes PII before it reaches AI chat services. Runs entirely on your device.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/akila-logo.svg" type="image/svg+xml">
+</head>
+<body>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <img src="assets/akila-logo.svg" alt="AKILA" width="36" height="36">
+        <span>AKILA</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#download">Download</a>
+        <a href="#extension">Extension</a>
+        <a href="#guide">Setup Guide</a>
+        <a href="#security">Security</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>v1.0.0 — Now Available</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="gradient-text">PII Protection</span>
+        <br>For AI Chat Services
+      </h1>
+      <p class="hero-subtitle">
+        Tokenizes sensitive data locally before it reaches ChatGPT, Claude, Gemini, and other AI services.
+        Your privacy is never compromised — nothing leaves your device.
+      </p>
+      <div class="hero-cta">
+        <a href="#download" class="btn btn-primary">
+          <span>Download for macOS</span>
+          <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l10-10"></path><path d="M17 17l4-4M7 7h10a4 4 0 014 4v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V9a2 2 0 00-2-2H7z"></path></svg>
+        </a>
+        <a href="#extension" class="btn btn-secondary">
+          <span>Install Extension</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">0</span>
+          <span class="stat-label">Data Leaves Device</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">5+</span>
+          <span class="stat-label">AI Platforms Supported</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Detection Layers</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="card-header">
+          <div class="window-buttons">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="card-title">chatgpt.com</span>
+        </div>
+        <div class="card-body">
+          <div class="message message-user">
+            <div class="avatar">👤</div>
+            <div class="message-content">
+              My name is John Kamau and my phone is +254722123456.
+            </div>
+          </div>
+          <div class="message message-bot">
+            <div class="avatar">🤖</div>
+            <div class="message-content">
+              I see you mentioned <span class="token">&lt;AKILA_PERSON_7a3f&gt;</span> with phone
+              <span class="token">&lt;AKILA_PHONE_NUMBER_c609&gt;</span>...
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <h2>Why AKILA?</h2>
+      <p>Built for professionals who need AI assistance without exposing sensitive data.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Local-Only Processing</h3>
+        <p>Everything runs on your machine. PII never touches a server, cloud, or third party.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Transparent Tokenization</h3>
+        <p>PII is replaced with tokens before sending, then restored on the response — you see the original, AI sees only tokens.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Fail-Closed Design</h3>
+        <p>If the server is unavailable, messages are blocked — never silently leaked.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Zero Configuration</h3>
+        <p>One installer runs the server, manages the extension, and auto-starts on boot.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Built for Africa</h3>
+        <p>Recognizes Kenyan IDs, phone numbers, names, and local entity patterns out of the box.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Universal Sieve</h3>
+        <p>Beyond network interception — catches PII in any text input across 20+ platforms.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section class="download" id="download">
+    <div class="section-header">
+      <h2>Download AKILA</h2>
+      <p>Select your platform to download the desktop agent.</p>
+    </div>
+    <div class="platform-grid">
+      <div class="platform-card">
+        <div class="platform-icon">🍎</div>
+        <h3>macOS</h3>
+        <p>Universal binary for Apple Silicon and Intel</p>
+        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary download-btn">
+          Download (.dmg, ~12MB)
+        </a>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">🪟</div>
+        <h3>Windows</h3>
+        <p>64-bit MSI installer</p>
+        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary download-btn">
+          Download (.msi, ~10MB)
+        </a>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">🐧</div>
+        <h3>Linux</h3>
+        <p>AppImage — no installation required</p>
+        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Linux.AppImage" class="btn btn-primary download-btn">
+          Download (.AppImage, ~14MB)
+        </a>
+      </div>
+    </div>
+      <div class="note">
+        <p><small>After installing, the app automatically starts the local server and opens the extension setup guide in your browser. Or jump directly to <a href="#extension">manual extension setup</a>. Need just the extension? <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip">Download the extension ZIP here</a>.</small></p>
+      </div>
+  </section>
+
+  <!-- Extension -->
+  <!-- Extension -->
+  <section class="extension" id="extension">
+    <div class="section-header">
+      <h2>Install the Browser Extension</h2>
+      <p>Three clicks. No technical knowledge needed.</p>
+    </div>
+
+    <!-- Auto-install (preferred) -->
+    <div class="autoinstall-card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <span style="font-size:1.5rem;">🚀</span>
+        <h3 style="margin:0; color:#fff; font-size:1.2rem;">Easiest way: One-click install</h3>
+      </div>
+      <p style="color:var(--text-secondary); margin-bottom:0;">
+        If you installed the Desktop Agent above, open the app and click <strong>"Install Extension"</strong>.
+        That's it — the extension installs itself automatically.
+      </p>
+      <div style="margin-top:8px; font-size:13px; color:var(--text-tertiary);">
+        No browser settings, no Developer mode, no file picking required.
+      </div>
+    </div>
+
+    <div class="extension-divider">
+      <span style="color:var(--text-tertiary); font-size:13px;">or install manually</span>
+    </div>
+
+    <!-- Browser Selector -->
+    <div class="extension-browser-selector">
+      <div class="browser-pills">
+        <button type="button" class="browser-pill active" data-browser="chrome">Chrome / Edge / Brave</button>
+        <button type="button" class="browser-pill" data-browser="firefox">Firefox</button>
+        <button type="button" class="browser-pill" data-browser="safari">Safari</button>
+      </div>
+    </div>
+
+    <!-- Chrome / Edge / Brave — 3 simple steps -->
+    <div class="extension-browser-content active" id="browser-chrome">
+      <div class="simple-steps">
+
+        <div class="simple-step">
+          <div class="simple-step-number">1</div>
+          <div class="simple-step-content">
+            <h3>Download and unzip</h3>
+            <p>Click below. When the file downloads, right-click it → <strong>Extract All</strong> (Windows) or double-click (macOS).</p>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline" style="margin-top:8px;">
+              Download Extension (.zip)
+            </a>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">2</div>
+          <div class="simple-step-content">
+            <h3>Open Chrome extensions page</h3>
+            <p>Copy this link and paste it in your address bar, then press Enter:</p>
+            <div style="background:#0a0a12; padding:8px 12px; border-radius:6px; margin:8px 0;">
+              <code style="color:var(--accent); font-size:14px;">chrome://extensions</code>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary);">
+              <strong>Edge?</strong> Use <code>edge://extensions</code> instead.
+              <strong>Brave?</strong> Use <code>chrome://extensions</code>.
+            </p>
+            <p style="font-size:13px; color:var(--text-tertiary);">Then turn on <strong>Developer mode</strong> (toggle in top-right).</p>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">3</div>
+          <div class="simple-step-content">
+            <h3>Click "Load unpacked" and pick the folder</h3>
+            <p>Click the blue <strong>Load unpacked</strong> button. Find the folder named <code>akila-extension</code> that you extracted in Step 1, click it once, then click <strong>Select folder</strong>.</p>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
+              ✅ The extension appears as "AKILA Privilege Guard" in your extensions list.
+              <br><br>
+              📌 <strong>Tip:</strong> Click the puzzle icon 🧩 in your browser toolbar, find AKILA, and click the pin 📌 to keep it visible.
+            </p>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">✓</div>
+          <div class="simple-step-content">
+            <h3>Done — test it</h3>
+            <p>Visit <a href="https://chatgpt.com">chatgpt.com</a> and type your phone number. You should see tokens like <code>&lt;AKILA_PHONE_7a3f&gt;</code> instead of the real number.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Firefox — 3 simple steps -->
+    <div class="extension-browser-content" id="browser-firefox">
+      <div class="simple-steps">
+
+        <div class="simple-step">
+          <div class="simple-step-number">1</div>
+          <div class="simple-step-content">
+            <h3>Download and unzip</h3>
+            <p>Click below. When the file downloads, extract it.</p>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline" style="margin-top:8px;">
+              Download Extension (.zip)
+            </a>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">2</div>
+          <div class="simple-step-content">
+            <h3>Open Firefox debugging page</h3>
+            <p>Paste this in your address bar and press Enter:</p>
+            <div style="background:#0a0a12; padding:8px 12px; border-radius:6px; margin:8px 0;">
+              <code style="color:var(--accent); font-size:14px;">about:debugging</code>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary);">Click <strong>This Firefox</strong> in the left sidebar.</p>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">3</div>
+          <div class="simple-step-content">
+            <h3>Load the extension</h3>
+            <p>Click <strong>Load Temporary Add-on</strong>, go to the folder you extracted, open it, and select any file inside (like <code>manifest.json</code>).</p>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
+              ✅ The extension loads instantly. Visit chatgpt.com to test.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Safari — 3 simple steps -->
+    <div class="extension-browser-content" id="browser-safari">
+      <div class="simple-steps">
+
+        <div class="simple-step">
+          <div class="simple-step-number">1</div>
+          <div class="simple-step-content">
+            <h3>Enable the Develop menu</h3>
+            <p>Open <strong>Safari</strong> → <strong>Settings</strong> (or Preferences) → <strong>Advanced</strong> tab.</p>
+            <p>Check the box: <strong>Show Develop menu in menu bar</strong>.</p>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">2</div>
+          <div class="simple-step-content">
+            <h3>Load the extension</h3>
+            <p>In the menu bar, click <strong>Develop</strong> → <strong>Show Extension Builder</strong>.</p>
+            <p>Click the <strong>+</strong> button → <strong>Import Extension</strong> → select the folder you extracted.</p>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">3</div>
+          <div class="simple-step-content">
+            <h3>Enable and test</h3>
+            <p>Open <strong>Safari</strong> → <strong>Settings</strong> → <strong>Extensions</strong> and make sure <strong>AKILA Privilege Guard</strong> is checked.</p>
+            <p style="font-size:13px; color:var(--text-secondary);">Restart Safari. Visit chatgpt.com to test.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- One-line help -->
+    <div class="extension-helpline">
+      <p style="margin:0; font-size:14px;">
+        <strong>Stuck?</strong> Email <a href="mailto:woka21@protonmail.com" style="color:var(--accent);">woka21@protonmail.com</a> — we'll walk you through it.
+      </p>
+    </div>
+  </section>
+
+  <!-- Setup Guide -->
+  <section class="guide" id="guide">
+    <div class="section-header">
+      <h2>Quick Setup Guide</h2>
+      <p>Follow these steps to get AKILA running in under 5 minutes.</p>
+    </div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-number">1</div>
+        <div class="guide-step-content">
+          <h3>Install the Desktop Agent</h3>
+          <p>Download and install the AKILA app for your platform. The installer bundles everything needed — no separate Python or server setup required.</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-number">2</div>
+        <div class="guide-step-content">
+          <h3>Launch the App</h3>
+          <p>Open AKILA from your Applications/Launch menu. The app automatically starts the local server.</p>
+          <p style="font-size:13px; color:var(--text-secondary);">
+            <strong>Server:</strong> <code>http://localhost:8080</code><br>
+            <strong>Extension files:</strong> The browser extension is installed at:
+            <code>~/Library/Application Support/Akila/extension/</code> (macOS),
+            <code>%LOCALAPPDATA%\Akila\extension\</code> (Windows),
+            <code>~/.local/share/Akila/extension/</code> (Linux).
+          </p>
+        </div>
+      </div>
+        <div class="guide-step">
+          <div class="guide-step-number">3</div>
+          <div class="guide-step-content">
+            <h3>Install the Browser Extension</h3>
+            <p>Open the AKILA app and click <strong>"Install Extension"</strong>, or download the extension manually:</p>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline" style="margin:8px 0; display:inline-block;">
+              Download Extension (.zip)
+            </a>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
+              The extension connects to <code>http://localhost:8080</code> automatically after install.
+            </p>
+          </div>
+        </div>
+      <div class="guide-step">
+        <div class="guide-step-number">4</div>
+        <div class="guide-step-content">
+          <h3>Test It Works</h3>
+          <p>Visit <a href="https://chatgpt.com">chatgpt.com</a> or <a href="https://claude.ai">claude.ai</a>, open DevTools Console (Cmd+Opt+I), and type your message. You should see <code>[AKILA]</code> in the console.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="security" id="security">
+    <div class="section-header">
+      <h2>Security Architecture</h2>
+      <p>AKILA is designed with defense-in-depth security principles.</p>
+    </div>
+    <div class="security-grid">
+      <div class="security-item">
+        <div class="lock">🔒</div>
+        <h3>Local-Only</h3>
+        <p>All processing happens on your device. The server binds to 127.0.0.1 — it cannot be accessed from the network.</p>
+      </div>
+      <div class="security-item">
+        <div class="lock">🛡️</div>
+        <h3>Code-Protected</h3>
+        <p>Python server compiled to bytecode zipapp. Extension JavaScript is obfuscated. Source files are not distributed.</p>
+      </div>
+      <div class="security-item">
+        <div class="lock">⚡</div>
+        <h3>Fail-Closed</h3>
+        <p>If the server is unavailable, the extension blocks messages rather than risking PII leakage.</p>
+      </div>
+      <div class="security-item">
+        <div class="lock">🔑</div>
+        <h3>ID Pinning</h3>
+        <p>Extension ID is pinned via signing key (<code>kcnldfeclciolmbjfiomdfialhbccmhe</code>) — consistent across all installations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="assets/akila-logo.svg" alt="AKILA" width="32" height="32">
+        <span>AKILA Privilege Guard</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Woka21/akila">GitHub</a>
+        <a href="https://github.com/Woka21/akila/issues">Issues</a>
+        <a href="https://github.com/Woka21/akila/security">Security</a>
+        <a href="https://github.com/Woka21/akila/blob/main/LICENSE">License</a>
+      </div>
+      <p class="footer-note">PII never leaves your device. v1.0.0 · MIT License</p>
+    </div>
+  </footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
