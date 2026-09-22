@@ -1,78 +1,62 @@
 /* ============================================================
    AKILA — Site Stylesheet
-   Brand: Navy #1E2761 / Ice Blue #CADCFC / Mint #02C39A
-   Type: Cambria (headings) / Calibri (body) — same as brand docs
+   Corporate production design inspired by spacefs.com
+   Dark professional aesthetic with clean typography
    ============================================================ */
 
 :root {
   --navy: #1E2761;
   --navy-soft: #2A3573;
+  --navy-dark: #151D40;
   --iceblue: #CADCFC;
+  --iceblue-dark: #9BB4CC;
   --mint: #02C39A;
-  --dark: #1A1A1A;
+  --mint-soft: #3ED2B0;
+  --dark: #121216;
+  --dark-soft: #1A1A24;
   --light-bg: #F7F8FA;
   --white: #FFFFFF;
   --border: #E4E7EE;
-  --font-head: Cambria, Georgia, 'Times New Roman', serif;
-  --font-body: Calibri, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --border-dark: #2A2A3A;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --font-head: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Menlo', 'Consolas', monospace;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  margin: 0;
-  font-family: var(--font-body);
-  color: var(--dark);
+  font-family: var(--font-head);
+  color: var(--text-primary);
   background: var(--white);
-  line-height: 1.55;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-head);
   font-weight: 700;
   margin: 0 0 0.5em 0;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
 p { margin: 0 0 1em 0; }
-
 a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
 
-/* ---------- Buttons ---------- */
-.btn {
-  display: inline-block;
-  padding: 0.85em 1.6em;
-  border-radius: 6px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.btn:hover { transform: translateY(-1px); }
-.btn-primary {
-  background: var(--mint);
-  color: var(--navy);
-}
-.btn-primary:hover { box-shadow: 0 6px 20px rgba(2, 195, 154, 0.35); }
-.btn-ghost {
-  background: transparent;
-  border-color: rgba(255,255,255,0.4);
-  color: var(--white);
-}
-.btn-ghost:hover { border-color: var(--white); }
-.btn-small { padding: 0.5em 1.1em; font-size: 0.9rem; }
-.btn-large { padding: 1em 2em; font-size: 1.1rem; }
-
-/* ---------- Nav ---------- */
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
 .nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(30, 39, 97, 0.96);
-  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
 }
 .nav-inner {
   max-width: 1100px;
@@ -86,24 +70,71 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 1.4rem;
-  color: var(--white);
-  letter-spacing: 0.02em;
+  color: var(--navy);
+  letter-spacing: -0.01em;
 }
 .nav-links {
   display: flex;
+  gap: 2rem;
 }
-.nav-links a { margin-left: 2rem; }
-.nav-links a:first-child { margin-left: 0; }
 .nav-links a {
-  color: var(--iceblue);
+  color: var(--text-secondary);
   font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
-.nav-links a:hover { color: var(--white); }
+.nav-links a:hover {
+  color: var(--navy);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85em 1.8em;
+  border-radius: 8px;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: var(--mint);
+  color: var(--navy);
+  border-color: var(--mint);
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(2, 195, 154, 0.35);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--navy);
+  color: var(--navy);
+}
+.btn-ghost:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+.btn-small {
+  padding: 0.5em 1.2em;
+  font-size: 0.85rem;
+}
+.btn-large {
+  padding: 1em 2.4em;
+  font-size: 1.05rem;
+}
 
-/* ---------- Hero ---------- */
+/* =====================================================
+   HERO
+   ===================================================== */
 .hero {
   position: relative;
-  background: var(--navy);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
   overflow: hidden;
   padding: 6rem 1.5rem 7rem;
 }
@@ -113,223 +144,310 @@ a { color: inherit; text-decoration: none; }
   filter: blur(2px);
 }
 .hero-glow-1 {
-  width: 420px; height: 420px;
+  width: 500px;
+  height: 500px;
   background: var(--navy-soft);
-  top: -120px; right: -80px;
+  opacity: 0.18;
+  top: -150px;
+  right: -100px;
 }
 .hero-glow-2 {
-  width: 240px; height: 240px;
+  width: 320px;
+  height: 320px;
   background: var(--mint);
-  opacity: 0.18;
-  bottom: -80px; right: 220px;
+  opacity: 0.12;
+  bottom: -100px;
+  right: 250px;
 }
 .hero-inner {
   position: relative;
-  max-width: 780px;
+  max-width: 800px;
   margin: 0 auto;
-  text-align: left;
+  text-align: center;
 }
 .hero-eyebrow {
   color: var(--mint);
-  font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
 }
 .hero-headline {
   color: var(--white);
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  max-width: 15ch;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
 }
 .hero-sub {
   color: var(--iceblue);
   font-size: 1.15rem;
   max-width: 58ch;
-  margin-top: 1.2rem;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
 }
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 2rem;
+  justify-content: center;
+  gap: 1rem;
 }
-.hero-ctas a { margin-right: 1rem; }
 
-/* ---------- Sections ---------- */
-.section { padding: 5rem 1.5rem; }
-.section-light { background: var(--white); }
-.section-dark { background: var(--navy); }
-.section-inner { max-width: 1100px; margin: 0 auto; }
-.section-inner.narrow { max-width: 800px; }
-.section-inner.center { text-align: center; }
-.light-heading { color: var(--white); }
-.light-lead { color: var(--iceblue); }
+/* =====================================================
+   SECTIONS
+   ===================================================== */
+.section {
+  padding: 5rem 1.5rem;
+}
+.section-light {
+  background: var(--white);
+}
+.section-dark {
+  background: var(--navy);
+  color: var(--white);
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-inner.narrow {
+  max-width: 800px;
+}
+.section-inner.center {
+  text-align: center;
+}
+.light-heading {
+  color: var(--white);
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+}
+.light-lead {
+  color: var(--iceblue);
+}
 .section-lead {
   font-size: 1.1rem;
-  color: #555;
+  color: var(--text-secondary);
   max-width: 60ch;
+  margin: 0 auto 2.5rem;
+}
+.section-headline {
+  color: var(--navy);
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  margin-bottom: 1rem;
 }
 
-/* ---------- Problem / incidents ---------- */
+/* =====================================================
+   INCIDENTS
+   ===================================================== */
 .incident-list {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
 }
 .incident {
-  flex: 1 1 calc(50% - 1.5rem);
-  margin: 0 0.75rem 1.5rem 0.75rem;
+  padding: 1.5rem 1.8rem;
+  background: var(--light-bg);
+  border-radius: 10px;
   border-left: 3px solid var(--mint);
-  padding: 0.2rem 0 0.2rem 1.2rem;
-  min-width: 260px;
 }
 .incident-org {
   display: block;
-  font-family: var(--font-head);
   font-weight: 700;
   color: var(--navy);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
 }
-.incident p { font-size: 0.95rem; color: #444; margin: 0; }
+.incident p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
 .section-footnote {
   margin-top: 2.5rem;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--navy);
   font-weight: 600;
-  border-top: 1px solid var(--border);
+  text-align: center;
   padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
-/* ---------- How it works / steps ---------- */
+/* =====================================================
+   STEPS
+   ===================================================== */
 .steps {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   margin-top: 2.5rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
 }
 .step {
-  flex: 1 1 calc(33.333% - 2rem);
-  margin: 0 1rem 2rem 1rem;
-  min-width: 240px;
+  text-align: center;
 }
 .step-badge {
-  width: 42px; height: 42px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--mint);
   color: var(--navy);
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 1.2rem;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.2rem;
+  box-shadow: 0 4px 12px rgba(2, 195, 154, 0.25);
 }
-.step h3 { color: var(--white); margin-bottom: 0.5rem; }
-.step p { color: var(--iceblue); font-size: 0.95rem; }
+.step h3 {
+  color: var(--navy);
+  margin-bottom: 0.6rem;
+  font-size: 1.1rem;
+}
+.step p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
 
-/* ---------- Demo panel ---------- */
+/* =====================================================
+   DEMO PANEL
+   ===================================================== */
 .demo-panel {
   margin-top: 3.5rem;
-  background: var(--navy-soft);
-  border-radius: 10px;
+  background: var(--dark-soft);
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--border-dark);
 }
 .demo-panel-header {
   display: flex;
   align-items: center;
   padding: 0.9rem 1.2rem;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid var(--border-dark);
 }
 .demo-dot {
   margin-right: 0.6rem;
-  width: 9px; height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--mint);
-  box-shadow: 0 0 6px 2px var(--mint);
-  animation: akila-glow-pulse 1.6s ease-in-out infinite;
+  box-shadow: 0 0 8px 3px var(--mint);
+  animation: pulse 1.8s ease-in-out infinite;
 }
 .demo-label {
   font-size: 0.8rem;
-  color: var(--iceblue);
+  color: var(--iceblue-dark);
 }
-.demo-chat { padding: 1.5rem 1.2rem 2rem; }
+.demo-chat {
+  padding: 2rem 1.5rem 2.5rem;
+}
 .demo-bubble-user {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--white);
-  padding: 0.9rem 1.1rem;
-  border-radius: 8px;
-  max-width: 70%;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  max-width: 72%;
   font-size: 0.95rem;
   min-height: 1.3em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 .demo-wire-label {
   margin-top: 1.6rem;
   font-size: 0.8rem;
-  color: var(--iceblue);
+  color: var(--iceblue-dark);
   opacity: 0.8;
 }
 .demo-wire {
   margin-top: 0.6rem;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 0.85rem;
   color: var(--mint);
-  background: rgba(0,0,0,0.25);
-  padding: 0.9rem 1.1rem;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1rem 1.1rem;
   border-radius: 8px;
   min-height: 1.3em;
   word-break: break-word;
+  border: 1px solid rgba(2, 195, 154, 0.15);
 }
 
-/* ---------- Comparison table ---------- */
+/* =====================================================
+   COMPARISON TABLE
+   ===================================================== */
 .compare-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 2rem;
   font-size: 0.95rem;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 .compare-table th {
   text-align: left;
-  padding: 0.9rem 1.1rem;
-  font-family: var(--font-head);
+  padding: 1rem 1.2rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.compare-table th:first-child {
+  background: var(--navy);
   color: var(--white);
 }
-.compare-table th:first-child { background: var(--navy); }
-.compare-table th:last-child { background: var(--mint); color: var(--navy); }
-.compare-table td {
-  padding: 0.9rem 1.1rem;
-  border-bottom: 1px solid var(--border);
+.compare-table th:last-child {
+  background: var(--mint);
+  color: var(--navy);
 }
-.compare-table td:last-child { font-weight: 600; color: var(--navy); }
-.compare-table tr:nth-child(even) td { background: var(--light-bg); }
+.compare-table td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.compare-table td:last-child {
+  font-weight: 600;
+  color: var(--navy);
+}
+.compare-table tr:nth-child(even) td {
+  background: var(--light-bg);
+}
 
-/* ---------- Sector grid ---------- */
+/* =====================================================
+   SECTOR GRID
+   ===================================================== */
 .sector-grid {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-  margin-left: -0.6rem;
-  margin-right: -0.6rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
 }
 .sector-card {
-  flex: 1 1 calc(50% - 1.2rem);
-  margin: 0 0.6rem 1.2rem 0.6rem;
   background: var(--light-bg);
-  border-radius: 8px;
-  padding: 1.4rem 1.5rem;
+  border-radius: 10px;
+  padding: 1.8rem 2rem;
   border-left: 3px solid var(--mint);
-  min-width: 220px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.sector-card h4 { color: var(--navy); margin-bottom: 0.4rem; }
-.sector-card p { font-size: 0.9rem; color: #555; margin: 0; }
+.sector-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.sector-card h4 {
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+.sector-card p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
 
-/* ---------- Desktop Agent Platform Downloads ---------- */
+/* =====================================================
+   PLATFORM DOWNLOADS
+   ===================================================== */
 .platform-downloads {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 720px;
+  gap: 14px;
+  max-width: 680px;
   margin: 2.5rem auto 0;
 }
 .platform-option {
@@ -337,187 +455,418 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 20px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.platform-option .platform-icon {
-  font-size: 1.75rem;
-  margin-right: 12px;
+.platform-option:hover {
+  border-color: var(--mint);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.platform-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.platform-icon {
+  font-size: 1.8rem;
 }
 .platform-option strong {
-  color: var(--white);
+  color: var(--navy);
   font-family: var(--font-head);
   font-size: 1.1rem;
 }
 .platform-note {
-  color: var(--iceblue);
-  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
   font-style: italic;
 }
 .platform-option .btn {
   flex-shrink: 0;
 }
 
-/* ---------- Extension Install Guide ---------- */
-.extension-install-guide {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  max-width: 800px;
+/* =====================================================
+   INSTALLER ALTERNATIVE
+   ===================================================== */
+.installer-alternative {
   margin: 2rem auto 0;
+  max-width: 680px;
+  text-align: center;
 }
-.guide-step {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-.guide-step .step-badge {
-  flex-shrink: 0;
-}
-.guide-step-content h3 {
-  color: var(--navy);
-  margin-bottom: 0.4rem;
-}
-.guide-step-content p {
-  color: #555;
+.installer-hint {
   font-size: 0.95rem;
+  color: var(--iceblue-dark);
+  margin-bottom: 0.8rem;
 }
-.guide-step-content code {
-  background: #f0f0f0;
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-size: 0.85em;
-  color: var(--navy);
-}
-.guide-step-content a.btn {
-  margin-top: 0.5rem;
-  display: inline-block;
-}
-
-/* ---------- Testing Grid ---------- */
-.testing-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 800px;
-  margin: 2rem auto 0;
-}
-.test-category h3 {
-  color: var(--navy);
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-.test-category ul {
-  color: #555;
+.installer-code {
+  display: block;
+  margin: 0.6rem auto;
+  padding: 0.9rem 1.2rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
   font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--navy);
+  word-break: break-all;
+  border: 1px solid var(--border);
 }
-.test-category li {
-  margin-bottom: 4px;
+.installer-caption {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.installer-caption a {
+  color: var(--navy);
+  text-decoration: underline;
 }
 
-/* ---------- Pilot ---------- */
-.pilot-honest {
-  font-size: 0.95rem;
-  color: var(--mint);
-  font-style: italic;
-  margin-bottom: 2rem;
-}
-
-/* ---------- Platform Install Notes ---------- */
+/* =====================================================
+   INSTALL NOTES
+   ===================================================== */
 .install-notes {
-  margin-top: 1.5rem;
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 2rem auto 0;
+  max-width: 680px;
 }
 .install-note {
   font-size: 0.9rem;
-  padding: 14px 18px;
-  margin: 12px 0;
-  border-radius: 6px;
-  background: #f8f9fa;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  background: var(--light-bg);
   border-left: 3px solid var(--navy);
 }
-.install-note.macos { border-left-color: var(--mint); }
-.install-note.windows { border-left-color: #0078d6; }
-.install-note.linux { border-left-color: #336791; }
+.install-note.macos {
+  border-left-color: var(--mint);
+}
+.install-note.windows {
+  border-left-color: #0078d6;
+}
+.install-note.linux {
+  border-left-color: #336791;
+}
 .install-note ol {
   margin: 0.5rem 0 0 1.2rem;
   padding: 0;
 }
 .install-note li {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
 }
 .install-note code {
   background: #e9ecef;
   padding: 2px 6px;
   border-radius: 3px;
   font-size: 0.85em;
+  color: var(--navy);
   word-break: break-all;
 }
 .install-note code[style*="display"] {
-  background: #1a1a2e;
+  background: var(--navy-dark);
   color: var(--mint);
-  padding: 8px;
+  padding: 0.6rem;
   display: block;
-  margin-top: 0.3rem;
+  margin-top: 0.4rem;
 }
-.install-note em { font-style: italic; color: var(--navy); }
 
-/* ---------- Footer Links ---------- */
-.footer-links {
+/* =====================================================
+   WAITLIST FORM
+   ===================================================== */
+.waitlist-form {
+  max-width: 560px;
+  margin: 2rem auto 0;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.form-field {
+  position: relative;
+}
+.form-field input,
+.form-field select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  background: var(--white);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+}
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--mint);
+  box-shadow: 0 0 0 3px rgba(2, 195, 154, 0.12);
+}
+.form-field select {
+  background: linear-gradient(45deg, var(--white) 50%, transparent 50%) no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 14px;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.form-field label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.form-field input:focus + label,
+.form-field input:not(:placeholder-shown) + label,
+.form-field select:focus + label,
+.form-field select:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 0.72rem;
+  background: var(--white);
+  padding: 0 4px;
+}
+.form-field input::placeholder,
+.form-field select::placeholder {
+  opacity: 0;
+  visibility: hidden;
+}
+.form-note {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.form-note a {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+.waitlist-success {
+  max-width: 560px;
+  margin: 2rem auto 0;
+  padding: 2rem;
+  background: var(--light-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.waitlist-success h3 {
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+.waitlist-success p {
+  color: var(--text-secondary);
+}
+
+/* =====================================================
+  CHECKLIST
+  ===================================================== */
+.checklist {
+  max-width: 720px;
+  margin: 2rem auto 0;
+}
+.checklist-item {
   display: flex;
-  gap: 20px;
-  margin: 8px 0;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 1.4rem;
+  padding: 1.4rem 1.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+.checklist-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(2, 195, 154, 0.2);
+}
+.checklist-item.checked {
+  background: rgba(2, 195, 154, 0.08);
+  border-color: var(--mint);
+}
+.checklist-item.checked .checklist-label {
+  opacity: 0.7;
+}
+.checklist-item.checked .checklist-title {
+  text-decoration: line-through;
+}
+.checklist-checkbox {
+  margin-top: 0.2rem;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--mint);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.checklist-label {
+  flex: 1;
+  cursor: pointer;
+}
+.checklist-title {
+  display: block;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+}
+.checklist-desc {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--iceblue-dark);
+  line-height: 1.5;
+}
+.checklist-desc code {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--mint);
+  font-size: 0.85em;
 }
 
-/* ---------- Footer ---------- */
+/* =====================================================
+  PLATFORM GRID
+  ===================================================== */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.platform-card {
+  padding: 1.5rem;
+  background: var(--navy);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  text-align: center;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.platform-card:hover {
+  transform: translateY(-2px);
+  background: var(--navy-soft);
+}
+
+/* =====================================================
+  FOOTER
+  ===================================================== */
 .footer {
   background: var(--dark);
-  padding: 2.5rem 1.5rem;
+  padding: 3rem 1.5rem 2rem;
+  border-top: 1px solid var(--border-dark);
 }
 .footer-inner {
   max-width: 1100px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
-.footer-inner > * { margin-top: 0.4rem; }
-.footer-inner > *:first-child { margin-top: 0; }
+.footer-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
 .footer-logo {
   font-family: var(--font-head);
   color: var(--white);
   font-size: 1.2rem;
   font-weight: 700;
 }
-.footer-tagline { color: var(--mint); font-size: 0.9rem; }
-.footer-copy { color: #999; font-size: 0.8rem; margin-top: 0.6rem; }
+.footer-tagline {
+  color: var(--mint);
+  font-size: 0.9rem;
+}
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.footer-links a {
+  color: var(--iceblue-dark);
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.footer-links a:hover {
+  color: var(--white);
+}
+.footer-copy {
+  color: #666;
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+}
 
-/* ---------- Animation ---------- */
-@keyframes akila-glow-pulse {
+/* =====================================================
+  ANIMATIONS
+  ===================================================== */
+@keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .demo-dot { animation: none; }
-  html { scroll-behavior: auto; }
+.hidden {
+  display: none !important;
 }
 
-/* ---------- Responsive ---------- */
+/* =====================================================
+  RESPONSIVE
+  ===================================================== */
 @media (max-width: 720px) {
-  .incident-list, .steps, .sector-grid { flex-direction: column; }
-  .incident, .step, .sector-card { flex-basis: auto; min-width: 0; margin-left: 0; margin-right: 0; }
-  .incident-list, .sector-grid { margin-left: 0; margin-right: 0; }
-  .platform-downloads { gap: 12px; }
-  .platform-option { flex-direction: column; text-align: center; }
-  .testing-grid { grid-template-columns: 1fr; }
-  .guide-step { flex-direction: column; }
-  .footer-links { gap: 12px; }
-  .nav-links { display: none; }
-  .hero { padding: 4rem 1.2rem 5rem; }
-  .compare-table { font-size: 0.85rem; }
+  .incident-list {
+    grid-template-columns: 1fr;
+  }
+  .steps {
+    grid-template-columns: 1fr;
+  }
+  .sector-grid {
+    grid-template-columns: 1fr;
+  }
+  .platform-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .nav-links {
+    display: none;
+  }
+  .hero {
+    padding: 4rem 1.2rem 5rem;
+  }
+  .hero-ctas {
+    flex-direction: column;
+    align-items: center;
+  }
+  .compare-table {
+    font-size: 0.85rem;
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 0.7rem 0.8rem;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 900px) {
+  .incident-list {
+    grid-template-columns: 1fr 1fr;
+  }
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .sector-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .platform-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

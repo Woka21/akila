@@ -1,422 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AKILA — Confidential by design. AI-ready by default.</title>
-<meta name="description" content="AKILA sanitizes sensitive data before it reaches AI tools, so your team keeps using AI without exposing confidential information.">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AKILA — Confidential by design. AI-ready by default.</title>
+  <meta name="description" content="AKILA sanitizes sensitive data before it reaches AI tools, so your team keeps using AI without exposing confidential information.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="nav">
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">AKILA</a>
-    <nav class="nav-links">
-      <a href="#how-it-works">How it works</a>
-      <a href="#enterprise">Enterprise</a>
-      <a href="#download">Download</a>
-      <a href="#extension">Extension</a>
-      <a href="#guide">Setup Guide</a>
-      <a href="#testing">Testing</a>
-    </nav>
-    <a href="#download" class="btn btn-small btn-primary">Download AKILA</a>
-  </div>
-</header>
-
-<main>
-
-  <!-- ===================== HERO ===================== -->
-  <section class="hero">
-    <div class="hero-glow hero-glow-1"></div>
-    <div class="hero-glow hero-glow-2"></div>
-    <div class="hero-inner">
-      <p class="hero-eyebrow">Pre-pilot · early access</p>
-      <h1 class="hero-headline">Your team is already using AI.<br>Make sure what they share isn't.</h1>
-      <p class="hero-sub">AKILA sits between your staff and the AI tools they already use — sanitizing sensitive data before it ever leaves your organization, then restoring it in the response. No workflow change. No retraining.</p>
-      <div class="hero-ctas">
-        <a href="#download" class="btn btn-primary">Download AKILA</a>
-        <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
-      </div>
+  <header class="nav" id="top">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">AKILA</a>
+      <nav class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#enterprise">Why AKILA</a>
+        <a href="#download">Download</a>
+        <a href="#waitlist">Get early access</a>
+      </nav>
+      <a href="#waitlist" class="btn btn-small btn-primary">Request access</a>
     </div>
-  </section>
+  </header>
 
-  <!-- ===================== THE PROBLEM ===================== -->
-  <section class="section section-light" id="problem">
-    <div class="section-inner narrow">
-      <h2>Policy alone has never worked</h2>
-      <p class="section-lead">Four organizations discovered this the hard way — after the fact, not before.</p>
+  <main>
 
-      <div class="incident-list">
-        <div class="incident">
-          <span class="incident-org">Samsung</span>
-          <p>Engineers pasted confidential source code into ChatGPT. The company banned consumer AI tools company-wide after the fact.</p>
-        </div>
-        <div class="incident">
-          <span class="incident-org">Mishcon de Reya</span>
-          <p>A prominent UK law firm found client matter details had been entered into ChatGPT by staff, despite an existing policy against it.</p>
-        </div>
-        <div class="incident">
-          <span class="incident-org">JPMorgan Chase</span>
-          <p>Restricted, then banned, consumer AI tools firm-wide after employees were found inputting sensitive financial data.</p>
-        </div>
-        <div class="incident">
-          <span class="incident-org">Amazon</span>
-          <p>Warned staff after ChatGPT's own output began reflecting internal, confidential Amazon documents.</p>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-glow hero-glow-1"></div>
+      <div class="hero-glow hero-glow-2"></div>
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Confidential AI gateway</p>
+        <h1 class="hero-headline">Your team is already using AI. Make sure what they share isn't.</h1>
+        <p class="hero-sub">AKILA sits between your staff and the AI tools they already use — sanitizing sensitive data before it ever leaves your organization, then restoring it in the response. No workflow change. No retraining.</p>
+        <div class="hero-ctas">
+          <a href="#waitlist" class="btn btn-primary">Request early access</a>
+          <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
         </div>
       </div>
+    </section>
 
-      <p class="section-footnote">Every one of these organizations already had a policy. None had a technical way to enforce it.</p>
-    </div>
-  </section>
+    <!-- ===================== THE PROBLEM ===================== -->
+    <section class="section section-light" id="problem">
+      <div class="section-inner narrow">
+        <h2>Policy alone has never worked</h2>
+        <p class="section-lead">Four organizations discovered this the hard way — after the fact, not before.</p>
 
-  <!-- ===================== HOW IT WORKS ===================== -->
-  <section class="section section-dark" id="how-it-works">
-    <div class="section-inner">
-      <h2 class="light-heading">The foundation of every AI conversation</h2>
-      <p class="section-lead light-lead">Three steps, running automatically, every time.</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-badge">1</div>
-          <h3>Sanitize</h3>
-          <p>Sensitive details — names, case numbers, financial figures, medical information — are identified and replaced with non-reversible placeholders before anything is transmitted.</p>
-        </div>
-        <div class="step">
-          <div class="step-badge">2</div>
-          <h3>Process</h3>
-          <p>The AI provider receives only the placeholders. It never sees a real name, a real figure, or a real identifier — there is nothing sensitive to leak, retain, or train on.</p>
-        </div>
-        <div class="step">
-          <div class="step-badge">3</div>
-          <h3>Restore</h3>
-          <p>When the response returns, AKILA restores the original values for display — your team sees a complete, normal answer, exactly as if nothing had changed.</p>
-        </div>
-      </div>
-
-      <!-- Live-demo-style illustrative mockup -->
-      <div class="demo-panel">
-        <div class="demo-panel-header">
-          <span class="demo-dot"></span>
-          <span class="demo-label">Illustrative example — not a live connection</span>
-        </div>
-        <div class="demo-chat">
-          <div class="demo-bubble demo-bubble-user">
-            <span class="demo-typing" id="demo-typing"></span>
+        <div class="incident-list">
+          <div class="incident">
+            <span class="incident-org">Samsung</span>
+            <p>Engineers pasted confidential source code into ChatGPT. The company banned consumer AI tools company-wide after the fact.</p>
           </div>
-          <div class="demo-wire-label">
-            <span>What actually reaches the AI provider:</span>
+          <div class="incident">
+            <span class="incident-org">Mishcon de Reya</span>
+            <p>A prominent UK law firm found client matter details had been entered into ChatGPT by staff, despite an existing policy against it.</p>
           </div>
-          <div class="demo-wire" id="demo-wire"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== ENTERPRISE VALUE ===================== -->
-  <section class="section section-light" id="enterprise">
-    <div class="section-inner narrow">
-      <h2>A control every team can sign off on</h2>
-      <p class="section-lead">Not just a compliance checkbox — a working answer for the people who'll actually be asked about it.</p>
-
-      <table class="compare-table">
-        <thead>
-          <tr><th>Without a technical safeguard</th><th>With AKILA</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>No visibility into what's shared with AI tools</td><td>Every interaction sanitized automatically, with an audit trail</td></tr>
-          <tr><td>Policy relies on staff remembering, under deadline pressure</td><td>Protection is automatic — nothing to remember, nothing to forget</td></tr>
-          <tr><td>One mistake can create irreversible exposure</td><td>Sensitive data never reaches the AI provider in identifiable form</td></tr>
-          <tr><td>Compliance argument is "we told people not to"</td><td>Compliance argument is a demonstrable technical control</td></tr>
-          <tr><td>Banning AI pushes usage to personal, unmonitored devices</td><td>Sanctioned AI use stays protected, on any device on the network</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ===================== WHO IT'S FOR ===================== -->
-  <section class="section section-light" id="who">
-    <div class="section-inner narrow">
-      <h2>Built for any organization handling confidential information</h2>
-      <div class="sector-grid">
-        <div class="sector-card"><h4>Professional services</h4><p>Client-identifiable work, case strategy, matter details.</p></div>
-        <div class="sector-card"><h4>Healthcare</h4><p>Patient information and clinical records.</p></div>
-        <div class="sector-card"><h4>Financial services</h4><p>Account, transaction, and customer data.</p></div>
-        <div class="sector-card"><h4>HR &amp; People teams</h4><p>Employee records and internal personnel data.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== DESKTOP AGENT ===================== -->
-  <section class="section section-dark" id="desktop">
-    <div class="section-inner narrow center">
-      <p class="hero-eyebrow">Desktop Agent · v1.0.0</p>
-      <h2 class="light-heading">One installer. Zero configuration. Automatic protection.</h2>
-      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">The AKILA Desktop Agent bundles the local sanitization server, manages the browser extension, and auto-starts on boot. Everything runs on your own machine.</p>
-
-      <div class="platform-downloads">
-        <div class="platform-option">
-          <span class="platform-icon">🍎</span>
-          <strong>macOS</strong>
-          <span class="platform-note">Apple Silicon &amp; Intel (Universal binary)</span>
-          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary">Download (.dmg, ~500MB)</a>
-        </div>
-        <div class="platform-option">
-          <span class="platform-icon">🪟</span>
-          <strong>Windows</strong>
-          <span class="platform-note">64-bit (MSI installer)</span>
-          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary">Download (.msi, ~500MB)</a>
-        </div>
-        <div class="platform-option">
-          <span class="platform-icon">🐧</span>
-          <strong>Linux</strong>
-          <span class="platform-note">AppImage — no installation needed</span>
-          <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Linux.AppImage" class="btn btn-primary">Download (.AppImage, ~500MB)</a>
-        </div>
-      </div>
-
-      <div class="installer-alternative">
-        <p style="margin:0.5rem 0 0.3rem;font-size:0.85rem;color:#888;">
-          <strong>Don't want to deal with Gatekeeper warnings?</strong> Use the one-line installer:
-        </p>
-        <code style="display:block;margin:0.5rem 0;background:rgba(255,255,255,0.05);padding:0.6rem 1rem;border-radius:4px;font-size:0.9rem;word-break:break-all;">
-          curl -fsSL https://Woka21.github.io/akila/install.sh | bash
-        </code>
-        <p style="margin:0.3rem 0 0;font-size:0.8rem;color:#666;">
-          The installer downloads, verifies (SHA-256), installs to ~/Applications, and removes quarantine flags automatically.
-          <a href="install.sh" style="color:#4a9eff;text-decoration:underline;">View script</a>
-        </p>
-      </div>
-
-      <div class="install-notes">
-        <div class="install-note macos">
-          <strong>macOS:</strong> The app is ad-hoc signed and will trigger a Gatekeeper warning on first launch.
-          <ol style="margin:0.5rem 0 0 1.2rem;padding:0;">
-            <li><strong>Easiest:</strong> Use the one-line installer: <code>curl -fsSL https://Woka21.github.io/akila/install.sh | bash</code> — it auto-removes quarantine flags.</li>
-            <li><strong>Manual:</strong> Download &amp; open the DMG, drag <strong>AKILA Desktop Agent.app</strong> to your Applications folder.</li>
-            <li>In Finder, <strong>right-click (Ctrl-click)</strong> the app → choose <em>Open</em>.</li>
-            <li>Click <em>Open</em> in the dialog. This only needs to be done once.</li>
-          </ol>
-          <em style="display:block;margin-top:0.5rem;">Or bypass via Terminal:</em>
-          <code style="display:block;margin-top:0.3rem;">xattr -d com.apple.quarantine /Applications/AKILA\ Desktop\ Agent.app</code>
-        </div>
-        <div class="install-note windows">
-          <strong>Windows:</strong> Click <em>More info</em> → <em>Run anyway</em> in the SmartScreen dialog.
-          The app is signed with a code-signing certificate; SmartScreen may warn for new releases.
-        </div>
-        <div class="install-note linux">
-          <strong>Linux:</strong> Make the file executable:
-          <code>chmod +x AKILA-Desktop-Agent-Linux.AppImage</code>, then double-click to run. No root/sudo required.
-        </div>
-      </div>
-
-      <p class="pilot-honest" style="margin-top:1.5rem;">The desktop agent bundles the local Presidio server (with spaCy NLP models, ~500MB) and manages the browser extension. The app auto-starts the server on boot and opens the extension setup guide after installation.</p>
-    </div>
-  </section>
-
-  <!-- ===================== DOWNLOAD & INSTALL ===================== */ -->
-  <section class="section section-dark" id="download">
-    <div class="section-inner narrow center">
-      <p class="hero-eyebrow">Pilot build · v1.0.0</p>
-      <h2 class="light-heading">Or: Download the complete pilot pack</h2>
-      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Everything you need in one ZIP — server, extension, and setup scripts. Runs locally on any platform.</p>
-
-      <div style="margin:2.4rem 0 1rem;">
-        <a href="https://github.com/Woka21/akila/releases/download/v1.0.0/AKILA-PilotPack-v1.0.0.zip" class="btn btn-primary btn-large">Download AKILA-PilotPack-v1.0.0.zip</a>
-      </div>
-      <p class="pilot-honest" style="margin-left:auto;margin-right:auto;max-width:52ch;">
-        SHA-256 <code style="word-break:break-all;">78c01c9e8d926965ad42b992b5ffa131ee8dde4bd61a0921eaa2b592a7741462</code>
-        · <a href="https://github.com/Woka21/akila/releases/download/v1.0.0/AKILA-PilotPack-v1.0.0.zip.sha256" style="text-decoration:underline;">checksum file</a>
-      </p>
-
-      <div class="steps" style="max-width:860px;margin-left:auto;margin-right:auto;text-align:left;">
-        <div class="step">
-          <div class="step-badge">1</div>
-          <h3>Unzip &amp; start the server</h3>
-          <p>Unzip the pack anywhere. Double-click <strong style="color:#fff;">AKILA-Server.command</strong> (macOS), <strong style="color:#fff;">server-start.bat</strong> (Windows) or run <strong style="color:#fff;">./server-start.sh</strong> (Linux). First run installs dependencies + the ~600 MB language model — that's the five-minute part. Success looks like: <em>Running on http://127.0.0.1:5001</em>.</p>
-        </div>
-        <div class="step">
-          <div class="step-badge">2</div>
-          <h3>Load the extension</h3>
-          <p>Open <strong style="color:#fff;">chrome://extensions</strong> in Chrome, toggle <strong style="color:#fff;">Developer mode</strong> on, click <strong style="color:#fff;">Load unpacked</strong>, and choose the <strong style="color:#fff;">extension</strong> folder inside the pack.</p>
-        </div>
-        <div class="step">
-          <div class="step-badge">3</div>
-          <h3>Send a protected message</h3>
-          <p>On ChatGPT or Claude, type a sentence with a client name and phone number. It arrives tokenized; your real data comes back in the reply. Keep the server window open while working.</p>
-        </div>
-      </div>
-
-      <p>
-        <a href="https://github.com/Woka21/akila/blob/main/docs/END_USER_SETUP.md" class="btn btn-ghost">Full setup guide</a>
-        <a href="https://github.com/Woka21/akila/blob/main/docs/END_USER_SETUP.md#troubleshooting" class="btn btn-ghost" style="margin-left:0.5rem;">Troubleshooting</a>
-      </p>
-
-      <p class="pilot-honest" style="margin-top:2.6rem;">This is early-stage, active software. We'll tell you plainly what's verified and what isn't — that's the point of a pilot. A small number of organizations are also shaping the product directly: <a href="mailto:hello@akila.example" style="text-decoration:underline;">start a scoping conversation</a>.</p>
-    </div>
-  </section>
-
-  <!-- ===================== EXTENSION SETUP ===================== */ -->
-  <section class="section section-light" id="extension">
-    <div class="section-inner narrow">
-      <h2>Chrome Extension Setup</h2>
-      <p class="section-lead">The AKILA Privilege Guard extension intercepts outbound messages on supported AI platforms and tokenizes PII before it's sent. Follow these steps to install it.</p>
-
-      <div class="extension-install-guide">
-        <div class="guide-step">
-          <div class="step-badge">1</div>
-          <div class="guide-step-content">
-            <h3>Download the Extension</h3>
-            <p>Download the extension package. <strong>Version 1.0.0</strong> with pinned extension ID <code>kcnldfeclciolmbjfiomdfialhbccmhe</code>. The ID is cryptographically pinned via the signing key, ensuring consistent behavior across installations.</p>
-            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-primary" style="margin-top:0.75rem;">Download Extension (.zip)</a>
+          <div class="incident">
+            <span class="incident-org">JPMorgan Chase</span>
+            <p>Restricted, then banned, consumer AI tools firm-wide after employees were found inputting sensitive financial data.</p>
+          </div>
+          <div class="incident">
+            <span class="incident-org">Amazon</span>
+            <p>Warned staff after ChatGPT's own output began reflecting internal, confidential Amazon documents.</p>
           </div>
         </div>
 
-        <div class="guide-step">
-          <div class="step-badge">2</div>
-          <div class="guide-step-content">
-            <h3>Extract the Extension</h3>
-            <p>Unzip the downloaded file to a location you can easily find, like your Downloads folder. You should see files like <code>manifest.json</code>, <code>background.js</code>, and <code>content-script.js</code>.</p>
+        <p class="section-footnote">Every one of these organizations already had a policy. None had a technical way to enforce it.</p>
+      </div>
+    </section>
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section class="section section-dark" id="how-it-works">
+      <div class="section-inner">
+        <h2 class="light-heading">The foundation of every AI conversation</h2>
+        <p class="section-lead light-lead">Three steps, running automatically, every time.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-badge">1</div>
+            <h3>Sanitize</h3>
+            <p>Sensitive details — names, case numbers, financial figures, medical information — are identified and replaced with non-reversible placeholders before anything is transmitted.</p>
+          </div>
+          <div class="step">
+            <div class="step-badge">2</div>
+            <h3>Process</h3>
+            <p>The AI provider receives only the placeholders. It never sees a real name, a real figure, or a real identifier — there is nothing sensitive to leak, retain, or train on.</p>
+          </div>
+          <div class="step">
+            <div class="step-badge">3</div>
+            <h3>Restore</h3>
+            <p>When the response returns, AKILA restores the original values for display — your team sees a complete, normal answer, exactly as if nothing had changed.</p>
           </div>
         </div>
 
-        <div class="guide-step">
-          <div class="step-badge">3</div>
-          <div class="guide-step-content">
-            <h3>Open Chrome Extensions</h3>
-            <p>Navigate to <code>chrome://extensions/</code> in your Chrome browser. This page allows you to manage all installed extensions.</p>
+        <div class="demo-panel">
+          <div class="demo-panel-header">
+            <span class="demo-dot"></span>
+            <span class="demo-label">Illustrative example — not a live connection</span>
           </div>
-        </div>
-
-        <div class="guide-step">
-          <div class="step-badge">4</div>
-          <div class="guide-step-content">
-            <h3>Enable Developer Mode</h3>
-            <p>Toggle <strong>Developer mode</strong> ON in the top-right corner of the Chrome Extensions page. This enables the "Load unpacked" button.</p>
-          </div>
-        </div>
-
-        <div class="guide-step">
-          <div class="step-badge">5</div>
-          <div class="guide-step-content">
-            <h3>Load Unpacked Extension</h3>
-            <p>Click <strong>Load unpacked</strong>, then navigate to and select the folder where you extracted the extension files in Step 2. Click <strong>Select Folder</strong>.</p>
-          </div>
-        </div>
-
-        <div class="guide-step">
-          <div class="step-badge">6</div>
-          <div class="guide-step-content">
-            <h3>Verify Installation</h3>
-            <p>You should see "AKILA Privilege Guard" listed on the extensions page. The extension icon will appear in your browser toolbar. Visit <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> and type a test message — you should see <code>[AKILA]</code> in the DevTools Console (Cmd+Opt+I).</p>
+          <div class="demo-chat">
+            <div class="demo-bubble demo-bubble-user">
+              <span class="demo-typing" id="demo-typing"></span>
+            </div>
+            <div class="demo-wire-label">
+              <span>What actually reaches the AI provider:</span>
+            </div>
+            <div class="demo-wire" id="demo-wire"></div>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="pilot-honest" style="margin-top:2rem;">
-        <p><strong>Supported sites:</strong> ChatGPT, Claude, Google Gemini, GitHub Copilot, Perplexity AI, and any site with a text input (via universal sieve mode).</p>
+    <!-- ===================== ENTERPRISE VALUE ===================== -->
+    <section class="section section-light" id="enterprise">
+      <div class="section-inner narrow">
+        <h2>A control every team can sign off on</h2>
+        <p class="section-lead">Not just a compliance checkbox — a working answer for the people who'll actually be asked about it.</p>
+
+        <table class="compare-table">
+          <thead>
+            <tr><th>Without a technical safeguard</th><th>With AKILA</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>No visibility into what's shared with AI tools</td><td>Every interaction sanitized automatically, with an audit trail</td></tr>
+            <tr><td>Policy relies on staff remembering, under deadline pressure</td><td>Protection is automatic — nothing to remember, nothing to forget</td></tr>
+            <tr><td>One mistake can create irreversible exposure</td><td>Sensitive data never reaches the AI provider in identifiable form</td></tr>
+            <tr><td>Compliance argument is "we told people not to"</td><td>Compliance argument is a demonstrable technical control</td></tr>
+            <tr><td>Banning AI pushes usage to personal, unmonitored devices</td><td>Sanctioned AI use stays protected, on any device on the network</td></tr>
+          </tbody>
+        </table>
       </div>
+    </section>
+
+    <!-- ===================== WHO IT'S FOR ===================== -->
+    <section class="section section-light" id="who">
+      <div class="section-inner narrow">
+        <h2>Built for any organization handling confidential information</h2>
+        <div class="sector-grid">
+          <div class="sector-card"><h4>Professional services</h4><p>Client-identifiable work, case strategy, matter details.</p></div>
+          <div class="sector-card"><h4>Healthcare</h4><p>Patient information and clinical records.</p></div>
+          <div class="sector-card"><h4>Financial services</h4><p>Account, transaction, and customer data.</p></div>
+          <div class="sector-card"><h4>HR &amp; People teams</h4><p>Employee records and internal personnel data.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DESKTOP AGENT ===================== -->
+    <section class="section section-dark" id="desktop">
+      <div class="section-inner narrow center">
+        <p class="hero-eyebrow">Desktop Agent · v1.0.0</p>
+        <h2 class="light-heading">One installer. Zero configuration. Automatic protection.</h2>
+        <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">The AKILA Desktop Agent bundles the local sanitization server, manages the browser extension, and auto-starts on boot. Everything runs on your own machine.</p>
+
+        <div class="platform-downloads">
+          <div class="platform-option">
+            <div class="platform-info">
+              <span class="platform-icon">🍎</span>
+              <div><strong>macOS</strong><span class="platform-note">Apple Silicon &amp; Intel (Universal binary)</span></div>
+            </div>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary">Download (.dmg)</a>
+          </div>
+          <div class="platform-option">
+            <div class="platform-info">
+              <span class="platform-icon">🪟</span>
+              <div><strong>Windows</strong><span class="platform-note">64-bit (MSI installer)</span></div>
+            </div>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary">Download (.msi)</a>
+          </div>
+          <div class="platform-option">
+            <div class="platform-info">
+              <span class="platform-icon">🐧</span>
+              <div><strong>Linux</strong><span class="platform-note">AppImage — no installation needed</span></div>
+            </div>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Linux.AppImage" class="btn btn-primary">Download (.AppImage)</a>
+          </div>
+        </div>
+
+        <div class="installer-alternative">
+          <p class="installer-hint">
+            <strong>Prefer a single command?</strong> Use the one-line installer:
+          </p>
+          <code class="installer-code">curl -fsSL https://Woka21.github.io/akila/install.sh | bash</code>
+          <p class="installer-caption">
+            The installer downloads, verifies (SHA-256), installs to ~/Applications, and removes quarantine flags automatically.
+            <a href="install.sh" style="color:#4a9eff;text-decoration:underline;">View script</a>
+          </p>
+        </div>
+
+        <div class="install-notes">
+          <div class="install-note macos">
+            <strong>macOS:</strong> The app is ad-hoc signed and will trigger a Gatekeeper warning on first launch.
+            <ol style="margin:0.5rem 0 0 1.2rem;padding:0;">
+              <li><strong>Easiest:</strong> Use the one-line installer — it auto-removes quarantine flags.</li>
+              <li><strong>Manual:</strong> Download &amp; open the DMG, drag <strong>AKILA Desktop Agent.app</strong> to your Applications folder.</li>
+              <li>In Finder, <strong>right-click (Ctrl-click)</strong> the app → choose <em>Open</em>.</li>
+              <li>Click <em>Open</em> in the dialog. This only needs to be done once.</li>
+            </ol>
+          </div>
+          <div class="install-note windows">
+            <strong>Windows:</strong> Click <em>More info</em> → <em>Run anyway</em> in the SmartScreen dialog.
+          </div>
+          <div class="install-note linux">
+            <strong>Linux:</strong> Make the file executable: <code>chmod +x AKILA-Desktop-Agent-Linux.AppImage</code>, then double-click to run. No root/sudo required.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WAITLIST ===================== -->
+    <section class="section section-light" id="waitlist">
+      <div class="section-inner narrow center">
+        <p class="hero-eyebrow">Early access</p>
+        <h2 class="section-headline">Join organizations already using AKILA in production</h2>
+        <p class="section-lead">Enter your details and we'll schedule a brief walkthrough within one business day.</p>
+
+        <form id="waitlist-form" class="waitlist-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <input type="text" id="wl-name" name="name" placeholder=" " required>
+              <label for="wl-name">Full name</label>
+            </div>
+            <div class="form-field">
+              <input type="email" id="wl-email" name="email" placeholder=" " required>
+              <label for="wl-email">Work email</label>
+            </div>
+            <div class="form-field">
+              <input type="text" id="wl-company" name="company" placeholder=" ">
+              <label for="wl-company">Company</label>
+            </div>
+            <div class="form-field">
+              <select id="wl-team-size" name="team_size" required>
+                <option value="" disabled selected hidden></option>
+                <option value="1-10">1–10 employees</option>
+                <option value="11-50">11–50 employees</option>
+                <option value="51-200">51–200 employees</option>
+                <option value="201-1000">201–1,000 employees</option>
+                <option value="1000+">1,000+ employees</option>
+              </select>
+              <label for="wl-team-size">Team size</label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-large">Request early access</button>
+          <p class="form-note">By submitting, you agree to our <a href="https://github.com/Woka21/akila/blob/main/LICENSE" target="_blank">Terms of Use</a> and <a href="https://github.com/Woka21/akila/blob/main/docs/PRIVACY.md" target="_blank">Privacy Notice</a>.</p>
+        </form>
+
+        <div id="waitlist-success" class="waitlist-success hidden">
+          <h3>Thank you.</h3>
+          <p>We've received your request and will contact you within one business day to schedule a walkthrough.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ONBOARDING CHECKLIST ===================== -->
+    <section class="section section-dark" id="checklist">
+      <div class="section-inner narrow">
+        <p class="hero-eyebrow">Onboarding</p>
+        <h2 class="light-heading">Your onboarding checklist</h2>
+        <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Follow these steps to get AKILA running in your environment. Each item can be checked off as you complete it.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <input type="checkbox" id="step-1" class="checklist-checkbox">
+            <label for="step-1" class="checklist-label">
+              <span class="checklist-title">Install the Desktop Agent</span>
+              <span class="checklist-desc">Download and install the appropriate build for your platform (macOS, Windows, or Linux).</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="step-2" class="checklist-checkbox">
+            <label for="step-2" class="checklist-label">
+              <span class="checklist-title">Load the browser extension</span>
+              <span class="checklist-desc">Open <code>chrome://extensions</code>, enable Developer Mode, and load the unpacked extension from your installation directory.</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="step-3" class="checklist-checkbox">
+            <label for="step-3" class="checklist-label">
+              <span class="checklist-title">Verify sanitization</span>
+              <span class="checklist-desc">On ChatGPT or Claude, type a message with a name or phone number. Confirm it arrives tokenized and is restored in the response.</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="step-4" class="checklist-checkbox">
+            <label for="step-4" class="checklist-label">
+              <span class="checklist-title">Configure custom recognizers (optional)</span>
+              <span class="checklist-desc">Add organization-specific PII patterns — case numbers, client IDs, internal project codes — to the recognition rules.</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="step-5" class="checklist-checkbox">
+            <label for="step-5" class="checklist-label">
+              <span class="checklist-title">Enable audit logging</span>
+              <span class="checklist-desc">Activate the audit log to record every sanitization event with timestamps, user identifiers, and redaction counts.</span>
+            </label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="step-6" class="checklist-checkbox">
+            <label for="step-6" class="checklist-label">
+              <span class="checklist-title">Roll out to your team</span>
+              <span class="checklist-desc">Share the installer link and one-line command with your team. The Desktop Agent auto-starts on boot — no manual intervention needed.</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SUPPORTED PLATFORMS ===================== -->
+    <section class="section section-light">
+      <div class="section-inner narrow center">
+        <h2>Works with the AI platforms your team already uses</h2>
+        <p class="section-lead">AKILA integrates transparently with every major AI interface.</p>
+
+        <div class="platform-grid">
+          <div class="platform-card">ChatGPT</div>
+          <div class="platform-card">Claude</div>
+          <div class="platform-card">Google Gemini</div>
+          <div class="platform-card">GitHub Copilot</div>
+          <div class="platform-card">Perplexity AI</div>
+          <div class="platform-card">Any site with a text input</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <span class="footer-logo">AKILA</span>
+        <span class="footer-tagline">Confidential by design. AI-ready by default.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Woka21/akila">GitHub</a>
+        <a href="https://github.com/Woka21/akila/releases">Releases</a>
+        <a href="https://github.com/Woka21/akila/blob/main/docs/">Documentation</a>
+        <a href="https://github.com/Woka21/akila/security">Security Policy</a>
+        <a href="https://github.com/Woka21/akila/blob/main/LICENSE">License</a>
+      </div>
+      <span class="footer-copy">© 2026 AKILA. All rights reserved.</span>
     </div>
-  </section>
+  </footer>
 
-  <!-- ===================== SETUP GUIDE ===================== */ -->
-  <section class="section section-dark" id="guide">
-    <div class="section-inner narrow center">
-      <p class="hero-eyebrow">Quick setup</p>
-      <h2 class="light-heading">Get AKILA running in about ten minutes</h2>
-      <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Three approaches — pick the one that fits your workflow.</p>
-
-      <div class="steps" style="max-width:900px;margin-left:auto;margin-right:auto;text-align:left;">
-        <div class="step">
-          <div class="step-badge">A</div>
-          <h3>Desktop Agent (Recommended)</h3>
-          <p>Download the platform-specific installer above (macOS/Windows/Linux), install the app, and let it auto-start the server. Then click "Install Extension" in the app UI to open the extension setup page.</p>
-        </div>
-        <div class="step">
-          <div class="step-badge">B</div>
-          <h3>Pilot Pack (Offline)</h3>
-          <p>Download the AKILA-PilotPack ZIP, extract it, and run the platform-specific server script. Then load the extension from the <code>extension/</code> folder inside the pack via <code>chrome://extensions</code>.</p>
-        </div>
-        <div class="step">
-          <div class="step-badge">C</div>
-          <h3>Development Mode</h3>
-          <p>If you're developing, clone the repo, install Python dependencies in <code>resources/server/venv</code>, and run <code>python3 presidio_server.py</code>. Load the extension from <code>src-tauri/resources/extension/</code> in unpacked mode.</p>
-        </div>
-      </div>
-
-      <p style="margin-top:2rem;">
-        <a href="https://github.com/Woka21/akila/blob/main/docs/END_USER_SETUP.md" class="btn btn-ghost">Full setup guide (docs)</a>
-        <a href="https://github.com/Woka21/akila/blob/main/docs/TESTING_GUIDE.md" class="btn btn-ghost" style="margin-left:0.5rem;">Testing guide (docs)</a>
-      </p>
-    </div>
-  </section>
-
-  <!-- ===================== TESTING ===================== */ -->
-  <section class="section section-light" id="testing">
-    <div class="section-inner narrow">
-      <h2>Testing &amp; Verification</h2>
-      <p class="section-lead">A comprehensive testing guide is available in the repository. Here's what it covers:</p>
-
-      <div class="testing-grid">
-        <div class="test-category">
-          <h3>Server Verification</h3>
-          <ul>
-            <li>Health check endpoint (<code>/health</code>)</li>
-            <li>PII redaction endpoint (<code>/analyze</code>)</li>
-            <li>Token restoration on response</li>
-          </ul>
-        </div>
-        <div class="test-category">
-          <h3>Platform Coverage</h3>
-          <ul>
-            <li>ChatGPT (network interception)</li>
-            <li>Claude (network interception)</li>
-            <li>Gemini (network interception)</li>
-            <li>Copilot (network interception)</li>
-            <li>Perplexity (universal sieve DOM)</li>
-          </ul>
-        </div>
-        <div class="test-category">
-          <h3>Safety Checks</h3>
-          <ul>
-            <li>Fail-closed when server is down</li>
-            <li>Token persistence across reloads</li>
-            <li>Edge cases (empty, short, special chars)</li>
-          </ul>
-        </div>
-        <div class="test-category">
-          <h3>Traffic Inspection</h3>
-          <ul>
-            <li>Chrome DevTools Network tab verification</li>
-            <li>Server log analysis</li>
-            <li>Payload inspection for token presence</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="pilot-honest" style="margin-top:1.5rem;">
-        <p><strong>Read the full testing guide:</strong> <a href="https://github.com/Woka21/akila/blob/main/docs/TESTING_GUIDE.md" style="text-decoration:underline;">docs/TESTING_GUIDE.md on GitHub</a></p>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <span class="footer-logo">AKILA</span>
-    <span class="footer-tagline">Confidential by design. AI-ready by default.</span>
-    <div class="footer-links">
-      <a href="https://github.com/Woka21/akila">GitHub</a>
-      <a href="https://github.com/Woka21/akila/releases">Releases</a>
-      <a href="https://github.com/Woka21/akila/blob/main/docs/">Documentation</a>
-      <a href="https://github.com/Woka21/akila/security">Security Policy</a>
-      <a href="https://github.com/Woka21/akila/blob/main/LICENSE">License</a>
-    </div>
-    <span class="footer-copy">© 2026 AKILA. Pre-pilot software — see documentation for current verified status.</span>
-  </div>
-</footer>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
