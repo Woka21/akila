@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E2761"/>
+      <stop offset="100%" stop-color="#151D40"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="600" fill="url(#bgGrad)"/>
+  <path d="M120 100 C280 60, 320 180, 480 140 C640 100, 680 200, 840 160 C1000 120, 1080 220, 1180 180"
+        stroke="#2A3573" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M120 180 C280 140, 320 260, 480 220 C640 180, 680 280, 840 240 C1000 200, 1080 300, 1180 260"
+        stroke="#2A3573" stroke-width="1.5" fill="none" opacity="0.25"/>
+  <path d="M120 240 C280 200, 320 320, 480 280 C640 240, 680 340, 840 300 C1000 260, 1080 360, 1180 320"
+        stroke="#2A3573" stroke-width="1.5" fill="none" opacity="0.18"/>
+  <circle cx="300" cy="130" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="520" cy="160" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="760" cy="180" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="1050" cy="150" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
+</svg>

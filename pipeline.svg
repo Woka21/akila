@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <defs>
+    <linearGradient id="pipelineGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#02C39A"/>
+      <stop offset="100%" stop-color="#1E2761"/>
+    </linearGradient>
+    <filter id="pulseGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g stroke="#2A3573" stroke-width="1.5" fill="none">
+    <path d="M60 200 L200 200"/>
+    <path d="M200 200 L280 160"/>
+    <path d="M280 160 L420 160"/>
+    <path d="M420 160 L500 200"/>
+    <path d="M500 200 L640 200"/>
+    <path d="M640 200 L740 200"/>
+  </g>
+
+  <g fill="none" stroke-width="1.5">
+    <path d="M60 185 L60 215" stroke="#555"/>
+    <path d="M740 185 L740 215" stroke="#555"/>
+  </g>
+
+  <rect x="270" y="135" width="90" height="50" rx="8" fill="#1E2761" stroke="#02C39A" stroke-width="2"/>
+  <text x="315" y="170" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="13" font-weight="600">AKILA</text>
+
+  <g font-family="monospace" font-size="11" fill="#9BB4CC">
+    <text x="60" y="195" text-anchor="middle">&lt;name&gt;</text>
+    <text x="740" y="195" text-anchor="middle">&lt;token&gt;</text>
+  </g>
+
+  <circle cx="60" cy="200" r="5" fill="#02C39A" filter="url(#pulseGlow)"/>
+  <circle cx="740" cy="200" r="5" fill="#02C39A" filter="url(#pulseGlow)"/>
+</svg>
