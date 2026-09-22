@@ -1,26 +1,72 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="none">
   <defs>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="heroGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#1E2761"/>
       <stop offset="100%" stop-color="#151D40"/>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
       <feMerge>
-        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    <filter id="dataGlow">
+      <feGaussianBlur stdDeviation="2"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.007 0 0 0 0 0.764 0 0 0 0 0.313 0 0 0 1 0"/>
+    </filter>
   </defs>
-  <rect width="1200" height="600" fill="url(#bgGrad)"/>
-  <path d="M120 100 C280 60, 320 180, 480 140 C640 100, 680 200, 840 160 C1000 120, 1080 220, 1180 180"
-        stroke="#2A3573" stroke-width="1.5" fill="none" opacity="0.4"/>
-  <path d="M120 180 C280 140, 320 260, 480 220 C640 180, 680 280, 840 240 C1000 200, 1080 300, 1180 260"
-        stroke="#2A3573" stroke-width="1.5" fill="none" opacity="0.25"/>
-  <path d="M120 240 C280 200, 320 320, 480 280 C640 240, 680 340, 840 300 C1000 260, 1080 360, 1180 320"
-        stroke="#2A3573" stroke-width="1.5" fill="none" opacity="0.18"/>
-  <circle cx="300" cy="130" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="520" cy="160" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="760" cy="180" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="1050" cy="150" r="3" fill="#02C39A" filter="url(#glow)" opacity="0.6"/>
+
+  <rect width="1200" height="700" fill="url(#heroGrad)"/>
+
+  <g fill="none" stroke="#2A3573" stroke-width="1.5">
+    <path d="M120 580 C240 420, 320 500, 440 470 C560 440, 640 540, 760 510 C880 480, 960 580, 1080 550"/>
+    <path d="M120 600 C240 440, 320 520, 440 490 C560 460, 640 560, 760 530 C880 500, 960 600, 1080 570"/>
+  </g>
+
+  <g stroke="#02C39A" stroke-width="2" stroke-linecap="round">
+    <path d="M100 520 L160 440" opacity="0.5"/>
+    <path d="M180 470 L240 410" opacity="0.6"/>
+    <path d="M260 450 L320 390" opacity="0.4"/>
+    <path d="M340 420 L400 360" opacity="0.5"/>
+    <path d="M420 370 L480 310" opacity="0.6"/>
+    <path d="M500 330 L560 270" opacity="0.4"/>
+    <path d="M580 290 L640 230" opacity="0.5"/>
+    <path d="M660 240 L720 180" opacity="0.6"/>
+    <path d="M740 200 L800 140" opacity="0.4"/>
+    <path d="M820 160 L880 100" opacity="0.5"/>
+  </g>
+
+  <g fill="#02C39A">
+    <circle cx="100" cy="520" r="3" opacity="0.6"/>
+    <circle cx="220" cy="450" r="3" opacity="0.6"/>
+    <circle cx="380" cy="400" r="3" opacity="0.6"/>
+    <circle cx="540" cy="310" r="3" opacity="0.6"/>
+    <circle cx="700" cy="230" r="2.5" opacity="0.6"/>
+    <circle cx="860" cy="130" r="2.5" opacity="0.6"/>
+  </g>
+
+  <g stroke="#CADCFC" stroke-width="1" opacity="0.3">
+    <line x1="120" y1="540" x2="1100" y2="540"/>
+    <line x1="120" y1="560" x2="1100" y2="560"/>
+  </g>
+
+  <g fill="none">
+    <rect x="880" y="380" width="260" height="140" rx="8" fill="rgba(2,195,154,0.06)" stroke="#02C39A" stroke-width="1"/>
+    <text x="1010" y="435" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="11" font-weight="600">AKILA</text>
+    <text x="1010" y="460" text-anchor="middle" fill="#CADCFC" font-family="sans-serif" font-size="12">Data Sanitization</text>
+    <text x="1010" y="485" text-anchor="middle" fill="#CADCFC" font-family="sans-serif" font-size="11">Active Protection</text>
+  </g>
+
+  <g fill="none" stroke="#2A3573" stroke-width="1" opacity="0.2">
+    <path d="M200 180 L400 120"/>
+    <path d="M280 200 L480 160"/>
+    <path d="M360 220 L560 180"/>
+  </g>
+
+  <g fill="#CADCFC" opacity="0.15">
+    <rect x="180" y="170" width="4" height="4" rx="1" transform="rotate(-15 182 172)"/>
+    <rect x="260" y="190" width="4" height="4" rx="1" transform="rotate(-10 262 192)"/>
+    <rect x="340" y="210" width="4" height="4" rx="1" transform="rotate(-5 342 212)"/>
+  </g>
 </svg>

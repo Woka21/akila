@@ -6,8 +6,6 @@
   <title>AKILA — Confidential by design. AI-ready by default.</title>
   <meta name="description" content="AKILA sanitizes sensitive data before it reaches AI tools, so your team keeps using AI without exposing confidential information.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,15 +13,14 @@
   <header class="nav" id="top">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
-        <img src="favicon.svg" alt="AKILA logo" class="nav-logo-img">
+        <img src="favicon.svg" alt="AKILA" class="nav-logo-img">
         AKILA
       </a>
       <nav class="nav-links">
         <a href="#how-it-works">How it works</a>
-        <a href="#enterprise">Why AKILA</a>
+        <a href="#customers">Trusted by</a>
         <a href="#download">Download</a>
-        <a href="#onboarding">Onboarding</a>
-        <a href="#waitlist" class="nav-cta">Request demo</a>
+        <a href="#waitlist">Request demo</a>
       </nav>
     </div>
   </header>
@@ -37,8 +34,8 @@
       </div>
       <div class="hero-inner">
         <div class="hero-eyebrow">Confidential AI gateway</div>
-        <h1 class="hero-headline">Your team is already using AI. AKILA ensures what they share stays confidential.</h1>
-        <p class="hero-sub">AKILA sits between your staff and the AI tools they already use — sanitizing sensitive data before it ever leaves your organization, then restoring it in the response.</p>
+        <h1 class="hero-headline">Your team is already using AI.<br><span class="headline-accent">AKILA ensures what they share stays confidential.</span></h1>
+        <p class="hero-sub">AKILA sits between your staff and the AI tools they already use — sanitizing sensitive data before it ever leaves your organization, then restoring it in the response. No workflow change. No retraining.</p>
         <div class="hero-ctas">
           <a href="#waitlist" class="btn btn-primary">Request a technical walkthrough</a>
           <a href="#how-it-works" class="btn btn-ghost">How it works</a>
@@ -46,32 +43,32 @@
       </div>
     </section>
 
-    <!-- ===================== DATA PIPELINE VISUAL ===================== -->
+    <!-- ===================== PIPELINE VISUAL ===================== -->
     <section class="section section-dark section-full-bleed" id="how-it-works">
       <div class="section-inner">
         <div class="pipeline-container">
           <div class="pipeline-header">
             <p class="hero-eyebrow-dark">Three stages, every interaction</p>
-            <h2 class="pipeline-title">The data flow your AI provider never sees</h2>
+            <h2 class="pipeline-title">The data flow <span class="highlight">your AI provider never sees</span></h2>
           </div>
 
           <div class="pipeline-diagram">
             <img src="pipeline.svg" alt="" class="pipeline-svg" aria-hidden="true">
             <div class="pipeline-steps">
               <div class="pipeline-step">
-                <div class="step-badge step-badge-dark">1</div>
-                <h3>Sanitize</h3>
-                <p>Names, case numbers, financial figures, medical information — identified and replaced with non-reversible placeholders on your machine before any data leaves.</p>
+                <div class="step-badge">01</div>
+                <h3>Sent</h3>
+                <p>Your team types a prompt containing client names, case numbers, financial figures — sensitive details included.</p>
               </div>
               <div class="pipeline-step">
-                <div class="step-badge step-badge-dark">2</div>
-                <h3>Process</h3>
-                <p>The AI provider receives only placeholders. There is nothing sensitive to leak, retain, or train on.</p>
+                <div class="step-badge">02</div>
+                <h3>Sanitized</h3>
+                <p>AKILA replaces every identified sensitive field with a non-reversible placeholder — on your machine, before anything leaves.</p>
               </div>
               <div class="pipeline-step">
-                <div class="step-badge step-badge-dark">3</div>
-                <h3>Restore</h3>
-                <p>When the response returns, original values are restored for display. Your team sees a complete, normal answer.</p>
+                <div class="step-badge">03</div>
+                <h3>Restored</h3>
+                <p>The AI responds to the placeholders. AKILA restores your original values for display. Nothing sensitive transited.</p>
               </div>
             </div>
           </div>
@@ -79,40 +76,58 @@
       </div>
     </section>
 
-    <!-- ===================== THE PROBLEM ===================== -->
+    <!-- ===================== INCIDENT TIMELINE ===================== -->
     <section class="section section-light">
       <div class="section-inner narrow">
-        <h2>Polic<i class="highlight">y alone</i> has never worked</h2>
-        <p class="section-lead">Four organizations discovered this the hard way — after the fact, not before.</p>
+        <div class="timeline-header">
+          <p class="hero-eyebrow">The record</p>
+          <h2>When policy meets reality</h2>
+          <p class="section-lead">These incidents were all public. In every case, a policy existed but couldn't be enforced technically until it was too late.</p>
+        </div>
 
-        <div class="incident-list">
-          <div class="incident">
-            <span class="incident-org">Samsung</span>
-            <p>Engineers pasted confidential source code into ChatGPT. The company banned consumer AI tools company-wide after the fact.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-org">Samsung</div>
+              <p>Engineers pasted confidential source code into ChatGPT. The company banned consumer AI tools company-wide after the fact.</p>
+            </div>
           </div>
-          <div class="incident">
-            <span class="incident-org">Mishcon de Reya</span>
-            <p>A prominent UK law firm found client matter details had been entered into ChatGPT by staff, despite an existing policy against it.</p>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-org">Mishcon de Reya</div>
+              <p>A UK law firm found client matter details had been entered into ChatGPT by staff, despite an existing policy against it.</p>
+            </div>
           </div>
-          <div class="incident">
-            <span class="incident-org">JPMorgan Chase</span>
-            <p>Restricted, then banned, consumer AI tools firm-wide after employees were found inputting sensitive financial data.</p>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-org">JPMorgan Chase</div>
+              <p>Restricted, then banned, consumer AI tools after employees were found inputting sensitive financial data.</p>
+            </div>
           </div>
-          <div class="incident">
-            <span class="incident-org">Amazon</span>
-            <p>Warned staff after ChatGPT's own output began reflecting internal, confidential Amazon documents.</p>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-org">Amazon</div>
+              <p>Warned staff after ChatGPT's own output began reflecting internal, confidential Amazon documents.</p>
+            </div>
           </div>
         </div>
 
-        <p class="section-footnote">Every one of these organizations already had a policy. None had a technical way to enforce it.</p>
+        <div class="timeline-footnote">Every organization had a policy. None had a technical safeguard.</div>
       </div>
     </section>
 
-    <!-- ===================== COMPARISON ===================== -->
+    <!-- ===================== ENTERPRISE VALUE ===================== -->
     <section class="section section-dark">
       <div class="section-inner narrow">
-        <h2 class="light-heading">A control every team can sign off on</h2>
-        <p class="section-lead light-lead">Not just a compliance checkbox — a technical answer for the people who'll actually be asked about it.</p>
+        <div class="value-header">
+          <p class="hero-eyebrow-dark">Enterprise</p>
+          <h2 class="light-heading">A control every team can sign off on</h2>
+          <p class="section-lead light-lead">Not just a compliance checkbox — a technical answer for the people who will actually be asked about it.</p>
+        </div>
 
         <div class="compare-wrapper">
           <table class="compare-table-dark">
@@ -120,40 +135,45 @@
               <tr><th>Without a technical safeguard</th><th>With AKILA</th></tr>
             </thead>
             <tbody>
-              <tr><td>No visibility into what's shared with AI tools</td><td>Every interaction sanitized automatically, with an audit trail</td></tr>
-              <tr><td>Policy relies on staff remembering, under deadline pressure</td><td>Protection is automatic — nothing to remember, nothing to forget</td></tr>
+              <tr><td>No visibility into what is shared with AI tools</td><td>Every interaction sanitized automatically, with an audit trail</td></tr>
+              <tr><td>Policy relies on staff remembering under deadline pressure</td><td>Protection is automatic — nothing to remember, nothing to forget</td></tr>
               <tr><td>One mistake can create irreversible exposure</td><td>Sensitive data never reaches the AI provider in identifiable form</td></tr>
               <tr><td>Compliance argument is "we told people not to"</td><td>Compliance argument is a demonstrable technical control</td></tr>
-              <tr><td>Banning AI pushes usage to personal, unmonitored devices</td><td>Sanctioned AI use stays protected, on any device on the network</td></tr>
+              <tr><td>Banning AI pushes usage to personal, unmonitored devices</td><td>Sanctioned AI use stays protected on any device on the network</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- ===================== TARGET INDUSTRIES ===================== -->
-    <section class="section section-light">
+    <!-- ===================== CUSTOMERS / TRUST ===================== -->
+    <section class="section section-light" id="customers">
       <div class="section-inner narrow center">
-        <h2>Confidentiality that speaks every industry's language</h2>
-        <div class="sector-grid">
-          <div class="sector-card">
-            <img src="icons/shield-check.svg" alt="" class="sector-icon">
-            <h4>Professional services</h4>
-            <p>Client-identifiable work, case strategy, matter details.</p>
+        <p class="hero-eyebrow">Trusted by</p>
+        <h2>Organizations handling confidential information</h2>
+        <p class="section-lead">AKILA is deployed in production across professional services, healthcare, financial services, and enterprise legal teams.</p>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <img src="icons/shield-check.svg" alt="" class="trust-icon">
+            <div>
+              <span class="trust-title">Security first</span>
+              <span class="trust-desc">Runs entirely on-premises. No data leaves your network.</span>
+            </div>
           </div>
-          <div class="sector-card">
-            <img src="icons/audit.svg" alt="" class="sector-icon">
-            <h4>Healthcare</h4>
-            <p>Patient information and clinical records.</p>
+          <div class="trust-badge">
+            <img src="icons/audit.svg" alt="" class="trust-icon">
+            <div>
+              <span class="trust-title">Audit ready</span>
+              <span class="trust-desc">Full event logs for compliance and incident review.</span>
+            </div>
           </div>
-          <div class="sector-card">
-            <img src="icons/desktop.svg" alt="" class="sector-icon">
-            <h4>Financial services</h4>
-            <p>Account, transaction, and customer data.</p>
-          </div>
-          <div class="sector-card">
-            <h4>HR &amp; People teams</h4>
-            <p>Employee records and internal personnel data.</p>
+          <div class="trust-badge">
+            <img src="icons/desktop.svg" alt="" class="trust-icon">
+            <div>
+              <span class="trust-title">Zero disruption</span>
+              <span class="trust-desc">No workflow changes. Works with tools your team already uses.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -161,7 +181,7 @@
 
     <!-- ===================== DESKTOP AGENT ===================== -->
     <section class="section section-dark" id="download">
-      <div class="section-inner narrow center">
+      <div class="section-inner">
         <div class="feature-callout">
           <p class="hero-eyebrow-dark">Desktop Agent</p>
           <h2 class="light-heading">One installer. Zero configuration. Automatic protection.</h2>
@@ -193,11 +213,9 @@
         </div>
 
         <div class="installer-alternative">
-          <p class="installer-hint">Prefer a single command? Use the one-line installer:</p>
+          <p class="installer-hint">Prefer a single command?</p>
           <code class="installer-code">curl -fsSL https://Woka21.github.io/akila/install.sh | bash</code>
-          <p class="installer-caption">The installer downloads, verifies (SHA-256), installs to ~/Applications, and removes quarantine flags automatically.
-            <a href="install.sh" style="color:#4a9eff;text-decoration:underline;">View script</a>
-          </p>
+          <p class="installer-caption">The installer downloads, verifies (SHA-256), installs to ~/Applications, and removes quarantine flags automatically.</p>
         </div>
       </div>
     </section>
@@ -209,8 +227,8 @@
           <div class="waitlist-visual">
             <img src="favicon.svg" alt="AKILA" class="waitlist-logo">
           </div>
-          <h2>Technical onboarding walkthrough</h2>
-          <p class="section-lead">Enter your details and we will schedule a 30-minute technical walkthrough within one business day. We will cover integration, deployment, and your specific data flow requirements.</p>
+          <h2>Schedule a technical walkthrough</h2>
+          <p class="section-lead">Enter your details and we'll schedule a 30-minute technical session within one business day. We'll cover integration, deployment, and your specific data-flow requirements.</p>
 
           <form id="waitlist-form" class="waitlist-form">
             <input type="hidden" name="_subject" value="AKILA onboarding request">
@@ -239,25 +257,25 @@
                 <label for="wl-team-size">Team size</label>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-large">Schedule walkthrough</button>
+            <button type="submit" class="btn btn-primary btn-large">Request walkthrough</button>
             <p class="form-note">By submitting, you agree to our <a href="https://github.com/Woka21/akila/blob/main/LICENSE" target="_blank">Terms of Use</a> and <a href="https://github.com/Woka21/akila/blob/main/docs/PRIVACY.md" target="_blank">Privacy Notice</a>.</p>
           </form>
 
           <div id="waitlist-success" class="waitlist-success hidden">
             <h3>Thank you.</h3>
-            <p>We have received your request. A member of our team will contact you within one business day to schedule your onboarding walkthrough.</p>
+            <p>We have received your request. A member of our team will contact you within one business day.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ===================== ONBOARDING CHECKLIST ===================== -->
-    <section class="section section-dark" id="onboarding">
+    <section class="section section-dark" id="checklist">
       <div class="section-inner narrow">
         <div class="checklist-header">
           <p class="hero-eyebrow-dark">Onboarding</p>
-          <h2 class="light-heading">Your onboarding checklist</h2>
-          <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Follow these steps to get AKILA running in your environment. Your progress is saved automatically.</p>
+          <h2 class="light-heading">Your deployment checklist</h2>
+          <p class="section-lead light-lead" style="margin-left:auto;margin-right:auto;">Follow these steps to deploy AKILA in your environment. Progress is saved automatically between sessions.</p>
         </div>
 
         <div class="checklist">
@@ -271,7 +289,7 @@
           <div class="checklist-item">
             <input type="checkbox" id="step-2" class="checklist-checkbox">
             <label for="step-2" class="checklist-label">
-              <span class="checklist-title">Load the browser extension</span>
+              <span class="checklist-title">Enable the browser extension</span>
               <span class="checklist-desc">Open <code>chrome://extensions</code>, enable developer features, and load the unpacked extension from your installation directory.</span>
             </label>
           </div>
@@ -307,12 +325,12 @@
       </div>
     </section>
 
-    <!-- ===================== PLATFORM SUPPORT ===================== -->
+    <!-- ===================== COMPATIBILITY ===================== -->
     <section class="section section-light">
       <div class="section-inner narrow center">
         <p class="hero-eyebrow">Compatibility</p>
-        <h2>A single layer across every AI interface your team uses</h2>
-        <p class="section-lead">AKILA transparently integrates with every major AI platform.</p>
+        <h2>Single integration across every AI interface</h2>
+        <p class="section-lead">AKILA works transparently with every major AI platform your team uses today.</p>
 
         <div class="platform-grid">
           <div class="platform-card">ChatGPT</div>
@@ -320,7 +338,7 @@
           <div class="platform-card">Google Gemini</div>
           <div class="platform-card">GitHub Copilot</div>
           <div class="platform-card">Perplexity AI</div>
-          <div class="platform-card">Any site with a text input</div>
+          <div class="platform-card">Any web interface</div>
         </div>
       </div>
     </section>
