@@ -495,12 +495,34 @@ section {
 }
 
 /* === Extension Flow === */
-.extension-flow {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  max-width: 800px;
-  margin: 0 auto;
+.autoinstall-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.extension-divider {
+  text-align: center;
+  margin: 24px 0;
+  position: relative;
+}
+
+.extension-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.extension-divider span {
+  background: var(--bg);
+  padding: 0 16px;
+  position: relative;
 }
 
 .extension-browser-selector {
@@ -543,33 +565,61 @@ section {
   display: block;
 }
 
-.extension-troubleshooting {
-  margin-top: 48px;
-  padding: 24px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.trouble-grid {
-  display: grid;
+.simple-steps {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.trouble-item p {
-  margin-top: 4px;
+.simple-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
 }
 
-.trouble-item code {
+.simple-step-number {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.simple-step-content h3 {
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.simple-step-content p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.simple-step-content code {
   background: #0a0a12;
-  padding: 2px 6px;
+  padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.85em;
   color: var(--accent);
   word-break: break-all;
+}
+
+.extension-helpline {
+  margin-top: 32px;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
 }
 
 .step {

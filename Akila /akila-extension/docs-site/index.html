@@ -175,14 +175,34 @@
   </section>
 
   <!-- Extension -->
+  <!-- Extension -->
   <section class="extension" id="extension">
     <div class="section-header">
       <h2>Install the Browser Extension</h2>
-      <p>Step-by-step guide — no technical knowledge required.</p>
+      <p>Three clicks. No technical knowledge needed.</p>
     </div>
 
+    <!-- Auto-install (preferred) -->
+    <div class="autoinstall-card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <span style="font-size:1.5rem;">🚀</span>
+        <h3 style="margin:0; color:#fff; font-size:1.2rem;">Easiest way: One-click install</h3>
+      </div>
+      <p style="color:var(--text-secondary); margin-bottom:0;">
+        If you installed the Desktop Agent above, open the app and click <strong>"Install Extension"</strong>.
+        That's it — the extension installs itself automatically.
+      </p>
+      <div style="margin-top:8px; font-size:13px; color:var(--text-tertiary);">
+        No browser settings, no Developer mode, no file picking required.
+      </div>
+    </div>
+
+    <div class="extension-divider">
+      <span style="color:var(--text-tertiary); font-size:13px;">or install manually</span>
+    </div>
+
+    <!-- Browser Selector -->
     <div class="extension-browser-selector">
-      <p style="text-align:center; color:var(--text-secondary); margin-bottom:16px; font-size:14px;">Select your browser:</p>
       <div class="browser-pills">
         <button type="button" class="browser-pill active" data-browser="chrome">Chrome / Edge / Brave</button>
         <button type="button" class="browser-pill" data-browser="firefox">Firefox</button>
@@ -190,160 +210,141 @@
       </div>
     </div>
 
-    <!-- Chrome/Edge/Brave -->
+    <!-- Chrome / Edge / Brave — 3 simple steps -->
     <div class="extension-browser-content active" id="browser-chrome">
-      <div class="extension-flow">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Download the Extension</h3>
-            <p>Save the extension package to your Downloads folder.</p>
-            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline">
+      <div class="simple-steps">
+
+        <div class="simple-step">
+          <div class="simple-step-number">1</div>
+          <div class="simple-step-content">
+            <h3>Download and unzip</h3>
+            <p>Click below. When the file downloads, right-click it → <strong>Extract All</strong> (Windows) or double-click (macOS).</p>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline" style="margin-top:8px;">
               Download Extension (.zip)
             </a>
-            <p style="margin-top:8px; font-size:13px; color:var(--text-secondary);">
-              After downloading, right-click the file and choose <strong>Extract All</strong> (Windows) or double-click it (macOS) to unzip.
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">2</div>
+          <div class="simple-step-content">
+            <h3>Open Chrome extensions page</h3>
+            <p>Copy this link and paste it in your address bar, then press Enter:</p>
+            <div style="background:#0a0a12; padding:8px 12px; border-radius:6px; margin:8px 0;">
+              <code style="color:var(--accent); font-size:14px;">chrome://extensions</code>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary);">
+              <strong>Edge?</strong> Use <code>edge://extensions</code> instead.
+              <strong>Brave?</strong> Use <code>chrome://extensions</code>.
+            </p>
+            <p style="font-size:13px; color:var(--text-tertiary);">Then turn on <strong>Developer mode</strong> (toggle in top-right).</p>
+          </div>
+        </div>
+
+        <div class="simple-step">
+          <div class="simple-step-number">3</div>
+          <div class="simple-step-content">
+            <h3>Click "Load unpacked" and pick the folder</h3>
+            <p>Click the blue <strong>Load unpacked</strong> button. Find the folder named <code>akila-extension</code> that you extracted in Step 1, click it once, then click <strong>Select folder</strong>.</p>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
+              ✅ The extension appears as "AKILA Privilege Guard" in your extensions list.
+              <br><br>
+              📌 <strong>Tip:</strong> Click the puzzle icon 🧩 in your browser toolbar, find AKILA, and click the pin 📌 to keep it visible.
             </p>
           </div>
         </div>
 
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Open Your Browser's Extensions Page</h3>
-            <p><strong>Chrome / Brave:</strong> Type <code>chrome://extensions/</code> in the address bar and press Enter.</p>
-            <p><strong>Edge:</strong> Type <code>edge://extensions/</code> in the address bar and press Enter.</p>
-            <p>Alternatively, click the three dots menu → <strong>More tools</strong> → <strong>Extensions</strong>.</p>
+        <div class="simple-step">
+          <div class="simple-step-number">✓</div>
+          <div class="simple-step-content">
+            <h3>Done — test it</h3>
+            <p>Visit <a href="https://chatgpt.com">chatgpt.com</a> and type your phone number. You should see tokens like <code>&lt;AKILA_PHONE_7a3f&gt;</code> instead of the real number.</p>
           </div>
         </div>
 
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>Enable Developer Mode</h3>
-            <p>On the Extensions page, toggle the <strong>Developer mode</strong> switch in the top-right corner to <strong>ON</strong>.</p>
-            <p>You should now see a blue <strong>Load unpacked</strong> button appear in the top-left corner.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h3>Load the Unpacked Extension</h3>
-            <p>Click the <strong>Load unpacked</strong> button.</p>
-            <p>In the file picker that opens, navigate to the folder where you extracted the extension. It should be named <code>akila-extension</code> (or similar).</p>
-            <p>Select that folder and click <strong>Select folder</strong> (or <strong>Choose</strong>).</p>
-            <p><strong>Tip:</strong> The folder contains a file called <code>manifest.json</code>. Make sure you're selecting the folder, not the manifest file itself.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">5</div>
-          <div class="step-content">
-            <h3>Pin the Extension to Your Toolbar</h3>
-            <p>After loading, the extension appears in your Extensions list. You may see a puzzle icon <span aria-label="extension icon">🧩</span> in your browser toolbar.</p>
-            <p>Click the puzzle icon, find <strong>AKILA Privilege Guard</strong>, and click the pin <span aria-hidden="true">📌</span> to keep it visible.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">6</div>
-          <div class="step-content">
-            <h3>Verify It Works</h3>
-            <p>Visit <a href="https://chatgpt.com">chatgpt.com</a> and type a message containing a name or phone number.</p>
-            <p>You should see tokens like <code>&lt;AKILA_PERSON_7a3f&gt;</code> replacing the sensitive data.</p>
-            <p>If you don't see the AKILA icon in your toolbar, click the puzzle icon again to find it.</p>
-          </div>
-        </div>
       </div>
     </div>
 
-    <!-- Firefox -->
+    <!-- Firefox — 3 simple steps -->
     <div class="extension-browser-content" id="browser-firefox">
-      <div class="extension-flow">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Download and Extract</h3>
-            <p>Download the extension ZIP and extract it (same as Chrome instructions above).</p>
+      <div class="simple-steps">
+
+        <div class="simple-step">
+          <div class="simple-step-number">1</div>
+          <div class="simple-step-content">
+            <h3>Download and unzip</h3>
+            <p>Click below. When the file downloads, extract it.</p>
+            <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline" style="margin-top:8px;">
+              Download Extension (.zip)
+            </a>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Open Firefox Extensions</h3>
-            <p>Type <code>about:debugging</code> in the address bar, then click <strong>This Firefox</strong> in the left sidebar.</p>
+
+        <div class="simple-step">
+          <div class="simple-step-number">2</div>
+          <div class="simple-step-content">
+            <h3>Open Firefox debugging page</h3>
+            <p>Paste this in your address bar and press Enter:</p>
+            <div style="background:#0a0a12; padding:8px 12px; border-radius:6px; margin:8px 0;">
+              <code style="color:var(--accent); font-size:14px;">about:debugging</code>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary);">Click <strong>This Firefox</strong> in the left sidebar.</p>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>Load Temporary Add-on</h3>
-            <p>Click <strong>Load Temporary Add-on</strong>, navigate to the extracted folder, and select any file inside <code>akila-extension/</code>.</p>
+
+        <div class="simple-step">
+          <div class="simple-step-number">3</div>
+          <div class="simple-step-content">
+            <h3>Load the extension</h3>
+            <p>Click <strong>Load Temporary Add-on</strong>, go to the folder you extracted, open it, and select any file inside (like <code>manifest.json</code>).</p>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
+              ✅ The extension loads instantly. Visit chatgpt.com to test.
+            </p>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h3>Test</h3>
-            <p>Visit chatgpt.com and type a message with sensitive data. The extension icon appears in the toolbar.</p>
-          </div>
-        </div>
+
       </div>
     </div>
 
-    <!-- Safari -->
+    <!-- Safari — 3 simple steps -->
     <div class="extension-browser-content" id="browser-safari">
-      <div class="extension-flow">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Enable Developer Mode</h3>
-            <p>Open <strong>Safari</strong> → <strong>Preferences</strong> → <strong>Advanced</strong> tab, and check <strong>Show Develop menu in menu bar</strong>.</p>
+      <div class="simple-steps">
+
+        <div class="simple-step">
+          <div class="simple-step-number">1</div>
+          <div class="simple-step-content">
+            <h3>Enable the Develop menu</h3>
+            <p>Open <strong>Safari</strong> → <strong>Settings</strong> (or Preferences) → <strong>Advanced</strong> tab.</p>
+            <p>Check the box: <strong>Show Develop menu in menu bar</strong>.</p>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Load the Extension</h3>
+
+        <div class="simple-step">
+          <div class="simple-step-number">2</div>
+          <div class="simple-step-content">
+            <h3>Load the extension</h3>
             <p>In the menu bar, click <strong>Develop</strong> → <strong>Show Extension Builder</strong>.</p>
-            <p>Click the <strong>+</strong> button and select <strong>Import Extension</strong>. Choose the <code>akila-extension/manifest.json</code> file from your extracted folder.</p>
+            <p>Click the <strong>+</strong> button → <strong>Import Extension</strong> → select the folder you extracted.</p>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>Enable in Preferences</h3>
-            <p>Go to <strong>Safari</strong> → <strong>Settings for this website</strong> (or Preferences → Extensions) and enable <strong>AKILA Privilege Guard</strong>.</p>
+
+        <div class="simple-step">
+          <div class="simple-step-number">3</div>
+          <div class="simple-step-content">
+            <h3>Enable and test</h3>
+            <p>Open <strong>Safari</strong> → <strong>Settings</strong> → <strong>Extensions</strong> and make sure <strong>AKILA Privilege Guard</strong> is checked.</p>
+            <p style="font-size:13px; color:var(--text-secondary);">Restart Safari. Visit chatgpt.com to test.</p>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h3>Test</h3>
-            <p>Restart Safari, visit chatgpt.com, and type a message with sensitive data.</p>
-          </div>
-        </div>
+
       </div>
     </div>
 
-    <!-- Troubleshooting -->
-    <div class="extension-troubleshooting">
-      <h3 style="color:var(--text); margin-bottom:12px; text-align:center;">Troubleshooting</h3>
-      <div class="trouble-grid">
-        <div class="trouble-item">
-          <strong style="color:var(--accent);">Extension not appearing?</strong>
-          <p style="font-size:14px; color:var(--text-secondary);">Make sure you selected the <em>folder</em> (not a file) when clicking "Load unpacked". The folder must contain <code>manifest.json</code>.</p>
-        </div>
-        <div class="trouble-item">
-          <strong style="color:var(--accent);">Still seeing raw PII on chatgpt.com?</strong>
-          <p style="font-size:14px; color:var(--text-secondary);">Ensure the Desktop Agent is running (look for <code>http://localhost:8080</code>). Restart your browser after installation.</p>
-        </div>
-        <div class="trouble-item">
-          <strong style="color:var(--accent);">Extension keeps getting disabled?</strong>
-          <p style="font-size:14px; color:var(--text-secondary);">On Chrome, visit <code>chrome://extensions</code>, enable <strong>Developer mode</strong>, and click <strong>Details</strong> → enable <strong>Allow in incognito</strong> and <strong>Allow access to file URLs</strong>.</p>
-        </div>
-      </div>
+    <!-- One-line help -->
+    <div class="extension-helpline">
+      <p style="margin:0; font-size:14px;">
+        <strong>Stuck?</strong> Email <a href="mailto:woka21@protonmail.com" style="color:var(--accent);">woka21@protonmail.com</a> — we'll walk you through it.
+      </p>
     </div>
   </section>
 
