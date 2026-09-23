@@ -12,14 +12,40 @@
     "https://www.perplexity.ai/*",
     "https://api.perplexity.ai/*",
     "https://gemini.google.com/*",
-    "https://copilot.microsoft.com/*"
+    "https://aistudio.google.com/*",
+    "https://copilot.microsoft.com/*",
+    "https://bing.com/*",
+    "https://www.bing.com/*",
+    "https://chat.huggingface.co/*",
+    "https://huggingface.co/*",
+    "https://poe.com/*",
+    "https://you.com/*",
+    "https://www.you.com/*",
+    "https://phind.com/*",
+    "https://www.phind.com/*",
+    "https://writesonic.com/*",
+    "https://www.writesonic.com/*",
+    "https://docs.google.com/*"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://chatgpt.com/*", "https://claude.ai/*", "https://www.perplexity.ai/*"],
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://www.perplexity.ai/*",
+        "https://gemini.google.com/*",
+        "https://aistudio.google.com/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.bing.com/*",
+        "https://chat.huggingface.co/*",
+        "https://poe.com/*",
+        "https://you.com/*",
+        "https://www.phind.com/*",
+        "https://writesonic.com/*"
+      ],
       "js": ["content-script.js"],
       "run_at": "document_start"
     },
@@ -27,9 +53,16 @@
       "matches": [
         "https://chatgpt.com/*",
         "https://claude.ai/*",
+        "https://www.perplexity.ai/*",
         "https://gemini.google.com/*",
         "https://copilot.microsoft.com/*",
-        "https://www.perplexity.ai/*"
+        "https://www.bing.com/*",
+        "https://chat.huggingface.co/*",
+        "https://poe.com/*",
+        "https://you.com/*",
+        "https://www.phind.com/*",
+        "https://writesonic.com/*",
+        "https://docs.google.com/*"
       ],
       "js": ["akila-universal-sieve.js"],
       "run_at": "document_start"
@@ -38,7 +71,20 @@
   "web_accessible_resources": [
     {
       "resources": ["akila-page-interceptor.js"],
-      "matches": ["https://chatgpt.com/*", "https://claude.ai/*", "https://www.perplexity.ai/*"]
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://www.perplexity.ai/*",
+        "https://gemini.google.com/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.bing.com/*",
+        "https://chat.huggingface.co/*",
+        "https://poe.com/*",
+        "https://you.com/*",
+        "https://www.phind.com/*",
+        "https://writesonic.com/*",
+        "https://docs.google.com/*"
+      ]
     }
   ]
 }

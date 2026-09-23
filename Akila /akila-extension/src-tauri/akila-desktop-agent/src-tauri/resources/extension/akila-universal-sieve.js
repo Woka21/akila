@@ -52,17 +52,55 @@
       messageContainerSelector: 'main, .message-container, [data-message-container="true"]',
     },
     'gemini.google.com': {
-      inputSelector: 'textarea, div[contenteditable="true"]',
+      inputSelector: 'div[contenteditable="true"][data-lexical-editor="true"], textarea',
       sendButtonSelector: 'button[aria-label*="Send" i], button[aria-label*="Ask" i]',
       messageContainerSelector: 'main, .conversation-container',
     },
+    'aistudio.google.com': {
+      inputSelector: 'div[contenteditable="true"], textarea',
+      sendButtonSelector: 'button[aria-label*="Send" i], button[aria-label*="Ask" i]',
+      messageContainerSelector: 'main',
+    },
     'copilot.microsoft.com': {
       inputSelector: 'textarea, div[contenteditable="true"]',
-      sendButtonSelector: 'button[type="submit"], button[aria-label*="Send" i]',
-      messageContainerSelector: 'main, .conversation-container',
+      sendButtonSelector: 'button[type="submit"]',
+      messageContainerSelector: 'main, .conversation-container, #chat-response-container',
     },
-    // Add more as you verify them against real DevTools inspection —
-    // same process as before, just inspecting elements, not network calls.
+    'www.bing.com': {
+      inputSelector: 'textarea[name="q"], div[contenteditable="true"]',
+      sendButtonSelector: 'button[aria-label*="Send" i], button#search_icon',
+      messageContainerSelector: 'main, .answer-placeholder',
+    },
+    'chat.huggingface.co': {
+      inputSelector: 'textarea, div[contenteditable="true"]',
+      sendButtonSelector: 'button[type="submit"], button[aria-label*="Send" i]',
+      messageContainerSelector: 'main, .conversation',
+    },
+    'poe.com': {
+      inputSelector: 'textarea, div[contenteditable="true"]',
+      sendButtonSelector: 'button[type="submit"], button[aria-label*="Send" i]',
+      messageContainerSelector: 'main, .chat-content',
+    },
+    'you.com': {
+      inputSelector: 'textarea, div[contenteditable="true"]',
+      sendButtonSelector: 'button[type="submit"]',
+      messageContainerSelector: 'main, .response-container',
+    },
+    'www.phind.com': {
+      inputSelector: 'textarea, div[contenteditable="true"]',
+      sendButtonSelector: 'button[type="submit"]',
+      messageContainerSelector: 'main',
+    },
+    'writesonic.com': {
+      inputSelector: 'textarea, div[contenteditable="true"]',
+      sendButtonSelector: 'button[type="submit"]',
+      messageContainerSelector: 'main, .response-content',
+    },
+    'docs.google.com': {
+      inputSelector: 'div[contenteditable="true"]',
+      sendButtonSelector: 'button[aria-label*="Send" i]',
+      messageContainerSelector: 'body',
+    },
   };
 
   function getProfile() {

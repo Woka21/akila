@@ -167,18 +167,41 @@
   window.fetch = async function (input, init) {
     const url = typeof input === 'string' ? input : input.url;
 
-    // Detect AI chat API endpoints — expanded to be more inclusive.
-    // Covers ChatGPT (v1, v4, and new /f/ path), Claude, and generic
-    // /api/chat and /api/conversation patterns.
+    // Detect AI chat API endpoints — expanded to cover all major AI platforms.
+    // If adding a new site, add its API URL pattern here AND to the manifest.
     const isTargetAPI = (
+      // ChatGPT API (v1 REST, /f/ path, edge dialog)
       /\/backend-api\/(f\/)?(conversation|chat|append_message|v1\/chat|edgedialog\/chatcompletion)/.test(url) ||
-      /\/api\/(chat|conversation|messages|send|append|completion)/.test(url) ||
+      /api\.openai\.com\/v\d+\/.*/.test(url) ||
+      // Claude API
       /anthropic\.com\/.*\.json/.test(url) ||
       /claude\.ai\/api\/.*/.test(url) ||
-      /openai\.com\/v\d+\/.*chat/.test(url) ||
+      // Perplexity API
       /perplexity\.ai\/api\/.*/.test(url) ||
       /api\.perplexity\.ai\/.*/.test(url) ||
-      /api\.perplexity\.ai\/labs\/.*/.test(url)
+      // Google Gemini / AI Studio
+      /gemini\.google\.com\/.*api/.test(url) ||
+      /generativelanguage\.google\.com\/.*/.test(url) ||
+      /aistudio\.google\.com\/api\/.*/.test(url) ||
+      // Microsoft Copilot / Bing
+      /copilot\.microsoft\.com\/api\/.*/.test(url) ||
+      /www\.bing\.com\/.*search/.test(url) ||
+      /api\.bing\.com\/.*/.test(url) ||
+      // Hugging Face
+      /huggingface\.co\/api\/.*/.test(url) ||
+      /chat\.huggingface\.co\/.*/.test(url) ||
+      // Poe
+      /poe\.com\/api\/.*/.test(url) ||
+      /poe\.com\/sb\/.*/.test(url) ||
+      // You.com
+      /you\.com\/api\/.*/.test(url) ||
+      // Phind
+      /phind\.com\/api\/.*/.test(url) ||
+      // Writesonic
+      /writesonic\.com\/api\/.*/.test(url) ||
+      // Generic / shared API patterns
+      /\/api\/(chat|conversation|messages|send|append|completion|completions)/.test(url) ||
+      /\/v\d+\/(chat|completion|completions)/.test(url)
     );
 
     // DRIFT DETECTION: this does not sanitize anything — it exists purely
