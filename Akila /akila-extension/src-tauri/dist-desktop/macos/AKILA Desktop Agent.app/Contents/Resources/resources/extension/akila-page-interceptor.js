@@ -172,10 +172,13 @@
     // /api/chat and /api/conversation patterns.
     const isTargetAPI = (
       /\/backend-api\/(f\/)?(conversation|chat|append_message|v1\/chat|edgedialog\/chatcompletion)/.test(url) ||
-      /\/api\/(chat|conversation|messages|send|append)/.test(url) ||
+      /\/api\/(chat|conversation|messages|send|append|completion)/.test(url) ||
       /anthropic\.com\/.*\.json/.test(url) ||
       /claude\.ai\/api\/.*/.test(url) ||
-      /openai\.com\/v\d+\/.*chat/.test(url)
+      /openai\.com\/v\d+\/.*chat/.test(url) ||
+      /perplexity\.ai\/api\/.*/.test(url) ||
+      /api\.perplexity\.ai\/.*/.test(url) ||
+      /api\.perplexity\.ai\/labs\/.*/.test(url)
     );
 
     // DRIFT DETECTION: this does not sanitize anything — it exists purely

@@ -1,0 +1,43 @@
+{
+  "positive_cases": [
+    {"text": "My National ID is 12345678 for verification.", "expected": [{"value": "12345678", "type": "KE_NATIONAL_ID"}]},
+    {"text": "My ID number is 87654321.", "expected": [{"value": "87654321", "type": "KE_NATIONAL_ID"}]},
+    {"text": "My KRA PIN is A123456789B for tax purposes.", "expected": [{"value": "A123456789B", "type": "KE_KRA_PIN"}]},
+    {"text": "My passport number is B1234567 for travel.", "expected": [{"value": "B1234567", "type": "KE_PASSPORT"}]},
+    {"text": "My driving licence is DL1234567890 from NTSA.", "expected": [{"value": "DL1234567890", "type": "KE_DRIVING_LICENCE"}]},
+    {"text": "M-Pesa transaction TB17CVOCY9 confirmed by Safaricom.", "expected": [{"value": "TB17CVOCY9", "type": "KE_MPESA_CODE"}]},
+    {"text": "My NHIF number is 123456789 for hospital cover.", "expected": [{"value": "123456789", "type": "KE_NHIF_NUMBER"}]},
+    {"text": "NSSF 123456 is my pension fund number.", "expected": [{"value": "123456", "type": "KE_NSSF_NUMBER"}]},
+    {"text": "The property is LR No. 209/1156 located in Nairobi.", "expected": [{"value": "LR No. 209/1156", "type": "KE_LAND_PARCEL"}, {"value": "Nairobi", "type": "LOCATION"}]},
+    {"text": "Vehicle KDC 234A is registered under the company.", "expected": [{"value": "KDC 234A", "type": "KE_VEHICLE_PLATE"}]},
+    {"text": "Company registration CPR/2024/12345 is valid.", "expected": [{"value": "CPR/2024/12345", "type": "KE_COMPANY_REG"}]},
+    {"text": "The server at 192.168.1.100 is unreachable.", "expected": [{"value": "192.168.1.100", "type": "IP_ADDRESS"}]},
+    {"text": "Server IPv6 2001:0db8:85a3:0000:0000:8a2e:0370:7334.", "expected": [{"value": "2001:0db8:85a3:0000:0000:8a2e:0370:7334", "type": "IP_ADDRESS"}]},
+    {"text": "My IBAN is GB29NWBK60161331926819 for the transfer.", "expected": [{"value": "GB29NWBK60161331926819", "type": "IBAN_CODE"}]},
+    {"text": "Contact John Kamau at john.kamau@lawfirm.co.ke.", "expected": [{"value": "John Kamau", "type": "PERSON"}, {"value": "john.kamau@lawfirm.co.ke", "type": "EMAIL_ADDRESS"}]},
+    {"text": "Call Sarah Chen on +254 722 123456.", "expected": [{"value": "Sarah Chen", "type": "PERSON"}, {"value": "+254 722 123456", "type": "PHONE_NUMBER"}]},
+    {"text": "The BATEST stamp is DOC-0123456 on page 12.", "expected": [{"value": "DOC-0123456", "type": "LEGAL_BATES_NUMBER"}]},
+    {"text": "Case HCCC-2024-156 is filed in the High Court.", "expected": [{"value": "HCCC-2024-156", "type": "LEGAL_CASE_NUMBER"}]},
+    {"text": "This communication is ATTORNEY CLIENT PRIVILEGED.", "expected": [{"value": "ATTORNEY CLIENT PRIVILEGED", "type": "LEGAL_PRIVILEGE_MARKER"}]},
+    {"text": "My SSN is 456-78-9012.", "expected": [{"value": "456-78-9012", "type": "US_SSN"}]},
+    {"text": "My credit card is 4111-1111-1111-1111.", "expected": [{"value": "4111-1111-1111-1111", "type": "CREDIT_CARD"}]},
+    {"text": "Wanjiku Wacera is the Director of the firm.", "expected": [{"value": "Wanjiku Wacera", "type": "PERSON"}]},
+    {"text": "We filed the appeal for Kiprop Korir against the judgment.", "expected": [{"value": "Kiprop Korir", "type": "PERSON"}]},
+    {"text": "The meeting is scheduled for January 15, 2024.", "expected": [{"value": "January 15, 2024", "type": "DATE_TIME"}]},
+    {"text": "My crypto wallet is 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa.", "expected": [{"value": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", "type": "CRYPTO"}]}
+  ],
+  "negative_cases": [
+    {"text": "The value is 12345678 without any context.", "expected": []},
+    {"text": "Just a random number 99887766 in the document.", "expected": []},
+    {"text": "The phrase ABC-12345 is just a version code.", "expected": []},
+    {"text": "The user said the assistant was helpful today.", "expected": []},
+    {"text": "System prompt says the model should be safe.", "expected": []},
+    {"text": "GO1234 and AB5678 are just test reference codes.", "expected": []},
+    {"text": "The API response was 404 Not Found.", "expected": []},
+    {"text": "Set encoding to utf-8 for the file.", "expected": []},
+    {"text": "The quick brown fox jumps over the lazy dog.", "expected": []},
+    {"text": "Version 2.0.1 was released with bug fixes.", "expected": []},
+    {"text": "Please send me the files by Friday.", "expected": []},
+    {"text": "The document requires no further changes.", "expected": []}
+  ]
+}
