@@ -164,56 +164,49 @@
   }
 
   // --- Patch fetch ---
-  window.fetch = async function (input, init) {
-    const url = typeof input === 'string' ? input : input.url;
 
-    // Detect AI chat API endpoints — expanded to cover all major AI platforms.
-    // If adding a new site, add its API URL pattern here AND to the manifest.
-    const isTargetAPI = (
-      // ChatGPT API (v1 REST, /f/ path, edge dialog)
+  // Detect AI chat API endpoints — expanded to cover all major AI platforms.
+  // If adding a new site, add its API URL pattern here AND to the manifest.
+  function isTargetAPI(url) {
+    return (
       /\/backend-api\/(f\/)?(conversation|chat|append_message|v1\/chat|edgedialog\/chatcompletion)/.test(url) ||
       /api\.openai\.com\/v\d+\/.*/.test(url) ||
-      // Claude API
       /anthropic\.com\/.*\.json/.test(url) ||
       /claude\.ai\/api\/.*/.test(url) ||
-      // Perplexity API
       /perplexity\.ai\/api\/.*/.test(url) ||
       /api\.perplexity\.ai\/.*/.test(url) ||
-      // Google Gemini / AI Studio
       /gemini\.google\.com\/.*api/.test(url) ||
       /generativelanguage\.google\.com\/.*/.test(url) ||
       /aistudio\.google\.com\/api\/.*/.test(url) ||
-      // Microsoft Copilot / Bing
       /copilot\.microsoft\.com\/api\/.*/.test(url) ||
       /www\.bing\.com\/.*search/.test(url) ||
       /api\.bing\.com\/.*/.test(url) ||
-      // Hugging Face
       /huggingface\.co\/api\/.*/.test(url) ||
       /chat\.huggingface\.co\/.*/.test(url) ||
-      // Poe
       /poe\.com\/api\/.*/.test(url) ||
       /poe\.com\/sb\/.*/.test(url) ||
-      // You.com
       /you\.com\/api\/.*/.test(url) ||
-      // Phind
       /phind\.com\/api\/.*/.test(url) ||
-      // Writesonic
       /writesonic\.com\/api\/.*/.test(url) ||
-      // Generic / shared API patterns
+      /docs\.google\.com\/.*/.test(url) ||
       /\/api\/(chat|conversation|messages|send|append|completion|completions)/.test(url) ||
       /\/v\d+\/(chat|completion|completions)/.test(url)
     );
+  }
+
+  window.fetch = async function (input, init) {
+    const url = typeof input === 'string' ? input : input.url;
 
     // DRIFT DETECTION: this does not sanitize anything — it exists purely
     // so you find out when the URL pattern above has stopped matching,
     // instead of leaking silently. A large POST with a JSON body that
     // doesn't match isTargetAPI is worth a look: it may be exactly the
     // conversation endpoint after the vendor renamed it again.
-    if (!isTargetAPI && init?.method === 'POST' && typeof init?.body === 'string' && init.body.length > 200) {
+    if (!isTargetAPI(url) && init?.method === 'POST' && typeof init?.body === 'string' && init.body.length > 200) {
       console.warn('[AKILA][DRIFT-WATCH] Large unmatched POST — verify this isn\'t the real endpoint under a new path:', url, `(${init.body.length} bytes)`);
     }
 
-    if (isTargetAPI && init?.body) {
+    if (isTargetAPI(url) && init?.body) {
       try {
         const bodyObj = JSON.parse(init.body);
 
@@ -301,10 +294,107 @@
     return response;
   };
 
-  // NOTE: XMLHttpRequest patching (needed for apps that don't use fetch)
-  // omitted here for brevity — same pattern, override .send() and read
-  // .responseText via a Proxy on the XHR instance, since XHR doesn't
-  // expose a streaming body the way fetch does.
+  // --- XMLHttpRequest patching ---
+  // Many chat UIs (and particularly older Copilot/Bing builds) send the
+  // conversation request over XHR rather than fetch. Without this, those
+  // requests bypass sanitization entirely — a silent PII leak. XHR doesn't
+  // expose a streaming body the way fetch does, so we can't wrap a
+  // ReadableStream; instead we patch .send() to sanitize the request body
+  // before it goes out, and override responseText/response getters so the
+  // app's own reads see detokenized text.
+  //
+  // Capture the prototype getters BEFORE we replace the constructor — the
+  // patched instance needs to call the originals, not itself.
+  const OriginalXMLHttpRequest = window.XMLHttpRequest;
+  const OriginalXHRSend = XMLHttpRequest.prototype.send;
+  const originalResponseTextGetter = Object.getOwnPropertyDescriptor(
+    XMLHttpRequest.prototype, 'responseText'
+  )?.get;
+  const originalResponseGetter = Object.getOwnPropertyDescriptor(
+    XMLHttpRequest.prototype, 'response'
+  )?.get;
+
+  function PatchedXMLHttpRequest() {
+    const xhr = new OriginalXMLHttpRequest();
+    let selfMethod = null;
+    let selfUrl = null;
+
+    const originalOpen = xhr.open;
+    xhr.open = function (method, url, ...args) {
+      selfMethod = method;
+      selfUrl = url;
+      return originalOpen.apply(this, [method, url, ...args]);
+    };
+
+    xhr.send = function (body) {
+      if (selfMethod === 'POST' && selfUrl && isTargetAPI(selfUrl) && typeof body === 'string' && body.length > 0) {
+        try {
+          const parsed = JSON.parse(body);
+          const walkAndSanitize = async (node) => {
+            if (typeof node === 'string' && node.length >= 3) {
+              return await sanitizeAsync(node);
+            }
+            if (Array.isArray(node)) {
+              const out = [];
+              for (const item of node) out.push(await walkAndSanitize(item));
+              return out;
+            }
+            if (node && typeof node === 'object') {
+              const out = {};
+              for (const [key, value] of Object.entries(node)) out[key] = await walkAndSanitize(value);
+              return out;
+            }
+            return node;
+          };
+          walkAndSanitize(parsed).then((sanitized) => {
+            OriginalXHRSend.call(xhr, JSON.stringify(sanitized));
+          }).catch((e) => {
+            console.warn('[AKILA] Blocking XHR send — sanitization did not complete.', e);
+            // Fail closed: do not call OriginalXHRSend at all
+          });
+          return;
+        } catch (e) {
+          console.warn('[AKILA] Blocking XHR send — body not sanitizable.', e);
+          return;
+        }
+      }
+      OriginalXHRSend.call(xhr, body);
+    };
+
+    if (originalResponseTextGetter) {
+      Object.defineProperty(xhr, 'responseText', {
+        get() {
+          const raw = originalResponseTextGetter.call(this);
+          return (typeof raw === 'string') ? restoreTokens(raw) : raw;
+        },
+        configurable: true,
+      });
+    }
+    if (originalResponseGetter) {
+      Object.defineProperty(xhr, 'response', {
+        get() {
+          const raw = originalResponseGetter.call(this);
+          return (typeof raw === 'string') ? restoreTokens(raw) : raw;
+        },
+        configurable: true,
+      });
+    }
+
+    return xhr;
+  }
+  window.XMLHttpRequest = PatchedXMLHttpRequest;
 
   console.log('[AKILA] Page interceptor active.');
+
+  // Node.js export for testing — does not affect browser behavior
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      restoreTokens,
+      isTargetAPI,
+      createDetokenizingStream,
+      vault,
+      _setVaultForTest: (m) => { vault.clear(); for (const [k, v] of m) vault.set(k, v); },
+      _getVault: () => vault,
+    };
+  }
 })();

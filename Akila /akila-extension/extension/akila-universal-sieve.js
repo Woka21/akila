@@ -192,7 +192,14 @@
   }
 
   function sanitizeAsync(text) {
-    return new Promise((resolve, reject) => {
+    // Retry with exponential backoff: the server's first request can take
+    // 3-5s while spaCy warms up, and a single timeout would fail-closed on
+    // a perfectly healthy but still-warming server. Three attempts at
+    // 1s / 2s / 4s covers the warm-up window; beyond that we fail closed.
+    const delays = [1000, 2000, 4000];
+    let lastErr = null;
+
+    const attempt = () => new Promise((resolve, reject) => {
       chrome.runtime.sendMessage({ type: 'AKILA_ANALYZE', text }, (response) => {
         if (chrome.runtime.lastError || !response?.ok) {
           reject(new Error('AKILA: sanitization failed'));
@@ -205,6 +212,20 @@
         resolve(response.sanitizedText);
       });
     });
+
+    return (async () => {
+      for (let i = 0; i < delays.length; i++) {
+        try {
+          return await attempt();
+        } catch (err) {
+          lastErr = err;
+          if (i < delays.length - 1) {
+            await new Promise((r) => setTimeout(r, delays[i]));
+          }
+        }
+      }
+      throw lastErr;
+    })();
   }
 
   // ---------------------------------------------------------------------
@@ -324,7 +345,7 @@
   const TOKEN_PATTERN = /<AKILA_[A-Z_]+_[0-9a-f]{8}>/g;
 
   // Also match escaped variants (JSON \u003c or HTML &lt;)
-  const TOKEN_PATTERN_ESCAPED = /(?:\u003c|&lt;)AKILA_[A-Z_]+_[0-9a-f]{8}(?:\u003e|&gt;)/g;
+  const TOKEN_PATTERN_ESCAPED = /\\u003cAKILA_[A-Z_]+_[0-9a-f]{8}\\u003e|&lt;AKILA_[A-Z_]+_[0-9a-f]{8}&gt;/g;
   const processedNodes = new WeakSet();
 
   function restoreInNode(node) {
@@ -396,20 +417,102 @@
   }
 
   // ---------------------------------------------------------------------
-  // Boot: SPAs render the input asynchronously, so poll briefly instead
-  // of assuming it exists at script-injection time.
+  // Visual heartbeat — floating badge that shows AKILA status on the page.
+  // Green = protected (server reachable, vault active), red = disconnected.
   // ---------------------------------------------------------------------
-  // FIX: Changed from document_idle to document_start in manifest for
-  // perplexity — the sieve needs to be active BEFORE any API calls happen.
-  // The polling mechanism handles the case where the input isn't rendered yet.
+  function createHeartbeatBadge() {
+    const badge = document.createElement('div');
+    badge.id = 'akila-heartbeat';
+    badge.style.cssText =
+      'position:fixed;top:14px;right:14px;z-index:999999;' +
+      'display:flex;align-items:center;gap:6px;' +
+      'background:rgba(10,10,18,0.85);backdrop-filter:blur(4px);' +
+      'border:1px solid #2a2a3a;border-radius:8px;padding:6px 10px;' +
+      'font:11px/1.4 sans-serif;color:#888;transition:all 0.3s;';
+
+    badge.innerHTML =
+      '<span style="width:8px;height:8px;border-radius:50%;background:#555;display:inline-block;"></span>' +
+      '<span>AKILA</span>';
+
+    document.documentElement.appendChild(badge);
+    return badge;
+  }
+
+  function updateHeartbeatBadge(badge, state) {
+    const dot = badge.querySelector('span:first-child');
+    const label = badge.querySelector('span:last-child');
+
+    if (state === 'ok') {
+      dot.style.background = '#10b981';
+      dot.style.boxShadow = '0 0 8px #10b981';
+      label.textContent = 'AKILA Protected';
+      badge.style.borderColor = 'rgba(16,185,129,0.3)';
+      badge.style.color = '#10b981';
+    } else {
+      dot.style.background = '#ef4444';
+      dot.style.boxShadow = '0 0 8px #ef4444';
+      label.textContent = 'AKILA Offline';
+      badge.style.borderColor = 'rgba(239,68,68,0.3)';
+      badge.style.color = '#ef4444';
+    }
+  }
+
+  function startHeartbeatCheck(badge) {
+    async function check() {
+      try {
+        // Route through the background worker: a direct fetch from the
+        // content script is attributed to the PAGE origin (e.g.
+        // chatgpt.com), which is CORS-blocked by the server. The background
+        // worker is CORS-exempt for any origin in host_permissions, so it
+        // relays the health check the same way it relays AKILA_ANALYZE.
+        const resp = await new Promise((resolve) => {
+          chrome.runtime.sendMessage({ type: 'AKILA_HEALTH_CHECK' }, (response) => {
+            resolve(response);
+          });
+        });
+        if (resp?.ok && resp.status === 'ok') {
+          updateHeartbeatBadge(badge, 'ok');
+        } else {
+          updateHeartbeatBadge(badge, 'err');
+        }
+      } catch (e) {
+        updateHeartbeatBadge(badge, 'err');
+      }
+    }
+    check(); // initial check
+    setInterval(check, 5000); // heartbeat every 5s
+  }
+
+  function mountHeartbeat() {
+    if (document.getElementById('akila-heartbeat')) return;
+    const badge = createHeartbeatBadge();
+    startHeartbeatCheck(badge);
+  }
+
+  // ---------------------------------------------------------------------
+  // Boot: SPAs render the input asynchronously, so poll briefly instead
   // ---------------------------------------------------------------------
   const bootInterval = setInterval(() => {
     if (wireUp()) {
       startObserving();
+      mountHeartbeat();
       clearInterval(bootInterval);
     }
   }, 500);
   setTimeout(() => clearInterval(bootInterval), 20000); // give up after 20s
 
   console.log('[AKILA Universal Sieve] Active, searching for input element...');
+
+  // Node.js export for testing — does not affect browser behavior
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      SITE_PROFILES,
+      TOKEN_PATTERN,
+      TOKEN_PATTERN_ESCAPED,
+      restoreInNode,
+      vault,
+      _setVaultForTest: (m) => { vault.clear(); for (const [k, v] of m) vault.set(k, v); },
+      _getVault: () => vault,
+    };
+  }
 })();

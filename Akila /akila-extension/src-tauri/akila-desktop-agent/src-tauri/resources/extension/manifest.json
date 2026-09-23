@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1ht/fD6SDT6fbTifWK2lZKFJ8HaPk2CxQnBmnG9+CRbiFVWCVayDiUbJF0ABMDF98yvBkePhE0nIqu7n0+armQI4lv0reyE9lv1leyymE04V2R59evmB/8GDqlKwxE0RTConod1hJ8GtYUlQAFT4K/eRJ1Yx2V8jRe6+hS1WQfFggVw/Bey4Imu90NdNEDkAE0mBefxC1IcA8ZjMMIMhlF9IKgoI0HuJ0HoWHAv4UzsAkmQC1SSAaNDqztTIdQyCla8g1Cul0RfTgUzxsnLZwfrh/1uxfCSHOI6DMpX0naoVohiQMybU2e/uQSwSdcbvY3QRxc2We6a6/MEccZM4mQIDAQAB",
   "description": "Tokenizes client-identifying data before it reaches AI chat tools, and restores it in the response.",
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AKILA Privilege Guard"
+  },
   "host_permissions": [
     "http://127.0.0.1:5001/*",
     "https://chatgpt.com/*",

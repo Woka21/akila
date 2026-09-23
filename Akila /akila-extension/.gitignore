@@ -1,0 +1,40 @@
+# AKILA — .gitignore
+# Build artifacts, caches, and machine-specific state that must never be
+# committed. The repo ships SOURCE only; release artifacts (zips, .app
+# bundles, .pyz) are produced by the build scripts and published via
+# GitHub Releases, not stored in git.
+
+# Desktop agent build outputs
+src-tauri/akila-desktop-agent/src-tauri/target/
+src-tauri/akila-desktop-agent/src-tauri/dist-desktop/
+src-tauri/akila-desktop-agent/src-tauri/dist/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / JS
+node_modules/
+.npm/
+
+# Distribution artifacts (produced by packaging/build_pilot_pack.sh)
+dist/*.zip
+dist/*.zip.sha256
+dist/AKILA-PilotPack-v1.0.0/
+dist/AKILA-PilotPack-v1.2.0/
+dist/akila-extension.zip
+dist/akila-extension-v1.2.0.zip
+
+# Obfuscated extension copies (secure-build.sh stages them; shipped
+# resources must stay plaintext so verify_release S3 holds)
+src-tauri/akila-desktop-agent/src-tauri/resources/extension/obfuscated/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

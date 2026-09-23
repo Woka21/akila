@@ -897,6 +897,35 @@ code { font-family: var(--font-mono); }
   font-size: 0.85em;
 }
 
+.extension-download {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: rgba(2, 195, 154, 0.06);
+  border: 1px solid rgba(2, 195, 154, 0.2);
+  border-radius: 12px;
+}
+.extension-download .btn {
+  width: auto;
+  min-width: 240px;
+}
+.extension-download-hint {
+  color: var(--iceblue-dark);
+  font-size: 0.88rem;
+  text-align: center;
+  line-height: 1.5;
+}
+.extension-download-hint code {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--iceblue);
+  font-size: 0.85em;
+}
+
 /* =====================================================
     FOOTER
     ===================================================== */

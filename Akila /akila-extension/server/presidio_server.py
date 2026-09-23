@@ -14,16 +14,24 @@ Detection stack:
 """
 
 import hashlib
+import io
+import json
+import logging
+import os
 import re
 import secrets
+import sys
 import threading
 import time
 from collections import defaultdict
+from pathlib import Path
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from presidio_analyzer import AnalyzerEngine, Pattern, PatternRecognizer
 from presidio_analyzer.nlp_engine import NlpEngineProvider
+from PIL import Image
+import pytesseract
 
 app = Flask(__name__)
 
@@ -33,6 +41,43 @@ app = Flask(__name__)
 # value does not need to be edited per machine.
 EXTENSION_ID = "kcnldfeclciolmbjfiomdfialhbccmhe"
 CORS(app, origins=[f"chrome-extension://{EXTENSION_ID}"])
+
+# ---------------------------------------------------------------------------
+# Security headers + audit logging (Phase 3 hardening from the enterprise
+# design doc). Headers are applied globally; logging is JSON, PII-free by
+# construction — we never serialize the matched text or the vault contents.
+# ---------------------------------------------------------------------------
+
+@app.after_request
+def add_security_headers(resp):
+    resp.headers["X-Content-Type-Options"] = "nosniff"
+    resp.headers["X-Frame-Options"] = "DENY"
+    resp.headers["Cache-Control"] = "no-store"
+    resp.headers["Referrer-Policy"] = "no-referrer"
+    resp.headers["X-AKILA-Server"] = "presidio/1.0"
+    return resp
+
+
+LOGGER = logging.getLogger("akila")
+if not LOGGER.handlers:
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(logging.Formatter("%(message)s"))
+    LOGGER.addHandler(handler)
+LOGGER.setLevel(os.environ.get("AKILA_LOG_LEVEL", "INFO"))
+LOG = LOGGER
+
+
+def audit(event, **fields):
+    """Emit one structured, PII-free audit record."""
+    rec = {
+        "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "event": event,
+        **fields,
+    }
+    # Defensive: never log raw text, token values, or vault contents.
+    for banned in ("text", "sanitizedText", "tokenMap", "VAULT", "extracted_text"):
+        rec.pop(banned, None)
+    LOG.info(json.dumps(rec, default=str))
 
 # ===========================================================================
 # LAYER 3: NLP Engine — en_core_web_lg for better PERSON/ORG detection
@@ -367,6 +412,8 @@ def vault_cleanup_loop():
             expired = [t for t, (_, exp) in VAULT.items() if exp < now]
             for t in expired:
                 del VAULT[t]
+            if expired:
+                METRICS.vault_evictions_total += len(expired)
 
 
 threading.Thread(target=vault_cleanup_loop, daemon=True).start()
@@ -505,14 +552,15 @@ def filter_by_context_confidence(spans, text):
     CONTEXT_BOOST_REQUIRED = {"LEGAL_BATES_NUMBER": 0.7, "KE_MPESA_CODE": 0.7}
 
     # Type-specific thresholds (lowered for high-risk PII types)
+    # KE_* numeric entities (ID, NHIF, NSSF) are deliberately EXCLUDED here —
+    # they keep the default 0.6 threshold so their pattern score (0.5) only
+    # passes when context words confirm them. This prevents bare 6-8 digit
+    # numbers (dates, counts, reference numbers) from being tokenized.
     TYPE_THRESHOLDS = {
         "PERSON": 0.45,
         "LOCATION": 0.50,
         "ORGANIZATION": 0.50,
         "DATE_TIME": 0.55,
-        "KE_NATIONAL_ID": 0.45,
-        "KE_NHIF_NUMBER": 0.45,
-        "KE_NSSF_NUMBER": 0.45,
     }
 
     # Expanded context words (broader than the original narrow list)
@@ -707,7 +755,10 @@ def enhance_names_with_kenyan_list(spans, text):
             used_positions.add((match.start(), match.end()))
 
     # 4. Find names with honorifics followed by surname: "President Biden"
-    ROLE_NAME_PATTERN = r"\b(?:President|CEO|Director|Manager|Doctor|Professor|Judge|Senator|Ambassador)\s+[A-Z][a-z]+"
+    # Case-sensitive name portion (via (?-i:)) so common lowercase words
+    # like "of" don't get swallowed — without this, "Director of the
+    # firm" produced a false PERSON span "Director of".
+    ROLE_NAME_PATTERN = r"\b(?:President|CEO|Director|Manager|Doctor|Professor|Judge|Senator|Ambassador)\s+(?-i:[A-Z][a-z]+)"
     for match in re.finditer(ROLE_NAME_PATTERN, text, re.IGNORECASE):
         if (match.start(), match.end()) not in used_positions:
             name_spans.append(type('Span', (), {
@@ -764,23 +815,146 @@ GENERIC_TIME_WORDS = {
 
 
 # ===========================================================================
+# Observability + rate limiting + input validation (Phase 3 hardening)
+# ===========================================================================
+
+MAX_REQUEST_BYTES = 50 * 1024          # 50 KB — PII text should never be larger
+MAX_TEXT_LENGTH = 20000                # chars per single analyze call
+RATE_LIMIT_WINDOW_S = 60               # seconds
+RATE_LIMIT_MAX = 60                    # requests per window per client
+ANALYZE_TIMEOUT_S = 25                 # hard cap on Presidio analysis time
+
+# In-memory sliding-window rate limiter. Keyed by the client's loopback
+# address (the only client this server ever has: 127.0.0.1). Not thread-safe
+# by itself, but Flask's dev server is single-threaded and the production
+# path is gunicorn with a single worker, so a plain dict is adequate. If the
+# deployment ever goes multi-process, move this to a shared store.
+_rate_buckets = defaultdict(list)     # ip -> list of monotonic timestamps
+
+
+def _client_ip():
+    return request.remote_addr or "127.0.0.1"
+
+
+def check_rate_limit():
+    """Return True if the request is allowed, False if rate-limited."""
+    now = time.monotonic()
+    ip = _client_ip()
+    timestamps = _rate_buckets[ip]
+    # Drop timestamps outside the window
+    cutoff = now - RATE_LIMIT_WINDOW_S
+    timestamps[:] = [t for t in timestamps if t >= cutoff]
+    if len(timestamps) >= RATE_LIMIT_MAX:
+        return False
+    timestamps.append(now)
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Metrics accumulator — updated on every /analyze and read by /metrics.
+# ---------------------------------------------------------------------------
+
+class Metrics:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.reset()
+
+    def reset(self):
+        self.requests_total = 0
+        self.requests_by_entity = defaultdict(int)
+        self.error_total = 0
+        self.latency_sum_ms = 0.0
+        self.latency_count = 0
+        self.vault_evictions_total = 0
+
+    def record(self, entities, latency_ms, error=False):
+        with self.lock:
+            self.requests_total += 1
+            if error:
+                self.error_total += 1
+            else:
+                for e in entities:
+                    self.requests_by_entity[e] += 1
+            self.latency_sum_ms += latency_ms
+            self.latency_count += 1
+
+    def snapshot(self):
+        with self.lock:
+            return {
+                "requests_total": self.requests_total,
+                "requests_by_entity": dict(self.requests_by_entity),
+                "error_total": self.error_total,
+                "error_rate": (
+                    round(self.error_total / self.requests_total, 4)
+                    if self.requests_total else 0.0
+                ),
+                "average_latency_ms": (
+                    round(self.latency_sum_ms / self.latency_count, 1)
+                    if self.latency_count else 0.0
+                ),
+            }
+
+
+METRICS = Metrics()
+
+
+def _validate_analyze_payload():
+    """Validate the /analyze request body. Raises ValueError on bad input."""
+    if request.content_length is not None and request.content_length > MAX_REQUEST_BYTES:
+        raise ValueError(
+            f"request body too large ({request.content_length} bytes); "
+            f"max is {MAX_REQUEST_BYTES}"
+        )
+
+    data = request.get_json(force=True, silent=False)
+    if not isinstance(data, dict):
+        raise ValueError("request body must be a JSON object")
+
+    text = data.get("text")
+    if text is None:
+        raise ValueError("missing required field 'text'")
+    if not isinstance(text, str):
+        raise ValueError("'text' must be a string")
+    if len(text) > MAX_TEXT_LENGTH:
+        raise ValueError(
+            f"'text' too long ({len(text)} chars); max is {MAX_TEXT_LENGTH}"
+        )
+    return text
+
+
+# ===========================================================================
 # The /analyze endpoint
 # ===========================================================================
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    data = request.get_json(force=True)
-    text = data.get("text", "")
+    start = time.monotonic()
+    try:
+        text = _validate_analyze_payload()
+    except ValueError as e:
+        METRICS.record([], 0, error=True)
+        audit("analyze.rejected", reason=str(e), ip=_client_ip())
+        return jsonify({"error": str(e)}), 400
+
+    if not check_rate_limit():
+        METRICS.record([], 0, error=True)
+        audit("analyze.rate_limited", ip=_client_ip())
+        return jsonify({"error": "rate limit exceeded"}), 429
 
     if not text.strip():
         return jsonify({"sanitizedText": text, "tokenMap": {}})
 
     # Run Presidio analyzer with ALL entity types
-    results = analyzer.analyze(
-        text=text,
-        language="en",
-        entities=ALL_ENTITIES,
-    )
+    try:
+        results = analyzer.analyze(
+            text=text,
+            language="en",
+            entities=ALL_ENTITIES,
+        )
+    except Exception as e:
+        METRICS.record([], 0, error=True)
+        audit("analyze.error", stage="presidio", error_type=type(e).__name__, ip=_client_ip())
+        return jsonify({"error": "analysis failed"}), 500
 
     # Layer 4: Apply false positive suppression
     results = filter_by_deny_list(results, text)
@@ -814,7 +988,29 @@ def analyze():
         for token, original in token_map.items():
             VAULT[token] = (original, now + TTL_SECONDS)
 
+    latency_ms = (time.monotonic() - start) * 1000.0
+    entity_types = sorted({r.entity_type for r in results})
+    METRICS.record(entity_types, latency_ms, error=False)
+    audit(
+        "analyze.success",
+        entity_count=len(results),
+        entity_types=entity_types,
+        token_count=len(token_map),
+        text_length=len(text),
+        latency_ms=round(latency_ms, 1),
+        ip=_client_ip(),
+    )
     return jsonify({"sanitizedText": sanitized_text, "tokenMap": token_map})
+
+
+@app.route("/metrics", methods=["GET"])
+def metrics():
+    snap = METRICS.snapshot()
+    with VAULT_LOCK:
+        vault_size = len(VAULT)
+    snap["vault_size"] = vault_size
+    snap["vault_evictions_total"] = METRICS.vault_evictions_total
+    return jsonify(snap)
 
 
 @app.route("/health", methods=["GET"])
@@ -822,6 +1018,106 @@ def health():
     with VAULT_LOCK:
         vault_size = len(VAULT)
     return jsonify({"status": "ok", "vault_size": vault_size})
+
+
+# ---------------------------------------------------------------------------
+# Document / image endpoint — DETECT AND BLOCK, not detect-and-restore.
+#
+# Deliberately not symmetric with /analyze. Text tokens are reversible by
+# exact string substitution; there is no equivalent reversible operation for a
+# region of an image once an AI model has processed it. So this endpoint
+# answers a yes/no question — "does this file contain PII" — and returns
+# category labels only, never the extracted text or the original image data.
+# The client decides whether to block the upload; this server never sees where
+# the upload was headed and never forwards the file anywhere.
+# ---------------------------------------------------------------------------
+
+MAX_UPLOAD_BYTES = 15 * 1024 * 1024  # 15MB — reject anything larger outright
+
+
+@app.route("/analyze-document", methods=["POST"])
+def analyze_document():
+    if "file" not in request.files:
+        METRICS.record([], 0, error=True)
+        audit("document.rejected", reason="no file", ip=_client_ip())
+        return jsonify({"error": "no file provided"}), 400
+
+    if not check_rate_limit():
+        METRICS.record([], 0, error=True)
+        audit("document.rate_limited", ip=_client_ip())
+        return jsonify({"error": "rate limit exceeded"}), 429
+
+    uploaded = request.files["file"]
+    raw_bytes = uploaded.read()
+
+    if len(raw_bytes) > MAX_UPLOAD_BYTES:
+        METRICS.record([], 0, error=True)
+        audit("document.rejected", reason="too_large", bytes=len(raw_bytes), ip=_client_ip())
+        return jsonify({"error": "file too large"}), 413
+
+    try:
+        image = Image.open(io.BytesIO(raw_bytes))
+        image.load()  # force full decode now, so a truncated/corrupt file
+                       # fails here with a clear error, not deep inside OCR
+    except Exception as e:
+        # Not a readable image (could be a PDF, a corrupt file, or a type
+        # this endpoint doesn't support yet — see limitations below).
+        # FAIL CLOSED: unreadable input is treated as "cannot verify safe,"
+        # not "assume it's fine."
+        METRICS.record([], 0, error=True)
+        audit("document.rejected", reason="unreadable_file",
+              error_type=type(e).__name__, ip=_client_ip())
+        return jsonify({
+            "containsPII": True,
+            "reason": "unreadable_file",
+            "detail": f"Could not decode as an image ({type(e).__name__}). "
+                      f"PDF and other non-image formats are not yet supported "
+                      f"by this endpoint — treated as unsafe until they are.",
+        }), 200
+
+    extracted_text = pytesseract.image_to_string(image)
+
+    if not extracted_text.strip():
+        # No text found at all — genuinely empty or OCR found nothing
+        # readable. Not the same as "confirmed clean": a heavily stylized
+        # font, handwriting, or a rotated scan can also produce empty OCR
+        # output. Flag this distinction explicitly rather than silently
+        # treating "OCR found nothing" as "confirmed no PII."
+        audit("document.result", reason="no_text_detected", ip=_client_ip())
+        return jsonify({
+            "containsPII": False,
+            "reason": "no_text_detected",
+            "detail": "OCR found no readable text. This does not guarantee "
+                      "the image has no sensitive content (e.g. handwriting, "
+                      "heavily stylized fonts, or low-quality scans can OCR "
+                      "as empty) — treat with caution, not as a confirmed-clean result.",
+        }), 200
+
+    results = analyzer.analyze(
+        text=extracted_text,
+        language="en",
+        entities=ALL_ENTITIES,
+    )
+
+    entity_types_found = sorted(set(r.entity_type for r in results))
+    METRICS.record(entity_types_found, 0, error=False)
+    audit(
+        "document.result",
+        reason="entities_detected",
+        entity_count=len(results),
+        entity_types=entity_types_found,
+        ip=_client_ip(),
+    )
+
+    return jsonify({
+        "containsPII": len(results) > 0,
+        "reason": "entities_detected" if results else "clean",
+        "entityTypesFound": entity_types_found,
+        "entityCount": len(results),
+        # Deliberately NOT included: extracted_text, original image data,
+        # or the actual matched spans. The client needs enough to decide
+        # block/allow and show a helpful message — nothing more.
+    })
 
 
 if __name__ == "__main__":

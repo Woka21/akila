@@ -1,0 +1,60 @@
+AKILA PRIVILEGE GUARD — PILOT PACK
+==================================
+
+Thank you for piloting AKILA Privilege Guard. It protects client-identifying
+data (names, ID numbers, case numbers, phone numbers...) before it reaches
+ChatGPT / Claude, and restores it in the reply. Everything runs on YOUR
+machine — nothing is sent anywhere.
+
+There are two parts to install, once each:
+
+STEP 1 — Start the local server
+------------------------------------------------------------------
+  macOS:  double-click  AKILA-Server.command
+  Linux:  run  ./server-start.sh   in a terminal
+  Windows: double-click  server-start.bat
+
+  The first run sets itself up and downloads a ~600 MB language model.
+  This takes a few minutes ONCE. Later starts are quick.
+
+  You know it worked when you see:
+      Running on http://127.0.0.1:5001
+
+  IMPORTANT: keep that window open while you use AKILA. Closing it
+  stops the protection.
+
+  If you see "Python 3.10 or newer was not found":
+      install Python from https://www.python.org/downloads/ then repeat.
+
+STEP 2 — Load the browser extension (20 seconds)
+------------------------------------------------------------------
+  1. Open Chrome and go to:  chrome://extensions
+  2. Toggle ON "Developer mode" (top-right corner).
+  3. Click "Load unpacked".
+  4. Choose the  extension  folder that sits next to this file
+     (the one containing manifest.json).
+  5. Rise a glass. You're done.
+
+QUICK TEST
+------------------------------------------------------------------
+  Go to chatgpt.com or claude.ai and type a sentence with a client name,
+  phone number or national ID. It should arrive tokenized
+  (<AKILA_PERSON_...>), and your real data comes back in the reply.
+
+THINGS TO KNOW
+------------------------------------------------------------------
+  * Both parts must be running: the server window in Step 1 stays open,
+    and the extension stays loaded in Chrome.
+  * Protected data is restored only within the same browser session.
+    After you close and reopen Chrome, old conversations may show tokens
+    (the raw data is never written to disk).
+  * A GREEN heartbeat badge ("AKILA Protected") appears in the top-right
+    corner of every protected site (ChatGPT, Claude, etc.) when the
+    server is online. RED means the server is offline and messages are
+    blocked as a safety measure.
+  * Click the AKILA icon in your Chrome toolbar for a full status
+    dashboard — server health, sync status, and active protected tabs.
+  * If ChatGPT/Claude won't send your message, the server window is the
+    first thing to check.
+
+Need help? Your pilot host has the full troubleshooting checklist.
