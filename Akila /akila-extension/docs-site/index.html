@@ -148,16 +148,16 @@
         <div class="platform-icon">🍎</div>
         <h3>macOS</h3>
         <p>Universal binary for Apple Silicon and Intel</p>
-        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.dmg" class="btn btn-primary download-btn">
-          Download (.dmg, ~12MB)
+        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-macOS.zip" class="btn btn-primary download-btn">
+          Download (.zip, ~12MB)
         </a>
       </div>
       <div class="platform-card">
         <div class="platform-icon">🪟</div>
         <h3>Windows</h3>
-        <p>64-bit MSI installer</p>
-        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.msi" class="btn btn-primary download-btn">
-          Download (.msi, ~10MB)
+        <p>64-bit installer with auto-update</p>
+        <a href="https://github.com/Woka21/akila/releases/latest/download/AKILA-Desktop-Agent-Windows.zip" class="btn btn-primary download-btn">
+          Download (.zip, ~10MB)
         </a>
       </div>
       <div class="platform-card">
@@ -169,12 +169,41 @@
         </a>
       </div>
     </div>
+    <div class="extension-download-card">
+      <h3>Just the extension?</h3>
+      <p>Download the browser extension only — no desktop agent required.</p>
+      <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip" class="btn btn-outline" id="ext-download-btn">
+        Download Extension (.zip, ~300KB)
+      </a>
+      </div>
       <div class="note">
-        <p><small>After installing, the app automatically starts the local server and opens the extension setup guide in your browser. Or jump directly to <a href="#extension">manual extension setup</a>. Need just the extension? <a href="https://github.com/Woka21/akila/releases/latest/download/akila-extension.zip">Download the extension ZIP here</a>.</small></p>
+        <p><small>After installing, the app automatically starts the local server. Or jump directly to <a href="#extension">manual extension setup</a>.</small></p>
       </div>
   </section>
 
-  <!-- Extension -->
+  <!-- Download Location Modal -->
+  <div id="download-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="modal-close" id="modal-close">&times;</span>
+      <h3>Extension downloaded successfully</h3>
+      <p style="margin-bottom:12px;">Your file should be in your <strong>Downloads</strong> folder. If your browser asked where to save, use that location.</p>
+      <div class="download-location">
+        <strong>Typical locations:</strong>
+        <code>~/Downloads/akila-extension.zip</code> (macOS)
+        <br><code>%USERPROFILE%\Downloads\akila-extension.zip</code> (Windows)
+        <br><code>~/Downloads/akila-extension.zip</code> (Linux)
+      </div>
+      <p style="margin-top:12px; margin-bottom:16px;"><strong>Next steps:</strong></p>
+      <ol class="modal-steps">
+        <li>Right-click the ZIP file → <strong>Extract All</strong> (Windows) or double-click (macOS)</li>
+        <li>Open your browser's extensions page (<code>chrome://extensions</code>)</li>
+        <li>Enable <strong>Developer mode</strong> (toggle in top-right)</li>
+        <li>Click <strong>Load unpacked</strong> and select the extracted folder</li>
+      </ol>
+      <a href="#extension" class="btn btn-primary modal-action">See Full Extension Setup Guide</a>
+    </div>
+  </div>
+
   <!-- Extension -->
   <section class="extension" id="extension">
     <div class="section-header">

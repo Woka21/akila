@@ -102,7 +102,37 @@ browserPills.forEach(pill => {
   });
 });
 
-// Add browser-pill to interactive elements for cursor
+// Extension download modal
+const extDownloadBtn = document.getElementById('ext-download-btn');
+const downloadModal = document.getElementById('download-modal');
+const modalClose = document.getElementById('modal-close');
+
+if (extDownloadBtn && downloadModal) {
+  extDownloadBtn.addEventListener('click', (e) => {
+    setTimeout(() => {
+      downloadModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }, 1500);
+  });
+}
+
+if (modalClose && downloadModal) {
+  modalClose.addEventListener('click', () => {
+    downloadModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  });
+}
+
+if (downloadModal) {
+  downloadModal.addEventListener('click', (e) => {
+    if (e.target === downloadModal) {
+      downloadModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+// Browser pill hover effects
 const extInteractive = document.querySelectorAll('.browser-pill');
 extInteractive.forEach(el => {
   el.addEventListener('mouseenter', () => {
