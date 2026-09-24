@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=380, initial-scale=1">
+  <title>AKILA Privilege Guard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a12;
+      color: #e0e0e0;
+      padding: 16px;
+      width: 380px;
+      min-height: 280px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .logo { width: 32px; height: 32px; background: #1a1a2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .logo svg { width: 22px; height: 22px; }
+    .header h1 { font-size: 18px; font-weight: 600; color: #ffffff; }
+    .header .version { font-size: 12px; color: #888; margin-left: auto; }
+
+    .status-card {
+      background: #161620;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #222;
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-label { font-size: 13px; color: #aaa; }
+    .status-value { font-size: 13px; font-weight: 500; }
+    .status-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .dot-green { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .dot-red { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+    .dot-amber { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .dot-gray { background: #555; }
+
+    .actions { display: flex; gap: 10px; margin-bottom: 14px; }
+    .btn {
+      flex: 1;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: #0f3460; color: #fff; }
+    .btn-secondary { background: #2a2a3a; color: #e0e0e0; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .sites-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .site-pill {
+      background: #161620;
+      border: 1px solid #2a2a3a;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: #aaa;
+      transition: all 0.2s;
+    }
+    .site-pill.active { border-color: #10b981; color: #10b981; }
+
+    .footer { font-size: 11px; color: #666; text-align: center; }
+    .loading { opacity: 0.5; pointer-events: none; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .badge-protected { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-pending { background: rgba(245, 159, 3, 0.15); color: #f59e0b; border: 1px solid rgba(245, 159, 3, 0.3); }
+    .badge-disconnected { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .diag-line { padding: 2px 0; color: #aaa; word-break: break-word; }
+    .diag-ok { color: #10b981; }
+    .diag-fail { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg viewBox="0 0 100 100">
+        <polygon points="20,20 80,20 80,80 20,80" fill="#0f3460"/>
+        <polygon points="20,20 50,5 80,20" fill="#0f3460"/>
+        <polygon points="80,20 80,80 50,95 20,80" fill="#0a192f"/>
+        <circle cx="50" cy="45" r="12" fill="#4ade80"/>
+        <circle cx="46" cy="41" r="3" fill="#0a192f"/>
+        <circle cx="54" cy="41" r="3" fill="#0a192f"/>
+        <path d="M40,55 Q50,62 60,55" stroke="#0a192f" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>AKILA Privilege Guard</h1>
+    <span class="version">v1.0.0</span>
+  </div>
+
+  <div class="status-card" id="statusCard">
+    <div class="status-row">
+      <span class="status-label">Local Server</span>
+      <span class="status-value" id="serverStatus">
+        <span class="status-dot dot-gray"></span>Checking...
+      </span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">Extension Sync</span>
+      <span class="status-value" id="syncStatus">
+        <span class="status-dot dot-gray"></span>Checking...
+      </span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">Vault</span>
+      <span class="status-value" id="vaultStatus">
+        <span class="status-dot dot-gray"></span>—
+      </span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">Protected Sites</span>
+      <span class="status-value" id="sitesStatus">
+        <span class="status-dot dot-gray"></span>0/11
+      </span>
+    </div>
+    <div class="status-row">
+      <span class="status-label">Overall</span>
+      <span class="status-value" id="overallStatus">
+        <span class="status-dot dot-gray"></span>Disconnected
+      </span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="refreshBtn">Refresh Status</button>
+    <button class="btn btn-secondary" id="testApiBtn">Test Analyze</button>
+    <button class="btn btn-secondary" id="diagnoseBtn">Diagnose</button>
+  </div>
+
+  <div id="diagnoseOutput" class="diag-output" style="display:none; margin-bottom:12px; font-family: monospace; font-size: 11px; background:#05050a; border:1px solid #2a2a3a; border-radius:8px; padding:10px; max-height:200px; overflow:auto;">
+  </div>
+
+  <div class="sites-grid" id="sitesGrid">
+    <div class="site-pill" data-site="chatgpt.com">ChatGPT</div>
+    <div class="site-pill" data-site="claude.ai">Claude</div>
+    <div class="site-pill" data-site="gemini.google.com">Gemini</div>
+    <div class="site-pill" data-site="copilot.microsoft.com">Copilot</div>
+    <div class="site-pill" data-site="www.perplexity.ai">Perplexity</div>
+    <div class="site-pill" data-site="www.bing.com">Bing</div>
+    <div class="site-pill" data-site="chat.huggingface.co">HF Chat</div>
+    <div class="site-pill" data-site="poe.com">Poe</div>
+    <div class="site-pill" data-site="you.com">You.com</div>
+    <div class="site-pill" data-site="www.phind.com">Phind</div>
+    <div class="site-pill" data-site="writesonic.com">Writesonic</div>
+  </div>
+
+  <div class="footer" id="lastCheck">Last checked: —</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

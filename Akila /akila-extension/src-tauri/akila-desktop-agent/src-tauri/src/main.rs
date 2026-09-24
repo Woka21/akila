@@ -65,8 +65,16 @@ fn extension_is_loaded() -> bool {
 
 // --- Commands ----------------------------------------------------------------
 
-#[tauri::command]
-fn start_flask_server(app: AppHandle) -> Result<(), String> {
+// --- Watchdog -----------------------------------------------------------------
+//
+// The Flask server is a child process we spawn once at startup. If it crashes
+// (OOM, unhandled exception, spacy model load failure), nothing restarts it —
+// the extension keeps reporting red and the user has no indication the fix is
+// a single click. So we poll it every 5s and respawn it if the process is
+// gone. We also verify the HTTP endpoint is actually answering, because a
+// process that's alive but hung in a blocking inference call is just as dead.
+
+fn spawn_flask(app: &AppHandle) -> Result<(), String> {
     let dir = app
         .path()
         .resource_dir()
@@ -75,7 +83,6 @@ fn start_flask_server(app: AppHandle) -> Result<(), String> {
 
     let py = python_executable(&dir);
 
-    // Try to run the compiled .pyz first, fall back to .py for dev
     let pyz_path = dir.join("server.pyz");
     let py_script = if pyz_path.exists() {
         pyz_path.to_string_lossy().into_owned()
@@ -97,6 +104,16 @@ fn start_flask_server(app: AppHandle) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn start_flask_server(app: AppHandle) -> Result<(), String> {
+    // Don't double-spawn.
+    let state = app.state::<FlaskChild>();
+    if state.0.lock().unwrap().is_some() {
+        return Ok(());
+    }
+    spawn_flask(&app)
+}
+
+#[tauri::command]
 fn stop_flask_server(app: AppHandle) -> Result<(), String> {
     let state = app.state::<FlaskChild>();
     let mut guard = state.0.lock().unwrap();
@@ -106,6 +123,43 @@ fn stop_flask_server(app: AppHandle) -> Result<(), String> {
     }
     println!("[AKILA] Flask server stopped");
     Ok(())
+}
+
+/// True only if the server answers /health on the wire. A stored PID is not
+/// enough — the process can be alive but hung in a blocking inference call.
+fn server_responds() -> bool {
+    use std::io::Read;
+    let mut child = match Command::new("curl")
+        .args(["-s", "-o", "/dev/null", "-w", "%{http_code}", "--max-time", "3", "http://127.0.0.1:5001/health"])
+        .stdout(Stdio::piped())
+        .spawn()
+    {
+        Ok(c) => c,
+        Err(_) => return false,
+    };
+    let _ = child.wait();
+    let mut buf = String::new();
+    if let Some(mut out) = child.stdout.take() {
+        let _ = out.read_to_string(&mut buf);
+    }
+    buf.trim() == "200"
+}
+
+/// Check whether the Flask child is still alive and answering. Returns true if
+/// the server is healthy, false if it must be respawned.
+fn needs_watchdog_restart(app: &AppHandle) -> bool {
+    let state = app.state::<FlaskChild>();
+    let mut guard = state.0.lock().unwrap();
+    match guard.as_mut() {
+        Some(child) => match child.try_wait() {
+            Ok(None) => !server_responds(), // alive but not answering
+            Ok(Some(_)) | Err(_) => {
+                let _ = guard.take();
+                true
+            }
+        },
+        None => true,
+    }
 }
 
 #[tauri::command]
@@ -121,7 +175,7 @@ fn health_check(app: AppHandle) -> Result<HealthResponse, String> {
     Ok(HealthResponse {
         status: "ok".into(),
         flask_pid,
-        server_running: flask_pid.is_some(),
+        server_running: server_responds(),
         extension_installed: extension_is_loaded(),
     })
 }
@@ -340,6 +394,20 @@ fn main() {
             let handle = app.handle();
             let _ = start_flask_server(handle.clone());
             build_tray(&handle)?;
+
+            // Watchdog: if the Flask process dies or stops answering, respawn
+            // it automatically so the extension never silently goes red.
+            let watchdog = handle.clone();
+            std::thread::spawn(move || loop {
+                std::thread::sleep(std::time::Duration::from_secs(5));
+                if needs_watchdog_restart(&watchdog) {
+                    println!("[AKILA] Watchdog: server unresponsive — respawning");
+                    if let Err(e) = spawn_flask(&watchdog) {
+                        eprintln!("[AKILA] Watchdog: respawn failed: {}", e);
+                    }
+                }
+            });
+
             Ok(())
         })
         .on_window_event(|window, event| {

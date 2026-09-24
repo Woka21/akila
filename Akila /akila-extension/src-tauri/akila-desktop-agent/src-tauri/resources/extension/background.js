@@ -121,4 +121,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return false; // not a message type we handle
 });
 
+// --- Keepalive: MV3 service workers die after ~30s of inactivity and Chrome
+// does NOT restart them until you interact with the extension. That makes the
+// link between the page and the server vanish the moment you close the popup,
+// so a user typing into ChatGPT gets raw PII sent unfiltered.
+//
+// A periodic alarm fires even while the SW is suspended, which wakes it for a
+// no-op ping and immediately re-registers the listener. The connection stays
+// live across browser restarts without any user action.
+(function keepalive() {
+  const PING_INTERVAL = 20; // seconds — well under Chrome's 30s idle timeout
+  chrome.alarms.create('akila-keepalive', { periodInMinutes: PING_INTERVAL / 60 });
+
+  chrome.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name !== 'akila-keepalive') return;
+    // Touch the listener registry so Chrome considers the SW "active".
+    // No network call — the real health check happens on demand.
+    chrome.runtime.getPlatformInfo(() => {});
+  });
+})();
+
 console.log('[AKILA] Background service worker active.');

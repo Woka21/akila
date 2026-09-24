@@ -438,7 +438,7 @@
     return badge;
   }
 
-  function updateHeartbeatBadge(badge, state) {
+  function updateHeartbeatBadge(badge, state, detail) {
     const dot = badge.querySelector('span:first-child');
     const label = badge.querySelector('span:last-child');
 
@@ -448,23 +448,22 @@
       label.textContent = 'AKILA Protected';
       badge.style.borderColor = 'rgba(16,185,129,0.3)';
       badge.style.color = '#10b981';
+      badge.title = 'AKILA Protected — server reachable';
     } else {
       dot.style.background = '#ef4444';
       dot.style.boxShadow = '0 0 8px #ef4444';
       label.textContent = 'AKILA Offline';
       badge.style.borderColor = 'rgba(239,68,68,0.3)';
       badge.style.color = '#ef4444';
+      badge.title = detail
+        ? 'AKILA Offline: ' + detail
+        : 'AKILA Offline — server unreachable';
     }
   }
 
   function startHeartbeatCheck(badge) {
     async function check() {
       try {
-        // Route through the background worker: a direct fetch from the
-        // content script is attributed to the PAGE origin (e.g.
-        // chatgpt.com), which is CORS-blocked by the server. The background
-        // worker is CORS-exempt for any origin in host_permissions, so it
-        // relays the health check the same way it relays AKILA_ANALYZE.
         const resp = await new Promise((resolve) => {
           chrome.runtime.sendMessage({ type: 'AKILA_HEALTH_CHECK' }, (response) => {
             resolve(response);
@@ -473,10 +472,10 @@
         if (resp?.ok && resp.status === 'ok') {
           updateHeartbeatBadge(badge, 'ok');
         } else {
-          updateHeartbeatBadge(badge, 'err');
+          updateHeartbeatBadge(badge, 'err', resp?.error || 'server not responding');
         }
       } catch (e) {
-        updateHeartbeatBadge(badge, 'err');
+        updateHeartbeatBadge(badge, 'err', e.message || 'background worker unreachable');
       }
     }
     check(); // initial check
