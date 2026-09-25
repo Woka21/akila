@@ -193,7 +193,21 @@ fn health_check(app: AppHandle) -> Result<HealthResponse, String> {
 // so the copy lands in exactly the directory Chrome already looks at.
 
 const BUNDLED_EXT_DIR: &str = "resources/extension";
-const EXTENSION_ID: &str = "kcnldfeclciolmbjfiomdfialhbccmhe";
+
+fn user_extension_dir() -> Option<PathBuf> {
+    // A folder the user CAN see and open — unlike Chrome's own extension
+    // storage, which lives in a hidden dot-directory and can't be browsed.
+    // We drop the extension here and tell the user to "Load unpacked" it,
+    // which is the standard, reliable Chrome flow.
+    let home = dirs::home_dir()?;
+    if cfg!(target_os = "macos") {
+        Some(home.join("Applications").join("AKILA Extension"))
+    } else if cfg!(target_os = "windows") {
+        Some(home.join("AppData").join("Local").join("AKILA Extension"))
+    } else {
+        Some(home.join(".local").join("share").join("AKILA Extension"))
+    }
+}
 
 #[tauri::command]
 fn install_extension(app: AppHandle) -> Result<String, String> {
@@ -207,9 +221,8 @@ fn install_extension(app: AppHandle) -> Result<String, String> {
         return Err("Bundled extension manifest not found in resources".into());
     }
 
-    let dest_dir = chrome_extensions_dir()
-        .ok_or_else(|| "Could not locate Chrome's extension directory for this platform".to_string())?
-        .join(EXTENSION_ID);
+    let dest_dir = user_extension_dir()
+        .ok_or_else(|| "Could not determine a user-accessible install location".to_string())?;
 
     fs::create_dir_all(&dest_dir)
         .map_err(|e| format!("Failed to create extension dir: {}", e))?;
@@ -222,20 +235,33 @@ fn install_extension(app: AppHandle) -> Result<String, String> {
         "akila-universal-sieve.js",
         "popup.html",
         "popup.js",
+        "icons/16x16.png",
+        "icons/32x32.png",
+        "icons/48x48.png",
+        "icons/128x128.png",
+        "icons/256x256.png",
+        "icons/512x512.png",
     ];
 
     let mut copied = 0;
     for f in runtime_files.iter() {
         let src = resource_dir.join(f);
         if src.exists() {
-            fs::copy(&src, dest_dir.join(f))
+            let dst = dest_dir.join(f);
+            if let Some(parent) = dst.parent() {
+                let _ = fs::create_dir_all(parent);
+            }
+            fs::copy(&src, dst)
                 .map_err(|e| format!("Failed to copy {}: {}", f, e))?;
             copied += 1;
         }
     }
 
+    // Open the Chrome extensions page so the user can click "Load unpacked".
+    let _ = open_url("chrome://extensions".to_string());
+
     Ok(format!(
-        "AKILA extension installed to {} ({} files). Restart Chrome to activate it.",
+        "Extension written to {} ({} files).\n\nNext: in the Chrome page that just opened, click \"Load unpacked\" and select that folder.",
         dest_dir.display(), copied
     ))
 }
@@ -243,6 +269,27 @@ fn install_extension(app: AppHandle) -> Result<String, String> {
 #[tauri::command]
 fn open_chrome_extensions_page() -> Result<(), String> {
     open_url("chrome://extensions".to_string())
+}
+
+#[tauri::command]
+fn reveal_extension_dir() -> Result<String, String> {
+    let dir = user_extension_dir()
+        .ok_or_else(|| "Could not determine user extension directory".to_string())?;
+    if !dir.exists() {
+        fs::create_dir_all(&dir)
+            .map_err(|e| format!("Failed to create extension dir: {}", e))?;
+    }
+    // Reveal the folder in the OS file manager (Finder / Explorer / file manager).
+    let status = if cfg!(target_os = "macos") {
+        Command::new("open").args(["-R", &dir.to_string_lossy()]).status()
+    } else if cfg!(target_os = "windows") {
+        Command::new("explorer").args(["/select,", &dir.to_string_lossy().replace('/', "\\")]).status()
+    } else {
+        Command::new("xdg-open").arg(&dir).status()
+    };
+    status
+        .map_err(|e| format!("Failed to reveal directory: {}", e))?;
+    Ok(dir.to_string_lossy().into_owned())
 }
 
 #[tauri::command]
@@ -386,6 +433,7 @@ fn main() {
             health_check,
             install_extension,
             open_chrome_extensions_page,
+            reveal_extension_dir,
             open_url,
             is_autostart_enabled,
             toggle_autostart,
