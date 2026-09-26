@@ -547,6 +547,18 @@ code { font-family: var(--font-mono); }
   gap: 12px;
 }
 .platform-icon { font-size: 1.6rem; }
+.platform-logo {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 4px;
+}
+.platform-logo-apple { color: #a8a8a8; background: rgba(255,255,255,0.06); }
+.platform-logo-windows { color: #f0a500; background: rgba(240,165,0,0.10); }
+.platform-logo-linux { color: #fcc624; background: rgba(252,198,36,0.10); }
 .platform-option strong {
   color: var(--white);
   font-family: var(--font-sans);
@@ -1023,3 +1035,54 @@ code { font-family: var(--font-mono); }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* =====================================================
+   CHANGELOG
+   ===================================================== */
+.changelog-list { display: flex; flex-direction: column; gap: 2rem; }
+.changelog-release {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+.changelog-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.5rem;
+}
+.changelog-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--mint);
+  color: #06231a;
+}
+.changelog-date { color: var(--iceblue-dark); font-size: 0.82rem; }
+.changelog-title { color: var(--white); font-size: 1.2rem; margin: 0 0 0.4rem; }
+.changelog-summary { color: var(--iceblue-dark); font-size: 0.92rem; margin: 0 0 1rem; line-height: 1.5; }
+.changelog-items { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.changelog-items li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: #c8ccd6;
+  line-height: 1.5;
+}
+.changelog-type {
+  flex-shrink: 0;
+  padding: 1px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.changelog-type-feat { background: rgba(2, 195, 154, 0.15); color: var(--mint); }
+.changelog-type-fix { background: rgba(245, 159, 3, 0.15); color: #f59e0b; }
+.changelog-type-security { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.changelog-loading { color: var(--iceblue-dark); font-size: 0.9rem; }
