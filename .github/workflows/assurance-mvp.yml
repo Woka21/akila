@@ -1,0 +1,23 @@
+name: AKILA Assurance MVP
+
+on:
+  push:
+    branches:
+      - feat/outbound-assurance-mvp
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  server-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Akila /akila-assurance-mvp/server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q
