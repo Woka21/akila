@@ -1,3 +1,5 @@
+from assurance_engine import AssuranceEngine
+ENGINE=AssuranceEngine()
 from __future__ import annotations
 
 import base64
@@ -161,6 +163,20 @@ def demo_echo():
     response = jsonify({"received": raw})
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
+
+@app.post("/assure-universal")
+def assure_universal():
+    payload=request.get_json(silent=True) or {}
+    sid=_session()
+    kind=payload.get("kind","text")
+    if kind=="text":
+        return jsonify(ENGINE.assure_text(sid,payload.get("text",""),payload.get("destination","unknown")))
+    return jsonify({"verified":False,"reason":"unsupported payload kind","policy":"deny"}),422
+
+@app.post("/restore-universal")
+def restore_universal():
+    payload=request.get_json(silent=True) or {}
+    return jsonify({"verified":True,"text":ENGINE.restore_text(_session(),payload.get("text",""))})
 
 @app.get("/health")
 def health():
