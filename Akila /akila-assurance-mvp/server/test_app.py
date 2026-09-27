@@ -37,7 +37,7 @@ def test_round_trip_restoration():
     c = client()
     original = "Contact John at john@example.com on 0712345678."
     sanitized = c.post("/assure", json={"text": original}, headers={"X-AKILA-Session": "s2"}).json["sanitizedText"]
-    restored = c.post("/restore", json={"text": sanitized}).json["text"]
+    restored = c.post("/restore", json={"text": sanitized}, headers={"X-AKILA-Session": "s2"}).json["text"]
     assert restored == original
 
 
