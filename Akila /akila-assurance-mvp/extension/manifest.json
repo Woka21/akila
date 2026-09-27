@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "AKILA Outbound Assurance MVP",
+  "version": "0.1.0",
+  "description": "Local outbound-data assurance and reversible pseudonymization MVP.",
+  "permissions": ["storage"],
+  "host_permissions": ["http://127.0.0.1:5171/*", "<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["page-guard.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_title": "AKILA Assurance"
+  }
+}
