@@ -26,7 +26,7 @@ app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
 
 # Local-only mapping vault. A production agent should move this into a
 # process-isolated, encrypted local vault with explicit session expiry.
-VAULT: dict[str, tuple[str, float]] = {}
+VAULT: dict[str, tuple[str, float, str]] = {}
 VAULT_LOCK = threading.Lock()
 TOKEN_TTL_SECONDS = 60 * 60
 
@@ -103,7 +103,7 @@ def pseudonymize(text: str, session: str) -> dict[str, Any]:
         replacements.append((f.start, f.end, token, f.value))
         token_map[token] = f.value
         with VAULT_LOCK:
-            VAULT[token] = (f.value, time.time() + TOKEN_TTL_SECONDS)
+            VAULT[token] = (f.value, time.time() + TOKEN_TTL_SECONDS, session)
 
     out = text
     for start, end, token, _ in reversed(replacements):
@@ -117,11 +117,11 @@ def pseudonymize(text: str, session: str) -> dict[str, Any]:
     }
 
 
-def restore(text: str) -> str:
+def restore(text: str, session: str) -> str:
     _cleanup_vault()
     with VAULT_LOCK:
-        items = list(VAULT.items())
-    for token, (original, _) in items:
+        items = [(token, original) for token, (original, _, owner) in VAULT.items() if owner == session]
+    for token, original in items:
         text = text.replace(token, original)
     return text
 
@@ -256,7 +256,7 @@ def restore_route():
     text = body.get("text") if isinstance(body, dict) else None
     if not isinstance(text, str):
         return jsonify({"error": "text_required"}), 400
-    return jsonify({"text": restore(text)})
+    return jsonify({"verified": True, "text": restore(text, _session())})
 
 
 if __name__ == "__main__":
