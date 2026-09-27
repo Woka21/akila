@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>AKILA Assurance Test</title></head>
+<body>
+<h1>AKILA Assurance MVP test</h1>
+<textarea id="text" rows="8" cols="80">Contact john@example.com on 0712345678. API key: sk-test-12345678901234567890</textarea>
+<button id="send">Send through fetch</button>
+<pre id="out"></pre>
+<script>
+document.getElementById("send").onclick = async () => {
+  const text = document.getElementById("text").value;
+  try {
+    const response = await fetch("https://example.invalid/akila-demo", {
+      method: "POST",
+      headers: {"Content-Type": "text/plain"},
+      body: text
+    });
+    document.getElementById("out").textContent = "Unexpected network response";
+  } catch (e) {
+    document.getElementById("out").textContent =
+      "The request was intercepted after assurance. Expected network failure in this demo. Check DevTools console for the sanitized payload.";
+    console.log("[AKILA DEMO] original input was intercepted before network:", text);
+  }
+};
+</script>
+</body>
+</html>
