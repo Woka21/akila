@@ -76,3 +76,13 @@ def test_binary_files_fail_closed():
 def io_bytes(value):
     from io import BytesIO
     return BytesIO(value)
+
+
+def test_restoration_is_session_scoped():
+    c = client()
+    original = "Secret email john@example.com"
+    sanitized = c.post("/assure", json={"text": original}, headers={"X-AKILA-Session": "owner"}).json["sanitizedText"]
+    other = c.post("/restore", json={"text": sanitized}, headers={"X-AKILA-Session": "other"})
+    assert other.json["text"] == sanitized
+    owner = c.post("/restore", json={"text": sanitized}, headers={"X-AKILA-Session": "owner"})
+    assert owner.json["text"] == original
