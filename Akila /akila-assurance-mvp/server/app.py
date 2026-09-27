@@ -155,6 +155,13 @@ def security_headers(response):
     return response
 
 
+@app.post("/demo-echo")
+def demo_echo():
+    raw = request.get_data(cache=False, as_text=True)
+    response = jsonify({"received": raw})
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
 @app.get("/health")
 def health():
     _cleanup_vault()
