@@ -4,7 +4,6 @@
 
   const MAX_BODY = 200_000;
   const FILE_LIMIT = 4 * 1024 * 1024;
-  const tokenPattern = /<AKILA_[A-Z_]+_[a-f0-9]{10}>/g;
   const pending = new Map();
 
   function request(type, payload, timeoutMs = 8000) {
@@ -35,7 +34,7 @@
     if (!data || data.channel !== "AKILA_EXTENSION_TO_PAGE") return;
     const entry = pending.get(data.requestId);
     if (!entry) return;
-    if (data.type === "ASSURE_RESULT" || data.type === "ASSURE_FILE_RESULT") {
+    if (data.type === "ASSURE_RESULT" || data.type === "ASSURE_FILE_RESULT" || data.type === "RESTORE_RESULT") {
       entry.resolve(data.result);
     }
   });
@@ -75,6 +74,34 @@
     return new File([out], file.name, { type: result.mimeType || file.type });
   }
 
+  async function restoreText(text) {
+    if (typeof text !== "string" || !text.includes("<AKILA_")) return text;
+    const result = await request("RESTORE_TEXT", { text }, 8000);
+    if (!result?.verified) throw new Error("AKILA: response restoration failed");
+    return result.text;
+  }
+
+  async function restoreResponse(response) {
+    const type = response.headers.get("content-type") || "";
+    if (!/(json|text|javascript|xml|event-stream)/i.test(type)) return response;
+
+    const raw = await response.text();
+    if (!raw.includes("<AKILA_")) {
+      return new Response(raw, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers
+      });
+    }
+
+    const restored = await restoreText(raw);
+    return new Response(restored, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers
+    });
+  }
+
   function isOutbound(method) {
     return ["POST", "PUT", "PATCH"].includes((method || "GET").toUpperCase());
   }
@@ -97,11 +124,8 @@
     if (body instanceof FormData) {
       const copy = new FormData();
       for (const [key, value] of body.entries()) {
-        if (typeof value === "string") {
-          copy.append(key, await assureText(value));
-        } else {
-          copy.append(key, await assureFile(value));
-        }
+        if (typeof value === "string") copy.append(key, await assureText(value));
+        else copy.append(key, await assureFile(value));
       }
       return copy;
     }
@@ -114,7 +138,6 @@
     throw new Error("AKILA: unsupported request body; blocked by assurance policy");
   }
 
-  // fetch interception is the primary MVP capture boundary.
   const nativeFetch = window.fetch.bind(window);
   window.fetch = async function(input, init = {}) {
     const request = input instanceof Request ? input : null;
@@ -122,22 +145,20 @@
     if (!isOutbound(method)) return nativeFetch(input, init);
 
     const originalBody = init.body !== undefined ? init.body : request?.body;
-    if (originalBody === undefined || originalBody === null) return nativeFetch(input, init);
-
-    const sanitized = await sanitizeBody(originalBody);
-    const next = { ...init, method };
-
-    if (request && init.body === undefined) {
-      // Rebuild the Request so headers/mode/credentials survive.
-      const rebuilt = new Request(request, { body: sanitized, method });
-      return nativeFetch(rebuilt);
+    if (originalBody === undefined || originalBody === null) {
+      return nativeFetch(input, init);
     }
 
-    next.body = sanitized;
-    return nativeFetch(input, next);
+    const sanitized = await sanitizeBody(originalBody);
+    let response;
+    if (request && init.body === undefined) {
+      response = await nativeFetch(new Request(request, { body: sanitized, method }));
+    } else {
+      response = await nativeFetch(input, { ...init, method, body: sanitized });
+    }
+    return restoreResponse(response);
   };
 
-  // XHR interception catches older apps that do not use fetch().
   const nativeOpen = XMLHttpRequest.prototype.open;
   const nativeSend = XMLHttpRequest.prototype.send;
   const methods = new WeakMap();
@@ -153,7 +174,6 @@
       return nativeSend.call(this, body);
     }
 
-    // XHR.send itself cannot await. Queue the native send only after assurance.
     sanitizeBody(body)
       .then((safe) => nativeSend.call(this, safe))
       .catch((error) => {
@@ -163,8 +183,6 @@
       });
   };
 
-  // Capture file selections early. The actual transformation happens when
-  // FormData/fetch/XHR is constructed, so we avoid replacing the DOM's FileList.
   document.addEventListener("change", (event) => {
     const input = event.target;
     if (input instanceof HTMLInputElement && input.type === "file") {
