@@ -12,7 +12,7 @@ The MVP is deliberately split into:
 4. **Fail-closed decision** — if the local assurance engine cannot inspect a submission, the submission is not sent by the wrapped fetch/XHR path.
 5. **Response restoration** — tokens are restored locally before the response reaches the page.
 
-Chrome's Manifest V3 model still limits ordinary extensions from using `webRequestBlocking`; policy-installed enterprise extensions have additional blocking capabilities. Therefore this MVP does **not** claim to be a universal endpoint enforcement product. The MVP proves the capture/assurance/pseudonymization pipeline for browser `fetch` and XHR traffic. citeturn1search0
+Chrome's Manifest V3 model still limits ordinary extensions from using `webRequestBlocking`; policy-installed enterprise extensions have additional blocking capabilities. Therefore this MVP does **not** claim to be a universal endpoint enforcement product. The MVP proves the capture/assurance/pseudonymization pipeline for browser `fetch` and XHR traffic. Response restoration is implemented for `fetch`; XHR response restoration is intentionally not claimed. citeturn1search0
 
 ## Supported MVP inputs
 
@@ -22,7 +22,7 @@ Chrome's Manifest V3 model still limits ordinary extensions from using `webReque
 - FormData text fields
 - text-like file uploads: `.txt`, `.csv`, `.json`, `.md`, `.log`
 - pasted text is covered when the page ultimately sends it through fetch/XHR
-- response token restoration for JSON/text/streamed text
+- response token restoration for JSON/text responses; the MVP buffers text responses before restoration
 
 Unsupported binary uploads are **failed closed** when the browser interceptor can see them but cannot transform them.
 
