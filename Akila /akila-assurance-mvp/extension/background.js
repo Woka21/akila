@@ -15,6 +15,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 
+  if (message?.type === "AKILA_RESTORE_TEXT") {
+    restoreText(message).then(sendResponse).catch((error) => {
+      sendResponse({ verified: false, reason: String(error) });
+    });
+    return true;
+  }
+
   if (message?.type === "AKILA_HEALTH") {
     fetch(SERVICE + "/health", { cache: "no-store" })
       .then((r) => r.json())
@@ -36,18 +43,13 @@ async function assureText(message) {
   const session = await sessionId();
   const response = await fetch(SERVICE + "/assure", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-AKILA-Session": session
-    },
+    headers: { "Content-Type": "application/json", "X-AKILA-Session": session },
     body: JSON.stringify({
       text: message.text,
       destination: message.destination || "unknown"
     })
   });
-  if (!response.ok) {
-    return { verified: false, reason: "assurance_service_" + response.status };
-  }
+  if (!response.ok) return { verified: false, reason: "assurance_service_" + response.status };
   return response.json();
 }
 
@@ -68,4 +70,15 @@ async function assureFile(message) {
     return { verified: false, reason: detail.reason || "assurance_service_" + response.status };
   }
   return response.json();
+}
+
+async function restoreText(message) {
+  const session = await sessionId();
+  const response = await fetch(SERVICE + "/restore", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-AKILA-Session": session },
+    body: JSON.stringify({ text: message.text })
+  });
+  if (!response.ok) return { verified: false, reason: "restore_service_" + response.status };
+  return { verified: true, ...(await response.json()) };
 }
