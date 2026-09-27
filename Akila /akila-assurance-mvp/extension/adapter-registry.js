@@ -1,0 +1,1 @@
+(()=>{const adapters=new Map();function register(name,matcher,adapter){adapters.set(name,{matcher,adapter})}function resolve(url){for(const [name,e] of adapters)if(e.matcher(url))return{name,adapter:e.adapter};return{name:"generic",adapter:null}}window.AKILA_ADAPTERS={register,resolve}})();
