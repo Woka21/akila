@@ -37,10 +37,10 @@
   function isProtectedPage() {
     return PROTECTED_HOSTS.has(location.hostname);
   }
-  function isSameOrigin(input) {
+  function isInterceptable(input) {
     try {
       const url = new URL(input instanceof Request ? input.url : input, location.href);
-      return url.origin === location.origin;
+      return url.protocol === "https:" && url.origin !== "chrome-extension:";
     } catch { return false; }
   }
   function isOutbound(method) {
@@ -127,7 +127,7 @@
   window.fetch = async function(input, init = {}) {
     const req = input instanceof Request ? input : null;
     const method = String(init.method || req?.method || "GET").toUpperCase();
-    if (!isProtectedPage() || !isOutbound(method) || !isSameOrigin(input)) return nativeFetch(input, init);
+    if (!isProtectedPage() || !isOutbound(method) || !isInterceptable(input)) return nativeFetch(input, init);
 
     const suppliedBody = Object.prototype.hasOwnProperty.call(init, "body");
     if (suppliedBody && init.body == null) return nativeFetch(input, init);
@@ -155,7 +155,7 @@
   const nativeSetHeader = XMLHttpRequest.prototype.setRequestHeader;
   const meta = new WeakMap();
   XMLHttpRequest.prototype.open = function(method, url, ...rest) {
-    meta.set(this, { method: String(method || "GET").toUpperCase(), url: String(url || ""), headers: {} });
+    meta.set(this, { method: String(method || "GET").toUpperCase(), url: String(url || ""), headers: {}, responseType: "", contentType: "" });
     return nativeOpen.call(this, method, url, ...rest);
   };
   XMLHttpRequest.prototype.setRequestHeader = function(name, value) {
@@ -163,9 +163,48 @@
     if (m) m.headers[String(name).toLowerCase()] = String(value);
     return nativeSetHeader.call(this, name, value);
   };
+  function restoreXhr(xhr) {
+    const m = meta.get(xhr);
+    if (!m || m.restored || xhr.readyState !== 4) return;
+    const type = m.responseType || "";
+    const content = m.contentType || "";
+    if (type && type !== "text" && type !== "json") return;
+    if (/event-stream/i.test(content)) return;
+    const raw = typeof xhr.responseText === "string" ? xhr.responseText : "";
+    if (!raw.includes("<AKILA_")) return;
+    m.restored = true;
+    request("RESTORE_TEXT", { text: raw }).then(result => {
+      if (!result?.verified || typeof result.text !== "string") {
+        console.warn("[AKILA] XHR response restoration failed");
+        return;
+      }
+      try {
+        Object.defineProperty(xhr, "responseText", { configurable: true, value: result.text });
+        if (xhr.responseType === "" || xhr.responseType === "text") {
+          Object.defineProperty(xhr, "response", { configurable: true, value: result.text });
+        }
+        xhr.dispatchEvent(new CustomEvent("akila-response-restored"));
+      } catch (error) {
+        console.warn("[AKILA] browser rejected XHR response override:", error);
+      }
+    }).catch(error => console.warn("[AKILA] XHR restoration error:", error));
+  }
+
+  const nativeAddEventListener = XMLHttpRequest.prototype.addEventListener;
+  XMLHttpRequest.prototype.addEventListener = function(type, listener, options) {
+    if (type === "load") {
+      const wrapped = (...args) => {
+        restoreXhr(this);
+        listener?.apply(this, args);
+      };
+      return nativeAddEventListener.call(this, type, wrapped, options);
+    }
+    return nativeAddEventListener.call(this, type, listener, options);
+  };
+
   XMLHttpRequest.prototype.send = function(body) {
     const m = meta.get(this) || { method: "GET", url: "", headers: {} };
-    if (!isProtectedPage() || !isOutbound(m.method) || !isSameOrigin(m.url) || body == null) return nativeSend.call(this, body);
+    if (!isProtectedPage() || !isOutbound(m.method) || !isInterceptable(m.url) || body == null) return nativeSend.call(this, body);
     sanitizeBody(body, m.headers["content-type"] || "").then(safe => nativeSend.call(this, safe)).catch(error => {
       console.warn("[AKILA] request blocked before transmission:", error.message);
       try { this.dispatchEvent(new ProgressEvent("error")); this.dispatchEvent(new ProgressEvent("loadend")); } catch {}
