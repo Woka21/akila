@@ -173,7 +173,7 @@
     const raw = typeof xhr.responseText === "string" ? xhr.responseText : "";
     if (!raw.includes("<AKILA_")) return;
     m.restored = true;
-    request("RESTORE_TEXT", { text: raw }).then(result => {
+    return request("RESTORE_TEXT", { text: raw }).then(result => {
       if (!result?.verified || typeof result.text !== "string") {
         console.warn("[AKILA] XHR response restoration failed");
         return;
@@ -193,8 +193,8 @@
   const nativeAddEventListener = XMLHttpRequest.prototype.addEventListener;
   XMLHttpRequest.prototype.addEventListener = function(type, listener, options) {
     if (type === "load") {
-      const wrapped = (...args) => {
-        restoreXhr(this);
+      const wrapped = async (...args) => {
+        await restoreXhr(this);
         listener?.apply(this, args);
       };
       return nativeAddEventListener.call(this, type, wrapped, options);
@@ -213,6 +213,16 @@
       Object.defineProperty(m, "contentType", { get: () => {
         try { return this.getResponseHeader("content-type") || ""; } catch { return ""; }
       }});
+      let onloadHandler = null;
+      Object.defineProperty(this, "onload", {
+        configurable: true,
+        get: () => onloadHandler,
+        set: fn => { onloadHandler = typeof fn === "function" ? fn : null; }
+      });
+      nativeAddEventListener.call(this, "load", async event => {
+        await restoreXhr(this);
+        if (onloadHandler) onloadHandler.call(this, event);
+      });
     }
     return result;
   };
