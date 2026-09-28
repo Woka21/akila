@@ -26,18 +26,11 @@ struct HealthResponse {
 
 // --- Helpers ----------------------------------------------------------------
 
-fn python_executable(server_dir: &Path) -> String {
-    let venv_python = if cfg!(target_os = "windows") {
-        server_dir.join("venv").join("Scripts").join("python.exe")
+fn assurance_server_executable(server_dir: &Path) -> PathBuf {
+    if cfg!(target_os = "windows") {
+        server_dir.join("akila-assurance-server.exe")
     } else {
-        server_dir.join("venv").join("bin").join("python")
-    };
-    if venv_python.exists() {
-        venv_python.to_string_lossy().to_string()
-    } else if cfg!(target_os = "windows") {
-        "python.exe".to_string()
-    } else {
-        "python3".to_string()
+        server_dir.join("akila-assurance-server")
     }
 }
 
@@ -94,22 +87,20 @@ fn spawn_flask(app: &AppHandle) -> Result<(), String> {
         .map_err(|e| format!("Failed to resolve resource dir: {}", e))?
         .join("resources/server");
 
-    let py = python_executable(&dir);
+    let executable = assurance_server_executable(&dir);
+    if !executable.exists() {
+        return Err(format!(
+            "Bundled AKILA assurance server not found at {}",
+            executable.display()
+        ));
+    }
 
-    let pyz_path = dir.join("server.pyz");
-    let py_script = if pyz_path.exists() {
-        pyz_path.to_string_lossy().into_owned()
-    } else {
-        dir.join("app.py").to_string_lossy().into_owned()
-    };
-
-    let child = Command::new(&py)
-        .arg(&py_script)
+    let child = Command::new(&executable)
         .current_dir(&dir)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
-        .map_err(|e| format!("Failed to start Flask server: {}", e))?;
+        .map_err(|e| format!("Failed to start bundled assurance server: {}", e))?;
 
     app.state::<FlaskChild>().0.lock().unwrap().replace(child);
     println!("[AKILA] Flask server started on 127.0.0.1:5171");
