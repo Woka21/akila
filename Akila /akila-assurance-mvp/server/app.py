@@ -53,7 +53,7 @@ class Finding:
 def _cleanup_vault() -> None:
     now = time.time()
     with VAULT_LOCK:
-        expired = [k for k, (_, expiry) in VAULT.items() if expiry <= now]
+        expired = [k for k, (_, expiry, _owner) in VAULT.items() if expiry <= now]
         for key in expired:
             del VAULT[key]
 
