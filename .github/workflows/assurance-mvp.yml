@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Akila /akila-assurance-mvp/server
+        working-directory: assurance-mvp/server
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: node --check "Akila /akila-assurance-mvp/extension/page-guard.js"
-      - run: node --check "Akila /akila-assurance-mvp/extension/bridge.js"
-      - run: node --check "Akila /akila-assurance-mvp/extension/background.js"
-      - run: node "Akila /akila-assurance-mvp/extension/coverage.test.mjs"
+      - run: node --check "assurance-mvp/extension/page-guard.js"
+      - run: node --check "assurance-mvp/extension/bridge.js"
+      - run: node --check "assurance-mvp/extension/background.js"
+      - run: node "assurance-mvp/extension/coverage.test.mjs"
