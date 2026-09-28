@@ -1,6 +1,7 @@
-from assurance_engine import AssuranceEngine
-ENGINE=AssuranceEngine()
 from __future__ import annotations
+
+from assurance_engine import AssuranceEngine
+ENGINE = AssuranceEngine()
 
 import base64
 import hashlib
