@@ -19,6 +19,6 @@ assert.ok(guard.includes("response.clone()"), "response inspection must not cons
 assert.ok(guard.includes("event-stream"), "SSE must be excluded to preserve streaming");
 const tauri = readFileSync("Akila /akila-extension/src-tauri/akila-desktop-agent/src-tauri/src/main.rs", "utf8");
 assert.ok(tauri.includes("127.0.0.1:5171"), "Tauri supervisor must target the assurance service port");
-assert.ok(!tauri.includes("Command::new(\\\"curl\\\")"), "watchdog must not depend on curl");
+assert.ok(!tauri.includes('Command::new("curl")'), "watchdog must not depend on curl");
 assert.ok(tauri.includes("needs_watchdog_restart"), "Tauri watchdog must supervise the service");
 console.log("AKILA coverage invariants passed");
