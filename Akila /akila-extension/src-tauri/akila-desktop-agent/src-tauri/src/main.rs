@@ -53,14 +53,27 @@ fn chrome_extensions_dir() -> Option<PathBuf> {
 }
 
 fn extension_is_loaded() -> bool {
-    // The extension is pinned to a fixed ID by its manifest "key", so we
-    // only need to check whether that directory exists in Chrome's extension
-    // storage. This is the real signal the desktop agent is useful: without
-    // it the server is running but nothing is protecting any tab.
+    // Chrome profiles each have their own Extensions directory. Check every
+    // profile rather than assuming the user is on Default.
     let ext_id = "kcnldfeclciolmbjfiomdfialhbccmhe";
-    chrome_extensions_dir()
-        .map(|d| d.join(ext_id).is_dir())
-        .unwrap_or(false)
+    let home = match dirs::home_dir() {
+        Some(h) => h,
+        None => return false,
+    };
+    let roots = if cfg!(target_os = "macos") {
+        vec![home.join("Library/Application Support/Google/Chrome")]
+    } else if cfg!(target_os = "windows") {
+        vec![home.join("AppData/Local/Google/Chrome/User Data")]
+    } else {
+        vec![home.join(".config/google-chrome")]
+    };
+    roots.into_iter().any(|root| {
+        fs::read_dir(root).ok().map(|entries| {
+            entries.filter_map(Result::ok).any(|entry| {
+                entry.path().join("Extensions").join(ext_id).is_dir()
+            })
+        }).unwrap_or(false)
+    })
 }
 
 // --- Commands ----------------------------------------------------------------
@@ -87,7 +100,7 @@ fn spawn_flask(app: &AppHandle) -> Result<(), String> {
     let py_script = if pyz_path.exists() {
         pyz_path.to_string_lossy().into_owned()
     } else {
-        dir.join("presidio_server.py").to_string_lossy().into_owned()
+        dir.join("app.py").to_string_lossy().into_owned()
     };
 
     let child = Command::new(&py)
@@ -99,7 +112,7 @@ fn spawn_flask(app: &AppHandle) -> Result<(), String> {
         .map_err(|e| format!("Failed to start Flask server: {}", e))?;
 
     app.state::<FlaskChild>().0.lock().unwrap().replace(child);
-    println!("[AKILA] Flask server started on 127.0.0.1:5001");
+    println!("[AKILA] Flask server started on 127.0.0.1:5171");
     Ok(())
 }
 
@@ -128,21 +141,38 @@ fn stop_flask_server(app: AppHandle) -> Result<(), String> {
 /// True only if the server answers /health on the wire. A stored PID is not
 /// enough — the process can be alive but hung in a blocking inference call.
 fn server_responds() -> bool {
-    use std::io::Read;
-    let mut child = match Command::new("curl")
-        .args(["-s", "-o", "/dev/null", "-w", "%{http_code}", "--max-time", "3", "http://127.0.0.1:5001/health"])
-        .stdout(Stdio::piped())
-        .spawn()
-    {
-        Ok(c) => c,
+    use std::io::{Read, Write};
+    use std::net::{TcpStream, ToSocketAddrs};
+    use std::time::Duration;
+
+    let mut addrs = match ("127.0.0.1", 5171).to_socket_addrs() {
+        Ok(a) => a,
         Err(_) => return false,
     };
-    let _ = child.wait();
-    let mut buf = String::new();
-    if let Some(mut out) = child.stdout.take() {
-        let _ = out.read_to_string(&mut buf);
+    let addr = match addrs.next() {
+        Some(a) => a,
+        None => return false,
+    };
+
+    let mut stream = match TcpStream::connect_timeout(&addr, Duration::from_secs(2)) {
+        Ok(s) => s,
+        Err(_) => return false,
+    };
+    let _ = stream.set_read_timeout(Some(Duration::from_secs(2)));
+    let _ = stream.set_write_timeout(Some(Duration::from_secs(2)));
+
+    if stream.write_all(
+        b"GET /health HTTP/1.1\\r\\nHost: 127.0.0.1:5171\\r\\nConnection: close\\r\\n\\r\\n"
+    ).is_err() {
+        return false;
     }
-    buf.trim() == "200"
+
+    let mut response = String::new();
+    if stream.read_to_string(&mut response).is_err() {
+        return false;
+    }
+
+    response.starts_with("HTTP/1.1 200 ") || response.starts_with("HTTP/1.0 200 ")
 }
 
 /// Check whether the Flask child is still alive and answering. Returns true if
@@ -230,17 +260,12 @@ fn install_extension(app: AppHandle) -> Result<String, String> {
     let runtime_files = [
         "manifest.json",
         "background.js",
-        "content-script.js",
-        "akila-page-interceptor.js",
-        "akila-universal-sieve.js",
-        "popup.html",
-        "popup.js",
-        "icons/16x16.png",
-        "icons/32x32.png",
-        "icons/48x48.png",
-        "icons/128x128.png",
-        "icons/256x256.png",
-        "icons/512x512.png",
+        "bridge.js",
+        "page-guard.js",
+        "site-registry.js",
+        "transport-guard.js",
+        "transport-regression.test.js",
+        "coverage.test.mjs",
     ];
 
     let mut copied = 0;
@@ -441,6 +466,13 @@ fn main() {
         .setup(|app| {
             let handle = app.handle();
             let _ = start_flask_server(handle.clone());
+            if !extension_is_loaded() {
+                // Stage the bundled extension and open Chrome's extension
+                // manager once so first-run onboarding has the exact folder
+                // ready to select. Chrome intentionally requires the user to
+                // confirm loading an unpacked extension.
+                let _ = install_extension(handle.clone());
+            }
             build_tray(&handle)?;
 
             // Watchdog: if the Flask process dies or stops answering, respawn

@@ -7,7 +7,7 @@
     "frontendDist": "../dist"
   },
   "productName": "AKILA Desktop Agent",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "identifier": "org.akila.desktopagent",
   "app": {
     "withGlobalTauri": true,
@@ -28,13 +28,15 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["app"],
+    "targets": [
+      "app"
+    ],
     "icon": [
       "resources/icons/AKILA.icns"
     ],
     "resources": [
-      "resources/server/server.pyz",
-      "resources/server/venv/**/*",
+      "resources/server/app.py",
+      "resources/server/assurance_engine.py",
       "resources/server/requirements.txt",
       "resources/extension/**/*",
       "resources/icons/*",

@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "AKILA Outbound Assurance",
+  "version": "1.3.0",
+  "description": "Local outbound-data assurance for explicitly supported AI chat sites.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:5171/*",
+    "http://127.0.0.1:5171/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "page-guard.js"
+      ],
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "AKILA Assurance"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1ht/fD6SDT6fbTifWK2lZKFJ8HaPk2CxQnBmnG9+CRbiFVWCVayDiUbJF0ABMDF98yvBkePhE0nIqu7n0+armQI4lv0reyE9lv1leyymE04V2R59evmB/8GDqlKwxE0RTConod1hJ8GtYUlQAFT4K/eRJ1Yx2V8jRe6+hS1WQfFggVw/Bey4Imu90NdNEDkAE0mBefxC1IcA8ZjMMIMhlF9IKgoI0HuJ0HoWHAv4UzsAkmQC1SSAaNDqztTIdQyCla8g1Cul0RfTgUzxsnLZwfrh/1uxfCSHOI6DMpX0naoVohiQMybU2e/uQSwSdcbvY3QRxc2We6a6/MEccZM4mQIDAQAB"
+}
