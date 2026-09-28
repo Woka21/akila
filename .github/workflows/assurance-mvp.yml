@@ -33,3 +33,4 @@ jobs:
       - run: node --check "Akila /akila-assurance-mvp/extension/page-guard.js"
       - run: node --check "Akila /akila-assurance-mvp/extension/bridge.js"
       - run: node --check "Akila /akila-assurance-mvp/extension/background.js"
+      - run: node "Akila /akila-assurance-mvp/extension/coverage.test.mjs"
