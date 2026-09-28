@@ -87,7 +87,7 @@ fn spawn_flask(app: &AppHandle) -> Result<(), String> {
     let py_script = if pyz_path.exists() {
         pyz_path.to_string_lossy().into_owned()
     } else {
-        dir.join("presidio_server.py").to_string_lossy().into_owned()
+        dir.join("app.py").to_string_lossy().into_owned()
     };
 
     let child = Command::new(&py)
@@ -247,17 +247,12 @@ fn install_extension(app: AppHandle) -> Result<String, String> {
     let runtime_files = [
         "manifest.json",
         "background.js",
-        "content-script.js",
-        "akila-page-interceptor.js",
-        "akila-universal-sieve.js",
-        "popup.html",
-        "popup.js",
-        "icons/16x16.png",
-        "icons/32x32.png",
-        "icons/48x48.png",
-        "icons/128x128.png",
-        "icons/256x256.png",
-        "icons/512x512.png",
+        "bridge.js",
+        "page-guard.js",
+        "site-registry.js",
+        "transport-guard.js",
+        "transport-regression.test.js",
+        "coverage.test.mjs",
     ];
 
     let mut copied = 0;
