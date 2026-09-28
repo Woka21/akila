@@ -50,11 +50,11 @@ jobs:
         shell: bash
         run: |
           rm -rf src-tauri/resources/extension/*
-          cp -R "../../../Akila /akila-assurance-mvp/extension/." src-tauri/resources/extension/
+          cp -R "../../Akila /akila-assurance-mvp/extension/." src-tauri/resources/extension/
           rm -rf src-tauri/resources/server/*
-          cp "../../../Akila /akila-assurance-mvp/server/app.py" src-tauri/resources/server/app.py
-          cp "../../../Akila /akila-assurance-mvp/server/assurance_engine.py" src-tauri/resources/server/assurance_engine.py
-          cp "../../../Akila /akila-assurance-mvp/server/requirements.txt" src-tauri/resources/server/requirements.txt
+          cp "../../Akila /akila-assurance-mvp/server/app.py" src-tauri/resources/server/app.py
+          cp "../../Akila /akila-assurance-mvp/server/assurance_engine.py" src-tauri/resources/server/assurance_engine.py
+          cp "../../Akila /akila-assurance-mvp/server/requirements.txt" src-tauri/resources/server/requirements.txt
           test -f src-tauri/resources/extension/manifest.json
           test -f src-tauri/resources/extension/bridge.js
           test -f src-tauri/resources/extension/page-guard.js
@@ -159,11 +159,11 @@ jobs:
         shell: bash
         run: |
           rm -rf src-tauri/resources/extension/*
-          cp -R "../../../Akila /akila-assurance-mvp/extension/." src-tauri/resources/extension/
+          cp -R "../../Akila /akila-assurance-mvp/extension/." src-tauri/resources/extension/
           rm -rf src-tauri/resources/server/*
-          cp "../../../Akila /akila-assurance-mvp/server/app.py" src-tauri/resources/server/app.py
-          cp "../../../Akila /akila-assurance-mvp/server/assurance_engine.py" src-tauri/resources/server/assurance_engine.py
-          cp "../../../Akila /akila-assurance-mvp/server/requirements.txt" src-tauri/resources/server/requirements.txt
+          cp "../../Akila /akila-assurance-mvp/server/app.py" src-tauri/resources/server/app.py
+          cp "../../Akila /akila-assurance-mvp/server/assurance_engine.py" src-tauri/resources/server/assurance_engine.py
+          cp "../../Akila /akila-assurance-mvp/server/requirements.txt" src-tauri/resources/server/requirements.txt
           test -f src-tauri/resources/extension/manifest.json
           test -f src-tauri/resources/server/app.py
 
@@ -241,11 +241,11 @@ jobs:
         shell: bash
         run: |
           rm -rf src-tauri/resources/extension/*
-          cp -R "../../../Akila /akila-assurance-mvp/extension/." src-tauri/resources/extension/
+          cp -R "../../Akila /akila-assurance-mvp/extension/." src-tauri/resources/extension/
           rm -rf src-tauri/resources/server/*
-          cp "../../../Akila /akila-assurance-mvp/server/app.py" src-tauri/resources/server/app.py
-          cp "../../../Akila /akila-assurance-mvp/server/assurance_engine.py" src-tauri/resources/server/assurance_engine.py
-          cp "../../../Akila /akila-assurance-mvp/server/requirements.txt" src-tauri/resources/server/requirements.txt
+          cp "../../Akila /akila-assurance-mvp/server/app.py" src-tauri/resources/server/app.py
+          cp "../../Akila /akila-assurance-mvp/server/assurance_engine.py" src-tauri/resources/server/assurance_engine.py
+          cp "../../Akila /akila-assurance-mvp/server/requirements.txt" src-tauri/resources/server/requirements.txt
           test -f src-tauri/resources/extension/manifest.json
           test -f src-tauri/resources/server/app.py
 
