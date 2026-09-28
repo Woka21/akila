@@ -202,6 +202,21 @@
     return nativeAddEventListener.call(this, type, listener, options);
   };
 
+  const nativeOpenResponse = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+    const result = nativeOpenResponse.call(this, method, url, ...rest);
+    const m = meta.get(this);
+    if (m) {
+      Object.defineProperty(m, "responseType", { get: () => {
+        try { return this.responseType; } catch { return ""; }
+      }});
+      Object.defineProperty(m, "contentType", { get: () => {
+        try { return this.getResponseHeader("content-type") || ""; } catch { return ""; }
+      }});
+    }
+    return result;
+  };
+
   XMLHttpRequest.prototype.send = function(body) {
     const m = meta.get(this) || { method: "GET", url: "", headers: {} };
     if (!isProtectedPage() || !isOutbound(m.method) || !isInterceptable(m.url) || body == null) return nativeSend.call(this, body);
