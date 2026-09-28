@@ -37,8 +37,7 @@
     "resources": [
       "resources/server/app.py",
       "resources/server/assurance_engine.py",
-      "resources/server/akila-assurance-server",
-      "resources/server/akila-assurance-server.exe",
+      "resources/server/*",
       "resources/extension/**/*",
       "resources/icons/*",
       "resources/README.md"
