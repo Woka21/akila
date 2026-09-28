@@ -53,14 +53,27 @@ fn chrome_extensions_dir() -> Option<PathBuf> {
 }
 
 fn extension_is_loaded() -> bool {
-    // The extension is pinned to a fixed ID by its manifest "key", so we
-    // only need to check whether that directory exists in Chrome's extension
-    // storage. This is the real signal the desktop agent is useful: without
-    // it the server is running but nothing is protecting any tab.
+    // Chrome profiles each have their own Extensions directory. Check every
+    // profile rather than assuming the user is on Default.
     let ext_id = "kcnldfeclciolmbjfiomdfialhbccmhe";
-    chrome_extensions_dir()
-        .map(|d| d.join(ext_id).is_dir())
-        .unwrap_or(false)
+    let home = match dirs::home_dir() {
+        Some(h) => h,
+        None => return false,
+    };
+    let roots = if cfg!(target_os = "macos") {
+        vec![home.join("Library/Application Support/Google/Chrome")]
+    } else if cfg!(target_os = "windows") {
+        vec![home.join("AppData/Local/Google/Chrome/User Data")]
+    } else {
+        vec![home.join(".config/google-chrome")]
+    };
+    roots.into_iter().any(|root| {
+        fs::read_dir(root).ok().map(|entries| {
+            entries.filter_map(Result::ok).any(|entry| {
+                entry.path().join("Extensions").join(ext_id).is_dir()
+            })
+        }).unwrap_or(false)
+    })
 }
 
 // --- Commands ----------------------------------------------------------------
@@ -453,6 +466,13 @@ fn main() {
         .setup(|app| {
             let handle = app.handle();
             let _ = start_flask_server(handle.clone());
+            if !extension_is_loaded() {
+                // Stage the bundled extension and open Chrome's extension
+                // manager once so first-run onboarding has the exact folder
+                // ready to select. Chrome intentionally requires the user to
+                // confirm loading an unpacked extension.
+                let _ = install_extension(handle.clone());
+            }
             build_tray(&handle)?;
 
             // Watchdog: if the Flask process dies or stops answering, respawn
