@@ -99,7 +99,7 @@ fn spawn_flask(app: &AppHandle) -> Result<(), String> {
         .map_err(|e| format!("Failed to start Flask server: {}", e))?;
 
     app.state::<FlaskChild>().0.lock().unwrap().replace(child);
-    println!("[AKILA] Flask server started on 127.0.0.1:5001");
+    println!("[AKILA] Flask server started on 127.0.0.1:5171");
     Ok(())
 }
 
@@ -128,21 +128,38 @@ fn stop_flask_server(app: AppHandle) -> Result<(), String> {
 /// True only if the server answers /health on the wire. A stored PID is not
 /// enough — the process can be alive but hung in a blocking inference call.
 fn server_responds() -> bool {
-    use std::io::Read;
-    let mut child = match Command::new("curl")
-        .args(["-s", "-o", "/dev/null", "-w", "%{http_code}", "--max-time", "3", "http://127.0.0.1:5001/health"])
-        .stdout(Stdio::piped())
-        .spawn()
-    {
-        Ok(c) => c,
+    use std::io::{Read, Write};
+    use std::net::{TcpStream, ToSocketAddrs};
+    use std::time::Duration;
+
+    let mut addrs = match ("127.0.0.1", 5171).to_socket_addrs() {
+        Ok(a) => a,
         Err(_) => return false,
     };
-    let _ = child.wait();
-    let mut buf = String::new();
-    if let Some(mut out) = child.stdout.take() {
-        let _ = out.read_to_string(&mut buf);
+    let addr = match addrs.next() {
+        Some(a) => a,
+        None => return false,
+    };
+
+    let mut stream = match TcpStream::connect_timeout(&addr, Duration::from_secs(2)) {
+        Ok(s) => s,
+        Err(_) => return false,
+    };
+    let _ = stream.set_read_timeout(Some(Duration::from_secs(2)));
+    let _ = stream.set_write_timeout(Some(Duration::from_secs(2)));
+
+    if stream.write_all(
+        b"GET /health HTTP/1.1\\r\\nHost: 127.0.0.1:5171\\r\\nConnection: close\\r\\n\\r\\n"
+    ).is_err() {
+        return false;
     }
-    buf.trim() == "200"
+
+    let mut response = String::new();
+    if stream.read_to_string(&mut response).is_err() {
+        return false;
+    }
+
+    response.starts_with("HTTP/1.1 200 ") || response.starts_with("HTTP/1.0 200 ")
 }
 
 /// Check whether the Flask child is still alive and answering. Returns true if
