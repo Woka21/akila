@@ -3,6 +3,7 @@ name: AKILA Assurance MVP
 on:
   push:
     branches:
+      - main
       - feat/outbound-assurance-mvp
   pull_request:
     branches:
