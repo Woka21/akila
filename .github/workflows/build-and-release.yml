@@ -61,12 +61,13 @@ jobs:
           test -f src-tauri/resources/server/app.py
           test -f src-tauri/resources/server/assurance_engine.py
 
-      - name: Setup Python & install server dependencies
+      - name: Package assurance server
         working-directory: src-tauri/akila-desktop-agent
         run: |
-          python3 -m venv src-tauri/resources/server/venv
-          src-tauri/resources/server/venv/bin/pip install --upgrade pip
-          src-tauri/resources/server/venv/bin/pip install -r src-tauri/resources/server/requirements.txt
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r src-tauri/resources/server/requirements.txt pyinstaller
+          python3 -m PyInstaller --onefile --clean --name akila-assurance-server --distpath src-tauri/resources/server --workpath /tmp/akila-pyinstaller --specpath /tmp/akila-pyinstaller src-tauri/resources/server/app.py
+          test -x src-tauri/resources/server/akila-assurance-server
 
       - name: Build application
         run: npx tauri build
@@ -167,13 +168,14 @@ jobs:
           test -f src-tauri/resources/extension/manifest.json
           test -f src-tauri/resources/server/app.py
 
-      - name: Setup Python & install server dependencies (Windows)
+      - name: Package assurance server (Windows)
         working-directory: src-tauri/akila-desktop-agent
         shell: bash
         run: |
-          python -m venv src-tauri/resources/server/venv
-          src-tauri/resources/server/venv/Scripts/python.exe -m pip install --upgrade pip
-          src-tauri/resources/server/venv/Scripts/python.exe -m pip install -r src-tauri/resources/server/requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install -r src-tauri/resources/server/requirements.txt pyinstaller
+          python -m PyInstaller --onefile --clean --name akila-assurance-server --distpath src-tauri/resources/server --workpath "$RUNNER_TEMP/akila-pyinstaller" --specpath "$RUNNER_TEMP/akila-pyinstaller" src-tauri/resources/server/app.py
+          test -f src-tauri/resources/server/akila-assurance-server.exe
 
       - name: Build application
         shell: bash
@@ -204,8 +206,9 @@ jobs:
           path: |
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.msi.sha256
+            src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.zip
             src-tauri/akila-desktop-agent/src-tauri/target/release/bundle/**/*.zip.sha256
-          if-no-files-found: ignore
+          if-no-files-found: error
 
   build-linux:
     name: Build Linux
@@ -249,12 +252,13 @@ jobs:
           test -f src-tauri/resources/extension/manifest.json
           test -f src-tauri/resources/server/app.py
 
-      - name: Setup Python & install server dependencies (Linux)
+      - name: Package assurance server (Linux)
         working-directory: src-tauri/akila-desktop-agent
         run: |
-          python3 -m venv src-tauri/resources/server/venv
-          src-tauri/resources/server/venv/bin/pip install --upgrade pip
-          src-tauri/resources/server/venv/bin/pip install -r src-tauri/resources/server/requirements.txt
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r src-tauri/resources/server/requirements.txt pyinstaller
+          python3 -m PyInstaller --onefile --clean --name akila-assurance-server --distpath src-tauri/resources/server --workpath /tmp/akila-pyinstaller --specpath /tmp/akila-pyinstaller src-tauri/resources/server/app.py
+          test -x src-tauri/resources/server/akila-assurance-server
 
       - name: Build application
         run: npx tauri build
@@ -305,10 +309,9 @@ jobs:
         run: find dist -type f \( -name "*.dmg" -o -name "*.zip" -o -name "*.msi" -o -name "*.AppImage" -o -name "*.sha256" \) 2>/dev/null || true
 
       - name: Create extension zip
-        working-directory: src-tauri/akila-desktop-agent/src-tauri/resources/extension
         run: |
-          zip -r akila-extension.zip .
-          cp akila-extension.zip ../../../../../dist/
+          cd "Akila /akila-assurance-mvp"
+          zip -rq "$GITHUB_WORKSPACE/dist/akila-extension.zip" extension
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
